@@ -3,11 +3,13 @@
 ライブ監視モードとVOD解析モードで使用するイベント検知・ログ管理を担当する。
 
 イベント種別:
-  - PUNISH_OPPORTUNITY : 相手が硬直中で確定反撃チャンスがある
-  - LETHAL_CHANCE      : リーサル圏内（現在の体力でとどめを刺せる）
-  - TOOK_DAMAGE        : 自分がダメージを受けた
+  - PUNISH_OPPORTUNITY  : 相手が硬直中で確定反撃チャンスがある
+  - LETHAL_CHANCE       : リーサル圏内（現在の体力でとどめを刺せる）
+  - TOOK_DAMAGE         : 自分がダメージを受けた
   - OPPONENT_TOOK_DAMAGE: 相手にダメージを与えた
-  - LOW_HP             : 自分の体力が30%以下
+  - LOW_HP              : 自分の体力が30%以下
+  - BURNOUT             : 自分のドライブゲージが切れた（バーンアウト）
+  - BURNOUT_OPPONENT    : 相手のドライブゲージが切れた（攻撃チャンス）
 """
 
 from __future__ import annotations
@@ -30,6 +32,8 @@ class EventType(str, Enum):
     TOOK_DAMAGE           = "took_damage"
     OPPONENT_TOOK_DAMAGE  = "opponent_took_damage"
     LOW_HP                = "low_hp"
+    BURNOUT               = "burnout"
+    BURNOUT_OPPONENT      = "burnout_opponent"
 
 
 @dataclass
@@ -52,6 +56,8 @@ class MatchEvent:
             EventType.TOOK_DAMAGE:          "💥",
             EventType.OPPONENT_TOOK_DAMAGE: "✅",
             EventType.LOW_HP:               "⚠️",
+            EventType.BURNOUT:              "🔥",
+            EventType.BURNOUT_OPPONENT:     "🎯",
         }.get(self.event_type, "•")
 
 
@@ -91,6 +97,14 @@ class MatchLog:
         return sum(1 for e in self.events if e.event_type == EventType.OPPONENT_TOOK_DAMAGE)
 
     @property
+    def burnout_count(self) -> int:
+        return sum(1 for e in self.events if e.event_type == EventType.BURNOUT)
+
+    @property
+    def burnout_opponent_count(self) -> int:
+        return sum(1 for e in self.events if e.event_type == EventType.BURNOUT_OPPONENT)
+
+    @property
     def elapsed_str(self) -> str:
         delta = datetime.datetime.now() - self.start_time
         m, s = divmod(int(delta.total_seconds()), 60)
@@ -109,8 +123,6 @@ def detect_events(
     p1_max_hp: int,
 ) -> list[MatchEvent]:
     """現在のゲーム状態から発生したイベントを検知して返す。
-
-    前回のスナップショットとの差分も考慮する。
 
     Args:
         current: 現在のゲーム状態。
@@ -170,6 +182,23 @@ def detect_events(
                 description=f"相手にダメージを与えた（{abs(p2_hp_diff):,}）",
             ))
 
+        # バーンアウト検知（ドライブゲージが0に到達した瞬間）
+        if prev_snapshot.player1.drive_gauge > 0 and current.player1.drive_gauge == 0:
+            events.append(MatchEvent(
+                event_type=EventType.BURNOUT,
+                timestamp=now,
+                description="バーンアウト！ドライブゲージが切れました",
+                detail="相手の攻めに注意。防御択を慎重に選んでください",
+            ))
+
+        if prev_snapshot.player2.drive_gauge > 0 and current.player2.drive_gauge == 0:
+            events.append(MatchEvent(
+                event_type=EventType.BURNOUT_OPPONENT,
+                timestamp=now,
+                description="相手がバーンアウト！絶好の攻撃チャンス",
+                detail="ドライブラッシュで一気に攻め込みましょう",
+            ))
+
     return events
 
 
@@ -185,17 +214,21 @@ def build_vod_summary(log: MatchLog) -> dict:
         "リーサル圏内":     log.lethal_chances,
         "被ダメージ回数":   log.times_took_damage,
         "与ダメージ回数":   log.times_dealt_damage,
+        "バーンアウト回数": log.burnout_count,
         "総イベント数":     len(log.events),
     }
 
 
 def build_stats_report(log: MatchLog) -> dict:
-    """B）統計分析型レポートを生成する。
+    """統計分析型レポートを生成する。
 
     Returns:
-        ラベル → (値, デルタ説明) の辞書。
+        ラベル → 値 の辞書。
     """
-    total = log.punish_opportunities + log.lethal_chances + log.times_took_damage + log.times_dealt_damage
+    total = (
+        log.punish_opportunities + log.lethal_chances
+        + log.times_took_damage + log.times_dealt_damage
+    )
     deal_ratio = (
         round(log.times_dealt_damage / (log.times_took_damage + log.times_dealt_damage) * 100)
         if (log.times_took_damage + log.times_dealt_damage) > 0 else 0
@@ -207,13 +240,28 @@ def build_stats_report(log: MatchLog) -> dict:
         "被ダメージ回数":      log.times_took_damage,
         "与ダメージ回数":      log.times_dealt_damage,
         "与ダメ率":            f"{deal_ratio}%",
+        "自分バーンアウト":    log.burnout_count,
+        "相手バーンアウト":    log.burnout_opponent_count,
         "検出イベント総数":    total,
         "監視時間":            log.elapsed_str,
     }
 
 
+def _max_consecutive(events: list[MatchEvent], event_type: EventType) -> int:
+    """指定イベントタイプの最大連続発生数を返す。"""
+    max_streak = 0
+    current_streak = 0
+    for ev in events:
+        if ev.event_type == event_type:
+            current_streak += 1
+            max_streak = max(max_streak, current_streak)
+        else:
+            current_streak = 0
+    return max_streak
+
+
 def build_coaching_report(log: MatchLog) -> list[dict]:
-    """A）コーチング型レポートを生成する。
+    """コーチング型レポートを生成する。
 
     イベントパターンを分析して改善アドバイスを返す。
 
@@ -222,35 +270,83 @@ def build_coaching_report(log: MatchLog) -> list[dict]:
     """
     advice: list[dict] = []
 
-    # 確定反撃チャンスの評価
+    # ── 1. 確定反撃チャンスの評価 ────────────────────────────────────────
     if log.punish_opportunities == 0:
         advice.append({
             "level": "info",
             "title": "確定反撃チャンスなし",
-            "body": "この監視期間中に相手が大きな隙を作りませんでした。引き続き相手の行動パターンを観察してください。",
+            "body": (
+                "この監視期間中に相手が大きな隙を作りませんでした。"
+                "引き続き相手の行動パターンを観察し、DP系（昇龍拳・天昇脚・DP）の後隙を狙う意識を持ちましょう。"
+            ),
         })
     elif log.punish_opportunities >= 3:
         advice.append({
             "level": "warn",
-            "title": f"確定反撃チャンスが {log.punish_opportunities} 回ありました",
-            "body": "相手が大きな隙を複数回さらしています。コンシュームSA1などの高ダメージ技を素早く差し込む練習をしましょう。",
+            "title": f"確定反撃チャンスが {log.punish_opportunities} 回発生",
+            "body": (
+                f"相手が {log.punish_opportunities} 回も大きな隙をさらしています。"
+                "SA技を使った最大パニッシュを取れているか確認してください。"
+                "DP（-27F〜-31F）後には屈み弱P → 屈み中P → SA締めが入ります。"
+            ),
         })
     else:
         advice.append({
             "level": "good",
             "title": f"確定反撃チャンスを {log.punish_opportunities} 回確認",
-            "body": "反撃機会を確認できています。実際に取れているか確認してください。",
+            "body": (
+                "反撃機会を確認できています。"
+                "最大ダメージコンボまで取れているか、実際の映像で確認しましょう。"
+            ),
         })
 
-    # リーサルの評価
+    # ── 2. リーサルの評価 ────────────────────────────────────────────────
     if log.lethal_chances >= 1:
         advice.append({
             "level": "warn",
-            "title": f"リーサル圏内に {log.lethal_chances} 回入れました",
-            "body": "相手をとどめを刺せる場面がありました。SAゲージの管理とコンボの締めを意識して確実に仕留めましょう。",
+            "title": f"リーサル圏内に {log.lethal_chances} 回",
+            "body": (
+                f"相手をKOできる体力差が {log.lethal_chances} 回ありました。"
+                "SAゲージを使った締めコンボで確実に仕留めましょう。"
+                "リーサル時はSAゲージを出し惜しみしないことがプロの基本です。"
+            ),
         })
 
-    # 被ダメージと与ダメージのバランス評価
+    # ── 3. バーンアウト評価（SF6固有・プロ向け） ─────────────────────────
+    if log.burnout_count >= 2:
+        advice.append({
+            "level": "warn",
+            "title": f"バーンアウト {log.burnout_count} 回",
+            "body": (
+                f"自分が {log.burnout_count} 回バーンアウトしています。"
+                "ドライブゲージ管理はSF6において最重要課題です。"
+                "ドライブラッシュの多用・ドライブパリィの連打を見直してください。"
+                "ゲージが50%を切ったら攻め方をコントロールすることが上達の近道です。"
+            ),
+        })
+    elif log.burnout_count == 1:
+        advice.append({
+            "level": "warn",
+            "title": "バーンアウト 1 回",
+            "body": (
+                "バーンアウトが発生しました。"
+                "どの場面でゲージを使い切ったか振り返り、"
+                "同じパターンを繰り返さないよう意識してください。"
+            ),
+        })
+
+    if log.burnout_opponent_count >= 1:
+        advice.append({
+            "level": "good",
+            "title": f"相手バーンアウトを {log.burnout_opponent_count} 回引き出した",
+            "body": (
+                f"相手を {log.burnout_opponent_count} 回バーンアウトさせました。"
+                "バーンアウト中の相手にはドライブラッシュで強引にプレッシャーをかけ、"
+                "コーナーキャリーを狙うのが上位プレイヤーの定石です。"
+            ),
+        })
+
+    # ── 4. 被ダメージと与ダメージのバランス ──────────────────────────────
     took = log.times_took_damage
     dealt = log.times_dealt_damage
 
@@ -264,28 +360,52 @@ def build_coaching_report(log: MatchLog) -> list[dict]:
         advice.append({
             "level": "warn",
             "title": "被ダメが与ダメの2倍以上",
-            "body": f"被ダメ {took} 回 vs 与ダメ {dealt} 回。守りの択を見直し、無理な攻めを減らしましょう。ドライブゲージのPerfect Parryを活用してください。",
+            "body": (
+                f"被ダメ {took} 回 vs 与ダメ {dealt} 回。"
+                "守りの択を見直しましょう。相手の起き攻めには「待つ」を徹底し、"
+                "ドライブパリィ（Lv1）でゲージを回復しながら凌ぐのが有効です。"
+            ),
         })
     elif dealt >= took:
         advice.append({
             "level": "good",
             "title": "与ダメが被ダメ以上",
-            "body": f"与ダメ {dealt} 回 vs 被ダメ {took} 回。攻めが機能しています。このペースを維持しましょう。",
+            "body": (
+                f"与ダメ {dealt} 回 vs 被ダメ {took} 回。"
+                "攻めが機能しています。リーサル圏内でのSAゲージ消費タイミングを磨けば更に勝率が上がります。"
+            ),
         })
     else:
         advice.append({
             "level": "info",
             "title": f"被ダメ {took} 回 / 与ダメ {dealt} 回",
-            "body": "拮抗した展開です。リーサル圏内での締めコンボを磨くことで差が生まれます。",
+            "body": "拮抗した展開です。差をつけるにはリーサル圏内でSAゲージを切るタイミングが鍵です。",
         })
 
-    # 低HP警告回数
+    # ── 5. 連続被ダメのストリーク分析 ────────────────────────────────────
+    max_streak = _max_consecutive(log.events, EventType.TOOK_DAMAGE)
+    if max_streak >= 3:
+        advice.append({
+            "level": "warn",
+            "title": f"連続被ダメ最大 {max_streak} 回",
+            "body": (
+                f"一度に {max_streak} 回連続でダメージを受けた局面があります。"
+                "崩された後の起き上がりで「暴れ」を抑え、"
+                "相手の攻め継続に対してはバックジャンプや完全ガードで距離を取りましょう。"
+            ),
+        })
+
+    # ── 6. 低HP警告回数 ───────────────────────────────────────────────────
     low_hp_count = sum(1 for e in log.events if e.event_type == EventType.LOW_HP)
     if low_hp_count >= 3:
         advice.append({
             "level": "warn",
             "title": f"体力30%以下の場面が {low_hp_count} 回",
-            "body": "ピンチの場面が多くなっています。体力有利なうちにラウンドを決める意識を持ちましょう。",
+            "body": (
+                f"ピンチの場面が {low_hp_count} 回。"
+                "体力有利なうちにラウンドを決める意識を持ちましょう。"
+                "HP有利時はドライブゲージを温存し、SA締めでラウンドを取り切るのが上位の立ち回りです。"
+            ),
         })
 
     return advice

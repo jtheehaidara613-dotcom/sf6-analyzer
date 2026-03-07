@@ -114,6 +114,11 @@ class CharacterState(BaseModel):
         0, ge=0, description="残り硬直フレーム数"
     )
 
+    @property
+    def is_burnout(self) -> bool:
+        """ドライブゲージが0でバーンアウト状態かどうか。"""
+        return self.drive_gauge == 0
+
 
 class GameState(BaseModel):
     """1フレーム時点のゲーム全体の状態。
@@ -145,6 +150,7 @@ class MoveInfo(BaseModel):
         damage: 基本ダメージ量。
         advantage_on_hit: ヒット時フレーム有利量。
         sa_cost: 必要なSAゲージストック数。
+        drive_cost: 必要なドライブゲージ量（DR経由の場合は2500）。
     """
 
     move_id: str
@@ -153,6 +159,7 @@ class MoveInfo(BaseModel):
     damage: int
     advantage_on_hit: int
     sa_cost: int
+    drive_cost: int = 0
 
 
 class PunishOpportunity(BaseModel):

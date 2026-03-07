@@ -1,4 +1,9 @@
 {
+  "drive_rush": {
+    "startup_frames": 13,
+    "drive_cost_neutral": 2500,
+    "description": "ドライブラッシュ：ニュートラルから発動すると13Fで距離を詰める。コスト: ドライブゲージ1/4"
+  },
   "characters": {
     "ryu": {
       "display_name": "リュウ",
@@ -137,7 +142,44 @@
           "damage": 3600, "drive_cost": 0, "sa_cost": 3,
           "cancel_options": []
         }
-      }
+      },
+      "combos": [
+        {
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": ["crouching_lp", "crouching_mp", "shoryuken_lp"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 昇龍拳（弱）"
+        },
+        {
+          "id": "bnb_hp_shoryuken",
+          "name": "強昇龍拳締めコンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "shoryuken_hp"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 昇龍拳（強）。ダメージ重視"
+        },
+        {
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "shinku_hadouken"],
+          "sa_cost": 1, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 真空波動拳"
+        },
+        {
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "shin_hadouken"],
+          "sa_cost": 2, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 真・波動拳"
+        },
+        {
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": ["crouching_lp", "crouching_mp", "shin_shoryuken"],
+          "sa_cost": 3, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 真・昇龍拳"
+        }
+      ]
     },
     "chun_li": {
       "display_name": "春麗",
@@ -269,7 +311,37 @@
           "damage": 2800, "drive_cost": 0, "sa_cost": 3,
           "cancel_options": []
         }
-      }
+      },
+      "combos": [
+        {
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": ["crouching_lp", "crouching_mp", "tenshokyaku"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 天昇脚"
+        },
+        {
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "kikosho"],
+          "sa_cost": 1, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 気功掌"
+        },
+        {
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "hazan_shu"],
+          "sa_cost": 2, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 覇山蹴"
+        },
+        {
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": ["crouching_lp", "crouching_mp", "hosenka"],
+          "sa_cost": 3, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 鳳翼扇"
+        }
+      ]
     },
     "jamie": {
       "display_name": "ジェイミー",
@@ -394,7 +466,30 @@
           "damage": 3500, "drive_cost": 0, "sa_cost": 3,
           "cancel_options": []
         }
-      }
+      },
+      "combos": [
+        {
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": ["crouching_lp", "crouching_mp", "face_smasher"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → フェイスブレイカー"
+        },
+        {
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "bakkai"],
+          "sa_cost": 1, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 八卦廻"
+        },
+        {
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": ["crouching_lp", "crouching_mp", "gochuusen"],
+          "sa_cost": 3, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → 五柱扇"
+        }
+      ]
     },
     "luke": {
       "display_name": "ルーク",
@@ -533,7 +628,37 @@
           "damage": 3800, "drive_cost": 0, "sa_cost": 3,
           "cancel_options": []
         }
-      }
+      },
+      "combos": [
+        {
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": ["crouching_lp", "crouching_mp", "flash_knuckle_hp"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → フラッシュナックル（強）"
+        },
+        {
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "lightning_legs"],
+          "sa_cost": 1, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → ライトニングレッグス"
+        },
+        {
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "sand_storm"],
+          "sa_cost": 2, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → サンドストーム"
+        },
+        {
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": ["crouching_lp", "crouching_mp", "hard_lemonade"],
+          "sa_cost": 3, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → ハードレモネード"
+        }
+      ]
     },
     "ken": {
       "display_name": "ケン",
@@ -679,7 +804,37 @@
           "damage": 3800, "drive_cost": 0, "sa_cost": 3,
           "cancel_options": []
         }
-      }
+      },
+      "combos": [
+        {
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": ["crouching_lp", "crouching_mk", "shoryuken_lp"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中K → 昇龍拳（弱）"
+        },
+        {
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": ["crouching_lp", "crouching_mk", "dragonlash_flame"],
+          "sa_cost": 1, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中K → ドラゴンラッシュフレイム"
+        },
+        {
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": ["crouching_lp", "crouching_mk", "shippu_jinraikyaku"],
+          "sa_cost": 2, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中K → 疾風迅雷脚"
+        },
+        {
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": ["crouching_lp", "crouching_mk", "shinryuken"],
+          "sa_cost": 3, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中K → 神龍拳"
+        }
+      ]
     },
     "cammy": {
       "display_name": "キャミィ",
@@ -811,7 +966,37 @@
           "damage": 3800, "drive_cost": 0, "sa_cost": 3,
           "cancel_options": []
         }
-      }
+      },
+      "combos": [
+        {
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": ["crouching_lp", "crouching_mp", "spiral_arrow"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → スパイラルアロー"
+        },
+        {
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "delta_red_assault"],
+          "sa_cost": 1, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → デルタレッドアサルト"
+        },
+        {
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "spin_drive_smasher"],
+          "sa_cost": 2, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → スピンドライブスマッシャー"
+        },
+        {
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": ["crouching_lp", "crouching_mp", "cqc"],
+          "sa_cost": 3, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → CQC"
+        }
+      ]
     },
     "jp": {
       "display_name": "JP",
@@ -943,7 +1128,37 @@
           "damage": 4000, "drive_cost": 0, "sa_cost": 3,
           "cancel_options": []
         }
-      }
+      },
+      "combos": [
+        {
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": ["crouching_lp", "crouching_mp", "triglav"],
+          "sa_cost": 0, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → トリグラフ"
+        },
+        {
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "consume"],
+          "sa_cost": 1, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → コンシューム"
+        },
+        {
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": ["crouching_lp", "crouching_mp", "bringer_of_chaos"],
+          "sa_cost": 2, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → ブリンガー・オブ・ケイオス"
+        },
+        {
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": ["crouching_lp", "crouching_mp", "heavenly_king"],
+          "sa_cost": 3, "drive_cost": 0,
+          "notes": "屈み弱P → 屈み中P → ヘヴンリーキング"
+        }
+      ]
     }
   },
   "damage_scaling": {

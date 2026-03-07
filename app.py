@@ -98,9 +98,19 @@ def gauge_bar(current: int, maximum: int, label: str, color: str = "#3498db") ->
 def player_card(title: str, state) -> None:  # type: ignore[no-untyped-def]
     max_hp = MAX_HP.get(state.character, 10000)
     sa_pips = "".join(["■" if i < state.sa_stock else "□" for i in range(3)])
-    st.markdown(f"**{title}：{CHARACTER_LABELS[state.character]}**")
+    burnout = state.drive_gauge == 0
+    burnout_badge = (
+        ' <span style="background:#e74c3c;color:#fff;font-size:0.75rem;'
+        'padding:1px 6px;border-radius:4px;font-weight:bold;">BURNOUT</span>'
+        if burnout else ""
+    )
+    st.markdown(
+        f"**{title}：{CHARACTER_LABELS[state.character]}**{burnout_badge}",
+        unsafe_allow_html=True,
+    )
     hp_bar(state.hp, max_hp, "体力")
-    gauge_bar(state.drive_gauge, 10000, "ドライブゲージ", "#f1c40f")
+    drive_color = "#e74c3c" if burnout else "#f1c40f"
+    gauge_bar(state.drive_gauge, 10000, "ドライブゲージ", drive_color)
     st.markdown(
         f'<div style="font-size:0.85rem;margin-bottom:8px;">SAゲージ: '
         f'<span style="letter-spacing:4px;font-size:1.1rem;">{sa_pips}</span> '
@@ -133,9 +143,10 @@ def punish_lethal_columns(punish, lethal) -> None:  # type: ignore[no-untyped-de
             st.success(f"確定反撃あり（{punish.frame_advantage}F 有利）")
             st.caption(punish.description)
             for i, move in enumerate(punish.punish_moves[:6], start=1):
-                sa_badge = f" [SA{move.sa_cost}]" if move.sa_cost > 0 else ""
+                sa_badge = f" `SA{move.sa_cost}`" if move.sa_cost > 0 else ""
+                dr_badge = " `DR`" if move.drive_cost > 0 else ""
                 st.markdown(
-                    f"**{i}.** {move.move_name}{sa_badge} "
+                    f"**{i}.** {move.move_name}{sa_badge}{dr_badge} "
                     f"— 発生 **{move.startup}F** / ダメージ **{move.damage:,}**"
                 )
             if len(punish.punish_moves) > 6:
@@ -220,6 +231,8 @@ def event_log_ui(log: MatchLog, n: int = 10) -> None:
         "took_damage":          "#e67e22",
         "opponent_took_damage": "#2980b9",
         "low_hp":               "#8e44ad",
+        "burnout":              "#e74c3c",
+        "burnout_opponent":     "#16a085",
     }
     for ev in reversed(recent):
         color = color_map.get(ev.event_type.value, "#555")
