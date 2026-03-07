@@ -6,10 +6,14 @@ YouTube/Twitchの配信フレームからSF6のHUD情報を読み取る。
   - 体力（HP）バー比率
   - ドライブゲージ比率
   - SAゲージストック数
+  - フレーム状態（HITSTUN / RECOVERY / NEUTRAL）← 複数フレーム比較で推定
 
-非対応（単一フレームでは判定困難）:
-  - フレーム状態（RECOVERY/HITSTUNなど）
-  - キャラクター自動識別（手動選択を使用）
+キャラクター自動識別は非対応（手動選択を使用）。
+
+フレーム状態の推定ロジック:
+  - 複数フレーム間の HP 変化 → HITSTUN の判定
+  - 複数フレーム間のモーション量 → RECOVERY（低モーション）/ NEUTRAL の判定
+  - 連続して動きが止まっているフレーム数 → 残り硬直フレーム数の推定
 """
 
 import logging
@@ -37,6 +41,12 @@ _HUD = {
     "p2_sa":    (1525, 89, 1752, 103),
 }
 
+# キャラクターが映る画面領域（フレーム状態検出に使用）
+_CHAR_ROI = {
+    "p1": (0,   150, 960,  960),  # x1, y1, x2, y2
+    "p2": (960, 150, 1920, 960),
+}
+
 _MAX_HP: dict[CharacterName, int] = {
     CharacterName.RYU: 10000,
     CharacterName.CHUN_LI: 9500,
@@ -47,24 +57,32 @@ _MAX_HP: dict[CharacterName, int] = {
     CharacterName.JP: 10000,
 }
 
+# フレーム状態推定のしきい値
+_HP_DELTA_HITSTUN = 0.012    # HP が 1.2% 以上減少 → HITSTUN
+_MOTION_RECOVERY  = 0.004    # モーションがこれ以下 → RECOVERY 候補
+_MOTION_NEUTRAL   = 0.015    # モーションがこれ以上 → NEUTRAL
+_RECOVERY_EST_FRAMES = 20    # RECOVERY と判定したときの推定残りフレーム数
+
 
 # ---------------------------------------------------------------------------
 # フレームキャプチャ
 # ---------------------------------------------------------------------------
 
-def capture_frame_from_url(url: str) -> np.ndarray:
-    """配信 / 動画 URL から1フレームを取得する。
+def capture_frames_from_url(url: str, n_frames: int = 8) -> list[np.ndarray]:
+    """配信 / 動画 URL から複数フレームを取得する。
 
-    YouTube には yt-dlp、Twitch には streamlink を使用する。
+    ストリームを開き、バッファクリア後に n_frames フレームを連続取得する。
+    フレーム間隔は配信のフレームレート依存（30fps なら約 33ms/frame）。
 
     Args:
         url: 配信または動画のURL。
+        n_frames: 取得するフレーム数（デフォルト: 8 ≒ 約 265ms@30fps）。
 
     Returns:
-        BGR形式の numpy 配列（H×W×3）。
+        BGR 形式の numpy 配列リスト（空の場合もある）。
 
     Raises:
-        RuntimeError: フレーム取得に失敗した場合。
+        RuntimeError: フレーム取得に1枚も成功しなかった場合。
     """
     if "twitch.tv" in url.lower():
         stream_url = _resolve_twitch_url(url)
@@ -74,21 +92,31 @@ def capture_frame_from_url(url: str) -> np.ndarray:
     logger.info("ストリームURL解決完了: %s", stream_url[:80])
 
     cap = cv2.VideoCapture(stream_url)
-    # ライブ配信の場合は末尾フレームを取得するため少し読み飛ばす
-    for _ in range(5):
+
+    # バッファをクリアして最新フレームに追いつく
+    for _ in range(10):
+        cap.read()
+
+    frames: list[np.ndarray] = []
+    for _ in range(n_frames):
         ret, frame = cap.read()
+        if ret and frame is not None:
+            frames.append(frame)
+
     cap.release()
 
-    if not ret or frame is None:
-        raise RuntimeError("フレームの取得に失敗しました（URLが無効か配信が終了している可能性があります）")
+    if not frames:
+        raise RuntimeError(
+            "フレームの取得に失敗しました（URLが無効か配信が終了している可能性があります）"
+        )
 
-    logger.info("フレーム取得完了: %dx%d", frame.shape[1], frame.shape[0])
-    return frame
+    logger.info("フレーム取得完了: %d枚 (%dx%d)", len(frames), frames[0].shape[1], frames[0].shape[0])
+    return frames
 
 
 def _resolve_youtube_url(url: str) -> str:
     """yt-dlp で YouTube のストリームURLを解決する。"""
-    import yt_dlp  # 遅延インポート（未使用時のオーバーヘッド回避）
+    import yt_dlp
 
     ydl_opts = {
         "format": "best[height<=1080][ext=mp4]/best[height<=1080]/best",
@@ -97,7 +125,6 @@ def _resolve_youtube_url(url: str) -> str:
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
-        # ライブ配信とVODで取得キーが異なる
         stream_url = info.get("url") or info["formats"][-1]["url"]
     return stream_url
 
@@ -126,20 +153,15 @@ def _resolve_twitch_url(url: str) -> str:
 
 def _bar_ratio(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
                fill_from_right: bool = False) -> float:
-    """バー領域の充填率（0.0〜1.0）を返す。
-
-    バーの背景（暗いピクセル）を除外し、残ったピクセルの幅で比率を計算する。
-    P1は左→右（fill_from_right=False）、P2は右→左（fill_from_right=True）。
-    """
+    """バー領域の充填率（0.0〜1.0）を返す。"""
     roi = frame[y1:y2, x1:x2]
     if roi.size == 0:
         return 0.0
 
-    # 輝度が低いピクセル（背景）を除外
     hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-    active = hsv[:, :, 2] > 25  # V値 > 25 を「バー部分」とみなす
+    active = hsv[:, :, 2] > 25
 
-    col_active = np.any(active, axis=0)  # 列ごとにいずれかの行がアクティブか
+    col_active = np.any(active, axis=0)
     if not np.any(col_active):
         return 0.0
 
@@ -155,10 +177,7 @@ def _bar_ratio(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
 
 
 def _sa_stock_count(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int) -> int:
-    """SA ストック数（0〜3）を推定する。
-
-    SA ゲージの点灯しているピクを連結成分解析でカウントする。
-    """
+    """SA ストック数（0〜3）を推定する。"""
     roi = frame[y1:y2, x1:x2]
     if roi.size == 0:
         return 0
@@ -166,39 +185,120 @@ def _sa_stock_count(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int) -> in
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
     _, binary = cv2.threshold(gray, 160, 255, cv2.THRESH_BINARY)
 
-    # ノイズ除去
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
     binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
 
     num_labels, _, stats, _ = cv2.connectedComponentsWithStats(binary)
-    # 背景(label=0)を除き、面積が十分な成分をSAピップとしてカウント
-    min_area = 8
     pip_count = sum(
         1 for i in range(1, num_labels)
-        if stats[i, cv2.CC_STAT_AREA] >= min_area
+        if stats[i, cv2.CC_STAT_AREA] >= 8
     )
     return min(3, pip_count)
+
+
+# ---------------------------------------------------------------------------
+# フレーム状態推定
+# ---------------------------------------------------------------------------
+
+def _motion_score(frame_a: np.ndarray, frame_b: np.ndarray,
+                  roi: tuple[int, int, int, int]) -> float:
+    """2フレーム間の ROI 内モーション量（0.0〜1.0）を返す。"""
+    x1, y1, x2, y2 = roi
+    a = cv2.cvtColor(frame_a[y1:y2, x1:x2], cv2.COLOR_BGR2GRAY).astype(np.float32)
+    b = cv2.cvtColor(frame_b[y1:y2, x1:x2], cv2.COLOR_BGR2GRAY).astype(np.float32)
+    return float(np.abs(a - b).mean() / 255.0)
+
+
+def _normalize_frames(frames: list[np.ndarray]) -> list[np.ndarray]:
+    """全フレームを 1920×1080 に正規化する。"""
+    result = []
+    for f in frames:
+        h, w = f.shape[:2]
+        if (w, h) != (1920, 1080):
+            f = cv2.resize(f, (1920, 1080))
+        result.append(f)
+    return result
+
+
+def detect_frame_state(
+    frames: list[np.ndarray],
+    player: str,
+    hp_coords: tuple[int, int, int, int],
+    fill_from_right: bool,
+) -> tuple[FrameState, int]:
+    """複数フレームからプレイヤーのフレーム状態と残り硬直を推定する。
+
+    Args:
+        frames: 正規化済みフレームリスト（時系列順）。
+        player: "p1" または "p2"。
+        hp_coords: HP バーの座標 (x1, y1, x2, y2)。
+        fill_from_right: P2 の場合 True。
+
+    Returns:
+        (FrameState, remaining_recovery_frames) のタプル。
+    """
+    if len(frames) < 2:
+        return FrameState.NEUTRAL, 0
+
+    roi = _CHAR_ROI[player]
+
+    # HP 変化量（フレーム列全体）
+    hp_first = _bar_ratio(frames[0], *hp_coords, fill_from_right=fill_from_right)
+    hp_last  = _bar_ratio(frames[-1], *hp_coords, fill_from_right=fill_from_right)
+    hp_delta = hp_last - hp_first  # 負 = ダメージを受けた
+
+    # フレーム間モーション量
+    motion_scores = [
+        _motion_score(frames[i], frames[i + 1], roi)
+        for i in range(len(frames) - 1)
+    ]
+    avg_motion    = float(np.mean(motion_scores))
+    recent_motion = motion_scores[-1]
+
+    logger.debug(
+        "%s: hp_delta=%.3f avg_motion=%.4f recent_motion=%.4f",
+        player, hp_delta, avg_motion, recent_motion,
+    )
+
+    # --- 判定ロジック ---
+    # 1) HP が有意に減少 → ヒットを受けた直後 → HITSTUN
+    if hp_delta < -_HP_DELTA_HITSTUN:
+        return FrameState.HITSTUN, 0
+
+    # 2) 直近モーションが非常に低い → RECOVERY または BLOCKSTUN
+    if recent_motion < _MOTION_RECOVERY and avg_motion < _MOTION_NEUTRAL:
+        # 静止が続いているフレーム数をカウント
+        static_count = 0
+        for s in reversed(motion_scores):
+            if s < _MOTION_RECOVERY:
+                static_count += 1
+            else:
+                break
+        # 残り硬直は「推定総硬直 - 既に静止しているフレーム数」
+        remaining = max(0, _RECOVERY_EST_FRAMES - static_count * 2)
+        return FrameState.RECOVERY, remaining
+
+    # 3) その他 → NEUTRAL
+    return FrameState.NEUTRAL, 0
 
 
 # ---------------------------------------------------------------------------
 # メイン関数
 # ---------------------------------------------------------------------------
 
-def extract_game_state_from_frame(
-    frame: np.ndarray,
+def extract_game_state_from_frames(
+    frames: list[np.ndarray],
     character_p1: CharacterName,
     character_p2: CharacterName,
     frame_number: int = 0,
     round_number: int = 1,
 ) -> GameState:
-    """フレーム画像からゲーム状態を読み取る。
+    """複数フレームからゲーム状態を読み取る。
 
-    体力・ドライブゲージ・SAストックを画像解析で取得する。
-    フレーム状態（RECOVERY/HITSTUN）は単一フレームでは判定できないため
-    NEUTRAL として返す。
+    最終フレームで HP/ゲージを取得し、フレーム列全体でフレーム状態を推定する。
 
     Args:
-        frame: BGR形式のフレーム画像。
+        frames: BGR 形式のフレームリスト（時系列順）。
         character_p1: P1 のキャラクター。
         character_p2: P2 のキャラクター。
         frame_number: フレーム番号。
@@ -207,31 +307,28 @@ def extract_game_state_from_frame(
     Returns:
         解析結果の GameState。
     """
-    # 1920×1080 に正規化
-    h, w = frame.shape[:2]
-    if (w, h) != (1920, 1080):
-        frame = cv2.resize(frame, (1920, 1080))
-        logger.debug("フレームを 1920×1080 にリサイズしました（元: %dx%d）", w, h)
+    frames = _normalize_frames(frames)
+    latest = frames[-1]
 
-    # HP 比率
-    p1_hp_ratio = _bar_ratio(frame, *_HUD["p1_hp"], fill_from_right=False)
-    p2_hp_ratio = _bar_ratio(frame, *_HUD["p2_hp"], fill_from_right=True)
+    # HP・ゲージ（最終フレームから読み取り）
+    p1_hp_ratio    = _bar_ratio(latest, *_HUD["p1_hp"],    fill_from_right=False)
+    p2_hp_ratio    = _bar_ratio(latest, *_HUD["p2_hp"],    fill_from_right=True)
+    p1_drive_ratio = _bar_ratio(latest, *_HUD["p1_drive"], fill_from_right=False)
+    p2_drive_ratio = _bar_ratio(latest, *_HUD["p2_drive"], fill_from_right=True)
+    p1_sa = _sa_stock_count(latest, *_HUD["p1_sa"])
+    p2_sa = _sa_stock_count(latest, *_HUD["p2_sa"])
 
-    # ドライブゲージ比率
-    p1_drive_ratio = _bar_ratio(frame, *_HUD["p1_drive"], fill_from_right=False)
-    p2_drive_ratio = _bar_ratio(frame, *_HUD["p2_drive"], fill_from_right=True)
-
-    # SA ストック
-    p1_sa = _sa_stock_count(frame, *_HUD["p1_sa"])
-    p2_sa = _sa_stock_count(frame, *_HUD["p2_sa"])
+    # フレーム状態（複数フレームから推定）
+    p1_state, p1_recovery = detect_frame_state(frames, "p1", _HUD["p1_hp"], False)
+    p2_state, p2_recovery = detect_frame_state(frames, "p2", _HUD["p2_hp"], True)
 
     p1_max_hp = _MAX_HP.get(character_p1, 10000)
     p2_max_hp = _MAX_HP.get(character_p2, 10000)
 
     logger.info(
-        "HUD 読み取り完了 | P1 HP=%.1f%% Drive=%.1f%% SA=%d | P2 HP=%.1f%% Drive=%.1f%% SA=%d",
-        p1_hp_ratio * 100, p1_drive_ratio * 100, p1_sa,
-        p2_hp_ratio * 100, p2_drive_ratio * 100, p2_sa,
+        "CV解析完了 | P1 HP=%.1f%% %s | P2 HP=%.1f%% %s(残%dF)",
+        p1_hp_ratio * 100, p1_state.value,
+        p2_hp_ratio * 100, p2_state.value, p2_recovery,
     )
 
     player1 = CharacterState(
@@ -240,9 +337,9 @@ def extract_game_state_from_frame(
         hp=int(p1_hp_ratio * p1_max_hp),
         drive_gauge=int(p1_drive_ratio * 10000),
         sa_stock=p1_sa,
-        frame_state=FrameState.NEUTRAL,
+        frame_state=p1_state,
         last_move=None,
-        remaining_recovery_frames=0,
+        remaining_recovery_frames=p1_recovery,
     )
     player2 = CharacterState(
         character=character_p2,
@@ -250,9 +347,9 @@ def extract_game_state_from_frame(
         hp=int(p2_hp_ratio * p2_max_hp),
         drive_gauge=int(p2_drive_ratio * 10000),
         sa_stock=p2_sa,
-        frame_state=FrameState.NEUTRAL,
+        frame_state=p2_state,
         last_move=None,
-        remaining_recovery_frames=0,
+        remaining_recovery_frames=p2_recovery,
     )
 
     return GameState(

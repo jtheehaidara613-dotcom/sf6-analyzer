@@ -259,17 +259,19 @@ def extract_game_state(
 
     # --- 実CV抽出を試みる ---
     try:
-        from cv_extractor import capture_frame_from_url, extract_game_state_from_frame
+        from cv_extractor import capture_frames_from_url, extract_game_state_from_frames
 
         logger.info("CV抽出モード: フレームキャプチャ開始")
-        frame = capture_frame_from_url(video_url)
-        game_state = extract_game_state_from_frame(
-            frame, character_p1, character_p2,
+        frames = capture_frames_from_url(video_url)
+        game_state = extract_game_state_from_frames(
+            frames, character_p1, character_p2,
             frame_number=frame_number, round_number=round_number,
         )
         logger.info(
-            "CV抽出完了 | P1 HP=%d, P2 HP=%d",
-            game_state.player1.hp, game_state.player2.hp,
+            "CV抽出完了 | P1 HP=%d %s | P2 HP=%d %s(残%dF)",
+            game_state.player1.hp, game_state.player1.frame_state.value,
+            game_state.player2.hp, game_state.player2.frame_state.value,
+            game_state.player2.remaining_recovery_frames,
         )
         return game_state
 
