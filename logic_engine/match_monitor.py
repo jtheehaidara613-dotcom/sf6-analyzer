@@ -174,11 +174,11 @@ def detect_events(
 
 
 # ---------------------------------------------------------------------------
-# VOD 解析サマリー生成
+# サマリー・レポート生成
 # ---------------------------------------------------------------------------
 
 def build_vod_summary(log: MatchLog) -> dict:
-    """VOD解析ログからサマリー辞書を生成する。"""
+    """イベントログから基本サマリー辞書を生成する。"""
     return {
         "監視時間":         log.elapsed_str,
         "確定反撃チャンス": log.punish_opportunities,
@@ -187,3 +187,105 @@ def build_vod_summary(log: MatchLog) -> dict:
         "与ダメージ回数":   log.times_dealt_damage,
         "総イベント数":     len(log.events),
     }
+
+
+def build_stats_report(log: MatchLog) -> dict:
+    """B）統計分析型レポートを生成する。
+
+    Returns:
+        ラベル → (値, デルタ説明) の辞書。
+    """
+    total = log.punish_opportunities + log.lethal_chances + log.times_took_damage + log.times_dealt_damage
+    deal_ratio = (
+        round(log.times_dealt_damage / (log.times_took_damage + log.times_dealt_damage) * 100)
+        if (log.times_took_damage + log.times_dealt_damage) > 0 else 0
+    )
+
+    return {
+        "確定反撃チャンス数":  log.punish_opportunities,
+        "リーサル圏内回数":    log.lethal_chances,
+        "被ダメージ回数":      log.times_took_damage,
+        "与ダメージ回数":      log.times_dealt_damage,
+        "与ダメ率":            f"{deal_ratio}%",
+        "検出イベント総数":    total,
+        "監視時間":            log.elapsed_str,
+    }
+
+
+def build_coaching_report(log: MatchLog) -> list[dict]:
+    """A）コーチング型レポートを生成する。
+
+    イベントパターンを分析して改善アドバイスを返す。
+
+    Returns:
+        [{level: "good"|"warn"|"info", title: str, body: str}] のリスト。
+    """
+    advice: list[dict] = []
+
+    # 確定反撃チャンスの評価
+    if log.punish_opportunities == 0:
+        advice.append({
+            "level": "info",
+            "title": "確定反撃チャンスなし",
+            "body": "この監視期間中に相手が大きな隙を作りませんでした。引き続き相手の行動パターンを観察してください。",
+        })
+    elif log.punish_opportunities >= 3:
+        advice.append({
+            "level": "warn",
+            "title": f"確定反撃チャンスが {log.punish_opportunities} 回ありました",
+            "body": "相手が大きな隙を複数回さらしています。コンシュームSA1などの高ダメージ技を素早く差し込む練習をしましょう。",
+        })
+    else:
+        advice.append({
+            "level": "good",
+            "title": f"確定反撃チャンスを {log.punish_opportunities} 回確認",
+            "body": "反撃機会を確認できています。実際に取れているか確認してください。",
+        })
+
+    # リーサルの評価
+    if log.lethal_chances >= 1:
+        advice.append({
+            "level": "warn",
+            "title": f"リーサル圏内に {log.lethal_chances} 回入れました",
+            "body": "相手をとどめを刺せる場面がありました。SAゲージの管理とコンボの締めを意識して確実に仕留めましょう。",
+        })
+
+    # 被ダメージと与ダメージのバランス評価
+    took = log.times_took_damage
+    dealt = log.times_dealt_damage
+
+    if took == 0 and dealt == 0:
+        advice.append({
+            "level": "info",
+            "title": "ダメージ交換なし",
+            "body": "監視期間中にダメージ交換が検出されませんでした。監視時間を伸ばすかライブ監視を使ってください。",
+        })
+    elif took > dealt * 2:
+        advice.append({
+            "level": "warn",
+            "title": "被ダメが与ダメの2倍以上",
+            "body": f"被ダメ {took} 回 vs 与ダメ {dealt} 回。守りの択を見直し、無理な攻めを減らしましょう。ドライブゲージのPerfect Parryを活用してください。",
+        })
+    elif dealt >= took:
+        advice.append({
+            "level": "good",
+            "title": "与ダメが被ダメ以上",
+            "body": f"与ダメ {dealt} 回 vs 被ダメ {took} 回。攻めが機能しています。このペースを維持しましょう。",
+        })
+    else:
+        advice.append({
+            "level": "info",
+            "title": f"被ダメ {took} 回 / 与ダメ {dealt} 回",
+            "body": "拮抗した展開です。リーサル圏内での締めコンボを磨くことで差が生まれます。",
+        })
+
+    # 低HP警告回数
+    low_hp_count = sum(1 for e in log.events if e.event_type == EventType.LOW_HP)
+    if low_hp_count >= 3:
+        advice.append({
+            "level": "warn",
+            "title": f"体力30%以下の場面が {low_hp_count} 回",
+            "body": "ピンチの場面が多くなっています。体力有利なうちにラウンドを決める意識を持ちましょう。",
+        })
+
+    return advice

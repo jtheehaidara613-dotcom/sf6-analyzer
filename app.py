@@ -12,7 +12,13 @@ import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
 from logic_engine.lethal_calculator import calculate_lethal
-from logic_engine.match_monitor import MatchLog, build_vod_summary, detect_events
+from logic_engine.match_monitor import (
+    MatchLog,
+    build_coaching_report,
+    build_stats_report,
+    build_vod_summary,
+    detect_events,
+)
 from logic_engine.punish_detector import detect_punish_opportunity
 from schemas import CharacterName
 from vision_extractor import detect_characters_from_url, extract_game_state, is_stream_url
@@ -175,6 +181,32 @@ def resolve_characters(
     else:
         p2 = CHARACTER_OPTIONS[opponent_idx]
     return my_char, p2
+
+
+def report_ui(log: MatchLog, report_type: str) -> None:
+    """レポートタイプに応じてサマリーを描画する。"""
+    if report_type == "統計分析":
+        stats = build_stats_report(log)
+        cols = st.columns(4)
+        items = list(stats.items())
+        for i, (label, val) in enumerate(items):
+            cols[i % 4].metric(label, val)
+
+    elif report_type == "コーチング":
+        advices = build_coaching_report(log)
+        if not advices:
+            st.info("データが不足しています。監視時間を伸ばしてください。")
+            return
+        for adv in advices:
+            if adv["level"] == "good":
+                st.success(f"**{adv['title']}**  \n{adv['body']}")
+            elif adv["level"] == "warn":
+                st.warning(f"**{adv['title']}**  \n{adv['body']}")
+            else:
+                st.info(f"**{adv['title']}**  \n{adv['body']}")
+
+    else:  # イベントログ（デフォルト）
+        event_log_ui(log, n=len(log.events) if len(log.events) <= 20 else 20)
 
 
 def event_log_ui(log: MatchLog, n: int = 10) -> None:
@@ -343,15 +375,14 @@ with tab_live:
             punish_lethal_columns(punish, lethal)
 
             st.divider()
-            col_log, col_summary = st.columns([2, 1])
-            with col_log:
-                st.subheader("イベントログ（直近10件）")
-                event_log_ui(log)
-            with col_summary:
-                st.subheader("サマリー")
-                summary = build_vod_summary(log)
-                for label, val in summary.items():
-                    st.metric(label, val)
+            st.subheader("レポート")
+            report_type_live = st.radio(
+                "レポートタイプ",
+                ["イベントログ", "統計分析", "コーチング"],
+                horizontal=True,
+                key="live_report_type",
+            )
+            report_ui(log, report_type_live)
 
     else:
         st.info("「監視開始」を押すと自動で配信を解析し始めます。")
@@ -400,13 +431,6 @@ with tab_vod:
                 st.stop()
 
         st.divider()
-        st.subheader("解析サマリー")
-        summary = build_vod_summary(vod_log)
-        cols = st.columns(len(summary))
-        for col, (label, val) in zip(cols, summary.items()):
-            col.metric(label, val)
-
-        st.divider()
         col_p1, col_p2 = st.columns(2)
         with col_p1:
             player_card("自分（P1）", game_state.player1)
@@ -416,10 +440,15 @@ with tab_vod:
         st.divider()
         punish_lethal_columns(punish, lethal)
 
-        if vod_log.events:
-            st.divider()
-            st.subheader("検出イベント")
-            event_log_ui(vod_log, n=len(vod_log.events))
+        st.divider()
+        st.subheader("レポート")
+        report_type_vod = st.radio(
+            "レポートタイプ",
+            ["イベントログ", "統計分析", "コーチング"],
+            horizontal=True,
+            key="vod_report_type",
+        )
+        report_ui(vod_log, report_type_vod)
 
 
 # ===========================================================================
