@@ -12,6 +12,7 @@ dependencies = [
     "pytest>=9.0.2",
     "streamlink>=8.2.1",
     "streamlit>=1.55.0",
+    "streamlit-autorefresh>=1.0.1",
     "uvicorn>=0.41.0",
     "yt-dlp>=2026.3.3",
 ]

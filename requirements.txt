@@ -3,6 +3,7 @@ httpx>=0.28.1
 opencv-python>=4.13.0.92
 pydantic>=2.12.5
 streamlit>=1.55.0
+streamlit-autorefresh>=1.0.1
 streamlink>=8.2.1
 uvicorn>=0.41.0
 yt-dlp>=2026.3.3
