@@ -1,11 +1,17 @@
 """SF6 AI動画解析システム - vision_extractor モジュール。
 
 本モジュールは動画フレームからキャラクター情報を抽出する責務を持ちます。
-現フェーズではYOLO/OpenCVを用いた実装の代わりに、
-事前定義されたダミーデータを返すモック関数として実装しています。
 
-実際の実装時は、extract_game_state() 内の _mock_extract() を
-実際のCV処理に置き換えてください。
+実CV実装（cv_extractor.py）を試み、失敗した場合はモックにフォールバックします。
+
+CV実装で検出できる項目:
+  - 体力（HP）バー
+  - ドライブゲージ
+  - SAゲージストック数
+
+CV実装では検出できない項目（常に NEUTRAL / 0F）:
+  - フレーム状態（RECOVERY/HITSTUN）
+  - キャラクター識別（手動選択を使用）
 """
 
 import logging
@@ -231,63 +237,56 @@ def extract_game_state(
     frame_number: int = 1800,
     round_number: int = 1,
 ) -> GameState:
-    """動画からゲーム状態を抽出する（モック実装）。
+    """動画からゲーム状態を抽出する。
 
-    本番実装では、動画フレームに対してYOLO等のオブジェクト検出モデルと
-    OpenCVによる画像処理を組み合わせ、キャラクター座標・体力ゲージ・
-    ドライブゲージ等をリアルタイムに抽出します。
-
-    現フェーズでは video_url の内容に応じてあらかじめ定義されたシナリオの
-    ダミーデータを返します。URLに "punishable"/"lethal"/"neutral"/"hitstun"
-    が含まれる場合、対応するシナリオが選択されます。
+    実CV（cv_extractor）でフレームキャプチャ＋HUD解析を試みる。
+    失敗した場合はモックシナリオにフォールバックする。
 
     Args:
-        video_url: 解析対象の動画URL。シナリオ選択に使用。
+        video_url: 解析対象の動画URL。
         character_p1: プレイヤー1のキャラクター識別子。
         character_p2: プレイヤー2のキャラクター識別子。
-        frame_number: 解析するフレーム番号（デフォルト: 1800 = 約30秒時点）。
+        frame_number: 解析するフレーム番号（デフォルト: 1800）。
         round_number: ラウンド番号（デフォルト: 1）。
 
     Returns:
         抽出されたゲーム状態を表す GameState オブジェクト。
-
-    Raises:
-        ValueError: キャラクター識別子が不正な場合。
     """
-    if is_stream_url(video_url):
-        logger.info("配信URL検出: %s（本番実装では yt-dlp/streamlink でフレームキャプチャ）", video_url)
     logger.info(
-        "extract_game_state 開始 | url=%s, p1=%s, p2=%s, frame=%d",
-        video_url,
-        character_p1.value,
-        character_p2.value,
-        frame_number,
+        "extract_game_state 開始 | url=%s, p1=%s, p2=%s",
+        video_url, character_p1.value, character_p2.value,
     )
 
+    # --- 実CV抽出を試みる ---
+    try:
+        from cv_extractor import capture_frame_from_url, extract_game_state_from_frame
+
+        logger.info("CV抽出モード: フレームキャプチャ開始")
+        frame = capture_frame_from_url(video_url)
+        game_state = extract_game_state_from_frame(
+            frame, character_p1, character_p2,
+            frame_number=frame_number, round_number=round_number,
+        )
+        logger.info(
+            "CV抽出完了 | P1 HP=%d, P2 HP=%d",
+            game_state.player1.hp, game_state.player2.hp,
+        )
+        return game_state
+
+    except Exception as e:
+        logger.warning("CV抽出に失敗しました（モックにフォールバック）: %s", e)
+
+    # --- モックフォールバック ---
     scenario = _select_scenario_from_url(video_url)
     scenario_data = _MOCK_SCENARIOS[scenario]
-
-    logger.info(
-        "モックシナリオを適用します: %s | %s",
-        scenario.value,
-        scenario_data["description"],
-    )
+    logger.info("モックシナリオを適用: %s | %s", scenario.value, scenario_data["description"])
 
     player1_state = _build_character_state(character_p1, scenario_data["player1"])
     player2_state = _build_character_state(character_p2, scenario_data["player2"])
 
-    game_state = GameState(
+    return GameState(
         player1=player1_state,
         player2=player2_state,
         frame_number=frame_number,
         round_number=round_number,
     )
-
-    logger.info(
-        "extract_game_state 完了 | P1 HP=%d, P2 HP=%d, P2 state=%s",
-        player1_state.hp,
-        player2_state.hp,
-        player2_state.frame_state.value,
-    )
-
-    return game_state
