@@ -344,3 +344,110 @@ class TestDamageScaling:
             for i, d in enumerate(damages)
         )
         assert total == 2920
+
+
+# ---------------------------------------------------------------------------
+# DR経由パニッシュ / バーンアウト / プリセットコンボ優先テスト
+# ---------------------------------------------------------------------------
+
+class TestDriveRushPunish:
+    """ドライブラッシュ経由パニッシュのテストクラス。"""
+
+    def test_dr_punish_when_drive_gauge_sufficient(
+        self,
+        chun_li_recovery_27f: CharacterState,
+    ) -> None:
+        """ドライブゲージが2500以上あればDR経由パニッシュが候補に含まれること。
+
+        リュウには通常パニッシュで届かない技でも、
+        DR（13F）を加算した発生で届く場合はDR経由として列挙される。
+        """
+        ryu_with_drive = _make_state(
+            CharacterName.RYU, drive_gauge=5000,
+        )
+        result = detect_punish_opportunity(ryu_with_drive, chun_li_recovery_27f)
+
+        assert result.is_punishable is True
+        dr_moves = [m for m in result.punish_moves if m.drive_cost > 0]
+        # DR経由パニッシュが存在する（drive_cost == 2500 の技）
+        assert all(m.drive_cost == 2500 for m in dr_moves)
+
+    def test_no_dr_punish_when_burnout(
+        self,
+        chun_li_recovery_27f: CharacterState,
+    ) -> None:
+        """バーンアウト（drive_gauge=0）時はDR経由パニッシュが含まれないこと。"""
+        ryu_burnout = _make_state(
+            CharacterName.RYU, drive_gauge=0,
+        )
+        result = detect_punish_opportunity(ryu_burnout, chun_li_recovery_27f)
+
+        dr_moves = [m for m in result.punish_moves if m.drive_cost > 0]
+        assert len(dr_moves) == 0
+
+    def test_no_dr_punish_when_drive_gauge_insufficient(
+        self,
+        chun_li_recovery_27f: CharacterState,
+    ) -> None:
+        """ドライブゲージが2500未満のときはDR経由パニッシュが含まれないこと。"""
+        ryu_low_drive = _make_state(
+            CharacterName.RYU, drive_gauge=2499,
+        )
+        result = detect_punish_opportunity(ryu_low_drive, chun_li_recovery_27f)
+
+        dr_moves = [m for m in result.punish_moves if m.drive_cost > 0]
+        assert len(dr_moves) == 0
+
+
+class TestBurnoutDetection:
+    """is_burnout プロパティのテストクラス。"""
+
+    def test_is_burnout_when_drive_gauge_zero(self) -> None:
+        """drive_gauge=0 のとき is_burnout が True を返すこと。"""
+        state = _make_state(CharacterName.RYU, drive_gauge=0)
+        assert state.is_burnout is True
+
+    def test_not_burnout_when_drive_gauge_positive(self) -> None:
+        """drive_gauge > 0 のとき is_burnout が False を返すこと。"""
+        state = _make_state(CharacterName.RYU, drive_gauge=1)
+        assert state.is_burnout is False
+
+    def test_not_burnout_at_full_drive(self) -> None:
+        """drive_gauge=10000（満タン）のとき is_burnout が False を返すこと。"""
+        state = _make_state(CharacterName.RYU, drive_gauge=10000)
+        assert state.is_burnout is False
+
+
+class TestPresetComboPriority:
+    """プリセットコンボ優先選択のテストクラス。"""
+
+    def test_preset_combo_used_over_naive_selection(
+        self,
+        ryu_neutral: CharacterState,
+        chun_li_low_hp: CharacterState,
+    ) -> None:
+        """プリセットコンボが定義されているとき、ナイーブ選択より優先されること。
+
+        リュウには frame_data.json にプリセットコンボが定義されているため、
+        recommended_combo は必ずプリセットの move_ids を反映した内容になる。
+        """
+        result = calculate_lethal(ryu_neutral, chun_li_low_hp)
+
+        # プリセットコンボはcrouching_lpから始まる（bnb_normalの先頭技）
+        assert len(result.recommended_combo) > 0
+        assert result.recommended_combo[0].move_id == "crouching_lp"
+
+    def test_sa_cost_filter_in_preset_combo(
+        self,
+        ryu_neutral: CharacterState,
+        chun_li_high_hp: CharacterState,
+    ) -> None:
+        """SAゲージが0本のとき、sa_cost > 0 のプリセットコンボは選ばれないこと。"""
+        result = calculate_lethal(ryu_neutral, chun_li_high_hp)
+
+        # sa_stock=0 なので sa_cost > 0 のコンボは選べない
+        assert result.sa_cost == 0
+        for step in result.recommended_combo:
+            # SAゲージを使う技識別子がコンボに含まれないこと
+            assert "shin_shoryuken" not in step.move_id
+            assert "shinku_hadouken" not in step.move_id
