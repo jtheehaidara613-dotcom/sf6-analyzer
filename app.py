@@ -303,7 +303,8 @@ with tab_live:
             key="live_url_input",
         )
     with col_interval:
-        refresh_sec = st.selectbox("更新間隔", [10, 20, 30, 60], index=1, key="live_refresh_sec")
+        refresh_sec = st.selectbox("更新間隔", [10, 20, 30, 60], index=1, key="live_refresh_sec",
+                                   format_func=lambda s: f"{s}秒")
 
     auto_detect_live = st.toggle("相手キャラを自動検出", value=True, key="live_auto_detect")
     opp_idx_live = None
