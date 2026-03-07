@@ -15,6 +15,7 @@ from logic_engine.lethal_calculator import calculate_lethal
 from logic_engine.match_monitor import (
     MatchLog,
     build_coaching_report,
+    build_pro_coaching_report,
     build_stats_report,
     build_vod_summary,
     detect_events,
@@ -194,6 +195,19 @@ def resolve_characters(
     return my_char, p2
 
 
+def _render_coaching(advices: list) -> None:
+    if not advices:
+        st.info("データが不足しています。監視時間を伸ばしてください。")
+        return
+    for adv in advices:
+        if adv["level"] == "good":
+            st.success(f"**{adv['title']}**  \n{adv['body']}")
+        elif adv["level"] == "warn":
+            st.warning(f"**{adv['title']}**  \n{adv['body']}")
+        else:
+            st.info(f"**{adv['title']}**  \n{adv['body']}")
+
+
 def report_ui(log: MatchLog, report_type: str) -> None:
     """レポートタイプに応じてサマリーを描画する。"""
     if report_type == "統計分析":
@@ -204,17 +218,11 @@ def report_ui(log: MatchLog, report_type: str) -> None:
             cols[i % 4].metric(label, val)
 
     elif report_type == "コーチング":
-        advices = build_coaching_report(log)
-        if not advices:
-            st.info("データが不足しています。監視時間を伸ばしてください。")
-            return
-        for adv in advices:
-            if adv["level"] == "good":
-                st.success(f"**{adv['title']}**  \n{adv['body']}")
-            elif adv["level"] == "warn":
-                st.warning(f"**{adv['title']}**  \n{adv['body']}")
-            else:
-                st.info(f"**{adv['title']}**  \n{adv['body']}")
+        _render_coaching(build_coaching_report(log))
+
+    elif report_type == "プロ向けコーチング":
+        st.caption("バーンアウト・ドライブゲージ管理・ストリーク分析などの詳細アドバイス")
+        _render_coaching(build_pro_coaching_report(log))
 
     else:  # イベントログ（デフォルト）
         event_log_ui(log, n=len(log.events) if len(log.events) <= 20 else 20)
@@ -392,7 +400,7 @@ with tab_live:
             st.subheader("レポート")
             report_type_live = st.radio(
                 "レポートタイプ",
-                ["イベントログ", "統計分析", "コーチング"],
+                ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング"],
                 horizontal=True,
                 key="live_report_type",
             )

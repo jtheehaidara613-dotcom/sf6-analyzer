@@ -261,9 +261,89 @@ def _max_consecutive(events: list[MatchEvent], event_type: EventType) -> int:
 
 
 def build_coaching_report(log: MatchLog) -> list[dict]:
-    """コーチング型レポートを生成する。
+    """基本コーチング型レポートを生成する（初心者〜中級者向け）。
 
-    イベントパターンを分析して改善アドバイスを返す。
+    専門用語を避けたシンプルなアドバイスを返す。
+
+    Returns:
+        [{level: "good"|"warn"|"info", title: str, body: str}] のリスト。
+    """
+    advice: list[dict] = []
+
+    # 確定反撃チャンスの評価
+    if log.punish_opportunities == 0:
+        advice.append({
+            "level": "info",
+            "title": "確定反撃チャンスなし",
+            "body": "この監視期間中に相手が大きな隙を作りませんでした。引き続き相手の行動パターンを観察してください。",
+        })
+    elif log.punish_opportunities >= 3:
+        advice.append({
+            "level": "warn",
+            "title": f"確定反撃チャンスが {log.punish_opportunities} 回ありました",
+            "body": "相手が大きな隙を複数回さらしています。高ダメージ技を素早く差し込む練習をしましょう。",
+        })
+    else:
+        advice.append({
+            "level": "good",
+            "title": f"確定反撃チャンスを {log.punish_opportunities} 回確認",
+            "body": "反撃機会を確認できています。実際に取れているか確認してください。",
+        })
+
+    # リーサルの評価
+    if log.lethal_chances >= 1:
+        advice.append({
+            "level": "warn",
+            "title": f"リーサル圏内に {log.lethal_chances} 回入れました",
+            "body": "相手をとどめを刺せる場面がありました。SAゲージの管理とコンボの締めを意識して確実に仕留めましょう。",
+        })
+
+    # 被ダメージと与ダメージのバランス評価
+    took = log.times_took_damage
+    dealt = log.times_dealt_damage
+
+    if took == 0 and dealt == 0:
+        advice.append({
+            "level": "info",
+            "title": "ダメージ交換なし",
+            "body": "監視期間中にダメージ交換が検出されませんでした。監視時間を伸ばすかライブ監視を使ってください。",
+        })
+    elif took > dealt * 2:
+        advice.append({
+            "level": "warn",
+            "title": "被ダメが与ダメの2倍以上",
+            "body": f"被ダメ {took} 回 vs 与ダメ {dealt} 回。守りの択を見直し、無理な攻めを減らしましょう。",
+        })
+    elif dealt >= took:
+        advice.append({
+            "level": "good",
+            "title": "与ダメが被ダメ以上",
+            "body": f"与ダメ {dealt} 回 vs 被ダメ {took} 回。攻めが機能しています。このペースを維持しましょう。",
+        })
+    else:
+        advice.append({
+            "level": "info",
+            "title": f"被ダメ {took} 回 / 与ダメ {dealt} 回",
+            "body": "拮抗した展開です。リーサル圏内での締めコンボを磨くことで差が生まれます。",
+        })
+
+    # 低HP警告回数
+    low_hp_count = sum(1 for e in log.events if e.event_type == EventType.LOW_HP)
+    if low_hp_count >= 3:
+        advice.append({
+            "level": "warn",
+            "title": f"体力30%以下の場面が {low_hp_count} 回",
+            "body": "ピンチの場面が多くなっています。体力有利なうちにラウンドを決める意識を持ちましょう。",
+        })
+
+    return advice
+
+
+def build_pro_coaching_report(log: MatchLog) -> list[dict]:
+    """プロ向けコーチング型レポートを生成する。
+
+    バーンアウト・ドライブゲージ管理・連続被ダメストリーク等、
+    SF6 固有のシステムを踏まえた詳細アドバイスを返す。
 
     Returns:
         [{level: "good"|"warn"|"info", title: str, body: str}] のリスト。
@@ -312,7 +392,7 @@ def build_coaching_report(log: MatchLog) -> list[dict]:
             ),
         })
 
-    # ── 3. バーンアウト評価（SF6固有・プロ向け） ─────────────────────────
+    # ── 3. バーンアウト評価（SF6固有） ───────────────────────────────────
     if log.burnout_count >= 2:
         advice.append({
             "level": "warn",
