@@ -77,27 +77,40 @@ def _build_combo(
     return steps, total_damage
 
 
+def _combo_drive_cost(moves_data: dict, move_ids: list[str]) -> int:
+    """コンボ全体のドライブゲージ消費量を計算する。"""
+    return sum(moves_data[mid].get("drive_cost", 0) for mid in move_ids if mid in moves_data)
+
+
 def _get_preset_combo(
     moves_data: dict,
     combo_presets: list[dict],
     sa_stock: int,
+    drive_gauge: int,
+    is_burnout: bool,
     scaling_table: list[float],
-) -> tuple[list[ComboStep], int, str, int] | None:
+) -> tuple[list[ComboStep], int, str, int, int] | None:
     """frame_data.json のプリセットコンボから最大ダメージのものを選択する。
+
+    SA・ドライブゲージの両方の条件を満たすコンボのみを対象とする。
+    バーンアウト中はドライブゲージを消費するOD技・DR技を含むコンボを除外する。
 
     Args:
         moves_data: キャラクターの技データ辞書。
         combo_presets: キャラクターのコンボプリセットリスト。
         sa_stock: 現在のSAゲージストック数。
+        drive_gauge: 現在のドライブゲージ量（0〜10000）。
+        is_burnout: バーンアウト状態かどうか。
         scaling_table: ダメージ補正テーブル。
 
     Returns:
-        (ComboStep リスト, 合計ダメージ, コンボ名, SAコスト) または None。
+        (ComboStep リスト, 合計ダメージ, コンボ名, SAコスト, ドライブコスト) または None。
     """
     best_steps: list[ComboStep] | None = None
     best_damage = 0
     best_name = ""
     best_sa_cost = 0
+    best_drive_cost = 0
 
     for preset in combo_presets:
         sa_cost = preset.get("sa_cost", 0)
@@ -105,8 +118,18 @@ def _get_preset_combo(
             continue
 
         move_ids = preset["move_ids"]
-        # 存在しない技IDはスキップ
         if not all(mid in moves_data for mid in move_ids):
+            continue
+
+        # ドライブゲージ制約チェック
+        drive_cost = preset.get("drive_cost") or _combo_drive_cost(moves_data, move_ids)
+        if drive_cost > drive_gauge:
+            logger.debug("ドライブゲージ不足でスキップ: %s (必要=%d, 保有=%d)", preset["name"], drive_cost, drive_gauge)
+            continue
+
+        # バーンアウト中はドライブゲージを消費する技を含むコンボを除外
+        if is_burnout and drive_cost > 0:
+            logger.debug("バーンアウト中のためOD/DR含みコンボをスキップ: %s", preset["name"])
             continue
 
         steps, damage = _build_combo(moves_data, move_ids, scaling_table)
@@ -115,36 +138,57 @@ def _get_preset_combo(
             best_steps = steps
             best_name = preset["name"]
             best_sa_cost = sa_cost
+            best_drive_cost = drive_cost
 
     if best_steps is None:
         return None
-    return best_steps, best_damage, best_name, best_sa_cost
+    return best_steps, best_damage, best_name, best_sa_cost, best_drive_cost
 
 
-def _get_normal_combo(moves_data: dict, scaling_table: list[float]) -> tuple[list[ComboStep], int]:
+def _get_normal_combo(
+    moves_data: dict,
+    drive_gauge: int,
+    is_burnout: bool,
+    scaling_table: list[float],
+) -> tuple[list[ComboStep], int, int]:
     """SAゲージを使わない通常コンボを構築する（フォールバック用）。
 
-    sa_cost == 0 の技のみを使用し、ダメージ上位3技で構成します。
+    sa_cost == 0 かつドライブゲージ条件を満たす技のみを使用し、
+    ダメージ上位3技で構成します。
+
+    Returns:
+        (ComboStep リスト, 合計ダメージ, ドライブコスト) のタプル。
     """
     normal_moves = [
         (mid, m) for mid, m in moves_data.items()
         if m.get("sa_cost", 0) == 0
+        and (not is_burnout or m.get("drive_cost", 0) == 0)
+        and m.get("drive_cost", 0) <= drive_gauge
     ]
     top3 = sorted(normal_moves, key=lambda x: x[1]["damage"], reverse=True)[:3]
     top3.sort(key=lambda x: x[1]["startup"])
     move_ids = [mid for mid, _ in top3]
-    return _build_combo(moves_data, move_ids, scaling_table)
+    steps, damage = _build_combo(moves_data, move_ids, scaling_table)
+    drive_cost = _combo_drive_cost(moves_data, move_ids)
+    return steps, damage, drive_cost
 
 
 def _get_sa_combo(
     moves_data: dict,
     sa_stock: int,
+    drive_gauge: int,
+    is_burnout: bool,
     scaling_table: list[float],
-) -> tuple[list[ComboStep], int] | None:
-    """SAゲージを使用したコンボを構築する（フォールバック用）。"""
+) -> tuple[list[ComboStep], int, int] | None:
+    """SAゲージを使用したコンボを構築する（フォールバック用）。
+
+    Returns:
+        (ComboStep リスト, 合計ダメージ, ドライブコスト) または None。
+    """
     sa_moves = [
         (mid, m) for mid, m in moves_data.items()
         if 0 < m.get("sa_cost", 0) <= sa_stock
+        and m.get("drive_cost", 0) <= drive_gauge
     ]
     if not sa_moves:
         return None
@@ -155,11 +199,16 @@ def _get_sa_combo(
     normal_moves = [
         (mid, m) for mid, m in moves_data.items()
         if m.get("sa_cost", 0) == 0
+        and (not is_burnout or m.get("drive_cost", 0) == 0)
+        and m.get("drive_cost", 0) <= drive_gauge
     ]
+    if not normal_moves:
+        return None
     fastest_normal = min(normal_moves, key=lambda x: x[1]["startup"])
     move_ids = [fastest_normal[0], sa_move_id]
-
-    return _build_combo(moves_data, move_ids, scaling_table)
+    steps, damage = _build_combo(moves_data, move_ids, scaling_table)
+    drive_cost = _combo_drive_cost(moves_data, move_ids)
+    return steps, damage, drive_cost
 
 
 def calculate_lethal(
@@ -197,31 +246,46 @@ def calculate_lethal(
     target_hp = defender.hp
     combo_name = ""
     sa_cost_used = 0
+    drive_cost_used = 0
+    is_burnout = attacker.is_burnout
+
+    logger.debug(
+        "ゲージ状態: drive=%d burnout=%s sa=%d",
+        attacker.drive_gauge, is_burnout, attacker.sa_stock,
+    )
 
     # ── プリセットコンボを優先 ──────────────────────────────────────────
-    preset_result = _get_preset_combo(moves_data, combo_presets, attacker.sa_stock, scaling_table)
+    preset_result = _get_preset_combo(
+        moves_data, combo_presets,
+        attacker.sa_stock, attacker.drive_gauge, is_burnout,
+        scaling_table,
+    )
 
     if preset_result is not None:
-        best_steps, best_damage, combo_name, sa_cost_used = preset_result
-        logger.debug("プリセットコンボ選択: %s / ダメージ=%d", combo_name, best_damage)
+        best_steps, best_damage, combo_name, sa_cost_used, drive_cost_used = preset_result
+        logger.debug("プリセットコンボ選択: %s / ダメージ=%d drive_cost=%d", combo_name, best_damage, drive_cost_used)
     else:
         # フォールバック: ナイーブな上位技選択
         logger.debug("プリセットコンボなし。フォールバックを使用。")
-        normal_steps, normal_damage = _get_normal_combo(moves_data, scaling_table)
-        sa_result = _get_sa_combo(moves_data, attacker.sa_stock, scaling_table)
+        normal_steps, normal_damage, normal_drive = _get_normal_combo(
+            moves_data, attacker.drive_gauge, is_burnout, scaling_table,
+        )
+        sa_result = _get_sa_combo(
+            moves_data, attacker.sa_stock, attacker.drive_gauge, is_burnout, scaling_table,
+        )
 
         if sa_result is not None:
-            sa_steps, sa_damage = sa_result
+            sa_steps, sa_damage, sa_drive = sa_result
             if sa_damage >= normal_damage:
-                best_steps, best_damage = sa_steps, sa_damage
+                best_steps, best_damage, drive_cost_used = sa_steps, sa_damage, sa_drive
                 sa_cost_used = max(
                     (moves_data[s.move_id].get("sa_cost", 0) for s in sa_steps),
                     default=0,
                 )
             else:
-                best_steps, best_damage = normal_steps, normal_damage
+                best_steps, best_damage, drive_cost_used = normal_steps, normal_damage, normal_drive
         else:
-            best_steps, best_damage = normal_steps, normal_damage
+            best_steps, best_damage, drive_cost_used = normal_steps, normal_damage, normal_drive
 
     is_lethal = best_damage >= target_hp
 
@@ -246,7 +310,7 @@ def calculate_lethal(
         target_hp=target_hp,
         estimated_max_damage=best_damage,
         recommended_combo=best_steps,
-        drive_cost=0,
+        drive_cost=drive_cost_used,
         sa_cost=sa_cost_used,
         description=description,
     )

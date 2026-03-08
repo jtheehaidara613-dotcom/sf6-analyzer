@@ -91,6 +91,35 @@ class AnalyzeRequest(BaseModel):
     )
 
 
+class ScanRequest(BaseModel):
+    """動画全体スキャンリクエストのスキーマ。
+
+    Attributes:
+        video_url: スキャン対象の動画URL。
+        character_p1: プレイヤー1のキャラクター識別子。
+        character_p2: プレイヤー2のキャラクター識別子。
+        scan_interval_sec: スキャン間隔（秒）。デフォルト 15 秒。
+        max_duration_sec: スキャン上限秒数。None で動画全体をスキャン。
+        max_workers: 並列解析ワーカー数。デフォルト 4。
+    """
+
+    video_url: HttpUrl = Field(
+        ...,
+        description="スキャン対象の動画URL（HTTP/HTTPS）",
+    )
+    character_p1: CharacterName = Field(..., description="プレイヤー1のキャラクター")
+    character_p2: CharacterName = Field(..., description="プレイヤー2のキャラクター")
+    scan_interval_sec: float = Field(
+        15.0, gt=0, le=300, description="スキャン間隔（秒）"
+    )
+    max_duration_sec: Optional[float] = Field(
+        None, gt=0, description="スキャン上限秒数（None で動画全体）"
+    )
+    max_workers: int = Field(
+        4, ge=1, le=16, description="並列解析ワーカー数（1=直列）"
+    )
+
+
 # ---------------------------------------------------------------------------
 # 中間スキーマ（解析パイプライン内部）
 # ---------------------------------------------------------------------------
@@ -261,6 +290,100 @@ class AnalyzeResponse(BaseModel):
 # ---------------------------------------------------------------------------
 # エラースキーマ
 # ---------------------------------------------------------------------------
+
+class ScanResponse(BaseModel):
+    """動画全体スキャンAPIのレスポンス全体スキーマ。
+
+    Attributes:
+        video_url: スキャンした動画のURL。
+        total_scenes: 検出された試合シーンの総数。
+        scenes: 各試合シーンの解析結果リスト。
+    """
+
+    video_url: str
+    total_scenes: int
+    scenes: list[AnalyzeResponse]
+
+
+class LiveStartRequest(BaseModel):
+    """ライブ解析セッション開始リクエスト。
+
+    Attributes:
+        video_url: Twitch/YouTubeLive の配信URL。
+        character_p1: プレイヤー1のキャラクター識別子。
+        character_p2: プレイヤー2のキャラクター識別子。
+        interval_sec: 解析間隔（秒）。デフォルト 2 秒。
+    """
+
+    video_url: HttpUrl = Field(..., description="ライブ配信URL（Twitch/YouTubeLive）")
+    character_p1: CharacterName = Field(..., description="プレイヤー1のキャラクター")
+    character_p2: CharacterName = Field(..., description="プレイヤー2のキャラクター")
+    interval_sec: float = Field(2.0, ge=0.5, le=30.0, description="解析間隔（秒）")
+
+
+class LiveStartResponse(BaseModel):
+    """ライブ解析セッション開始レスポンス。
+
+    Attributes:
+        session_id: セッション識別子（UUID）。
+        status: セッションの現在状態。
+    """
+
+    session_id: str
+    status: str
+
+
+class LiveStatusResponse(BaseModel):
+    """ライブ解析セッションの状態レスポンス。
+
+    Attributes:
+        session_id: セッション識別子。
+        status: セッションの現在状態。
+        latest_result: 最新の解析結果（まだなければ None）。
+        error_message: エラー発生時のメッセージ（任意）。
+    """
+
+    session_id: str
+    status: str
+    latest_result: Optional[AnalyzeResponse] = None
+    error_message: Optional[str] = None
+
+
+class HistoryItem(BaseModel):
+    """履歴一覧の1件分のメタデータ。"""
+
+    id: int
+    created_at: str
+    video_url: str
+    character_p1: str
+    character_p2: str
+    round_number: int
+    frame_number: int
+    p1_hp: int
+    p2_hp: int
+    is_punishable: bool
+    is_lethal: bool
+    estimated_max_damage: int
+
+
+class HistoryResponse(BaseModel):
+    """解析履歴リストのレスポンス。"""
+
+    total_returned: int
+    offset: int
+    items: list[HistoryItem]
+
+
+class StatsResponse(BaseModel):
+    """集計統計レスポンス。"""
+
+    total: int
+    punishable_rate: float
+    lethal_rate: float
+    avg_p1_hp: int
+    avg_p2_hp: int
+    avg_max_damage: int
+
 
 class ErrorResponse(BaseModel):
     """APIエラーレスポンスのスキーマ。
