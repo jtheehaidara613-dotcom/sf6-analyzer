@@ -292,6 +292,53 @@ def extract_game_state(
     )
 
 
+def _smooth_hp_ewma(
+    results: list[tuple[float, GameState]],
+    alpha: float = 0.45,
+) -> list[tuple[float, GameState]]:
+    """スキャン結果のHP値にEWMAを適用してノイズを除去する。
+
+    HP は試合中に単調減少するため、EWMAで瞬間的な読み取りエラーを除去する。
+    ただしラウンドリセット（HP が前フレームより 20% 以上増加）は平滑化しない。
+
+    Args:
+        results: (秒数, GameState) のリスト（時系列昇順）。
+        alpha: 平滑化係数（0 に近いほど滑らか、1 に近いほど生値に忠実）。
+
+    Returns:
+        HP 値が平滑化された (秒数, GameState) のリスト。
+    """
+    if len(results) < 2:
+        return results
+
+    smoothed: list[tuple[float, GameState]] = []
+    p1_smooth = float(results[0][1].player1.hp)
+    p2_smooth = float(results[0][1].player2.hp)
+
+    for t, gs in results:
+        p1_raw = float(gs.player1.hp)
+        p2_raw = float(gs.player2.hp)
+
+        # ラウンドリセット検出: HP が 15% 以上増加 → スムーズ値をリセット
+        if p1_raw > p1_smooth * 1.15:
+            p1_smooth = p1_raw
+        else:
+            p1_smooth = alpha * p1_raw + (1.0 - alpha) * p1_smooth
+
+        if p2_raw > p2_smooth * 1.15:
+            p2_smooth = p2_raw
+        else:
+            p2_smooth = alpha * p2_raw + (1.0 - alpha) * p2_smooth
+
+        new_gs = gs.model_copy(update={
+            "player1": gs.player1.model_copy(update={"hp": int(p1_smooth)}),
+            "player2": gs.player2.model_copy(update={"hp": int(p2_smooth)}),
+        })
+        smoothed.append((t, new_gs))
+
+    return smoothed
+
+
 def scan_and_analyze(
     video_url: str,
     character_p1: CharacterName,
@@ -354,4 +401,5 @@ def scan_and_analyze(
                 logger.warning("%.1f秒の解析に失敗（スキップ）: %s", t, e)
 
     results.sort(key=lambda x: x[0])
+    results = _smooth_hp_ewma(results)
     return results

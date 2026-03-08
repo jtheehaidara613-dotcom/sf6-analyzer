@@ -757,16 +757,35 @@ _TIMER_ORANGE_MAX    = 0.30   # タイマー領域のオレンジ率がこれ以
 _TIMER_ROI = (910, 12, 1010, 58)
 
 
+def _timer_has_digits(timer_hsv: np.ndarray) -> bool:
+    """タイマー領域に白い数字が表示されているかを判定する。
+
+    試合中のタイマーは暗い背景に白い数字（低彩度・高輝度ピクセル）が並ぶ。
+    ローディング画面やリプレイ選択画面では数字が表示されない。
+
+    Args:
+        timer_hsv: タイマー ROI の HSV 画像。
+
+    Returns:
+        白い数字らしきピクセルが 5〜45% の範囲にある場合 True。
+    """
+    # 白/明るいピクセル: 彩度が低く輝度が高い（数字の白い部分）
+    white_mask = (timer_hsv[:, :, 1] < 60) & (timer_hsv[:, :, 2] > 180)
+    ratio = white_mask.sum() / max(1, white_mask.size)
+    return 0.05 <= ratio <= 0.45
+
+
 def is_match_scene(frame: np.ndarray) -> bool:
     """フレームが「試合中」かどうかを簡易判定する。
 
     両プレイヤーのHPバーとDriveゲージが読み取れる場合に True を返す。
     ロビー・ローディング・リプレイ選択画面などでは False を返す。
 
-    ロビー画面のオレンジ背景による誤検知防止のため、
-    タイマー領域のオレンジ率も追加チェックする。
-    試合中のタイマー領域は暗い背景（オレンジ率≈0%）、
-    ロビー画面では背景色で埋まる（オレンジ率>30%）。
+    判定フロー（早期リターンで高速化）:
+      1. タイマー領域がオレンジ → ロビー画面 → False
+      2. タイマー領域に白い数字がない → 非試合画面 → False
+      3. P1/P2 HPバーが読み取れない → False
+      4. P1/P2 Driveゲージが両方ゼロ → False
 
     Args:
         frame: BGR 形式の 1 フレーム（任意解像度。1920×1080 に正規化して処理）。
@@ -778,23 +797,31 @@ def is_match_scene(frame: np.ndarray) -> bool:
     if (w, h) != (1920, 1080):
         frame = cv2.resize(frame, (1920, 1080))
 
-    # タイマー領域がオレンジで埋まっていたら非試合画面（ロビー等）
+    # タイマー領域を一度だけ HSV 変換
     tx1, ty1, tx2, ty2 = _TIMER_ROI
-    timer_roi = frame[ty1:ty2, tx1:tx2]
-    timer_hsv = cv2.cvtColor(timer_roi, cv2.COLOR_BGR2HSV)
+    timer_hsv = cv2.cvtColor(frame[ty1:ty2, tx1:tx2], cv2.COLOR_BGR2HSV)
+
+    # 1. オレンジ背景チェック（ロビー誤検知防止）
     orange_mask = (
         (timer_hsv[:, :, 0] >= 15) & (timer_hsv[:, :, 0] <= 55)
         & (timer_hsv[:, :, 1] > 80) & (timer_hsv[:, :, 2] > 80)
     )
     if orange_mask.sum() / orange_mask.size > _TIMER_ORANGE_MAX:
-        logger.debug("タイマー領域がオレンジで埋まっているため非試合画面と判定")
+        logger.debug("タイマー領域がオレンジのため非試合画面と判定")
         return False
 
+    # 2. タイマー数字チェック（白い数字がなければ非試合画面）
+    if not _timer_has_digits(timer_hsv):
+        logger.debug("タイマー領域に数字が検出されないため非試合画面と判定")
+        return False
+
+    # 3. HP バーチェック
     p1_hp = _bar_ratio(frame, *_HUD["p1_hp"], fill_from_right=True, hue_range=_HUD_HUE["p1_hp"])
     p2_hp = _bar_ratio(frame, *_HUD["p2_hp"], hue_range=_HUD_HUE["p2_hp"])
     if p1_hp < _HUD_HP_MIN or p2_hp < _HUD_HP_MIN:
         return False
 
+    # 4. Drive ゲージチェック
     p1_drive = _bar_ratio(frame, *_HUD["p1_drive"], hue_range=_HUD_HUE["p1_drive"])
     p2_drive = _bar_ratio(frame, *_HUD["p2_drive"], fill_from_right=True, hue_range=_HUD_HUE["p2_drive"])
     if p1_drive < _HUD_DRIVE_MIN and p2_drive < _HUD_DRIVE_MIN:
