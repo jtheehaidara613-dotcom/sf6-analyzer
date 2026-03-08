@@ -17,6 +17,7 @@ from logic_engine.match_monitor import (
     build_coaching_report,
     build_pro_coaching_report,
     build_stats_report,
+    build_strategic_report,
     build_vod_summary,
     detect_events,
 )
@@ -260,6 +261,10 @@ def report_ui(log: MatchLog, report_type: str) -> None:
         st.caption("バーンアウト・ドライブゲージ管理・ストリーク分析などの詳細アドバイス")
         _render_coaching(build_pro_coaching_report(log))
 
+    elif report_type == "戦略レポート":
+        st.caption("チャンス変換率・因果連鎖・優先課題を分析します（3分以上のデータ推奨）")
+        _render_coaching(build_strategic_report(log))
+
     else:  # イベントログ（デフォルト）
         event_log_ui(log, n=len(log.events) if len(log.events) <= 20 else 20)
 
@@ -443,7 +448,7 @@ with tab_live:
             st.subheader("レポート")
             report_type_live = st.radio(
                 "レポートタイプ",
-                ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング"],
+                ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング", "戦略レポート"],
                 horizontal=True,
                 key="live_report_type",
             )
@@ -509,7 +514,7 @@ with tab_vod:
         st.subheader("レポート")
         report_type_vod = st.radio(
             "レポートタイプ",
-            ["イベントログ", "統計分析", "コーチング"],
+            ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング", "戦略レポート"],
             horizontal=True,
             key="vod_report_type",
         )

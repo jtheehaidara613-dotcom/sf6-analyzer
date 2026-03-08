@@ -260,6 +260,230 @@ def _max_consecutive(events: list[MatchEvent], event_type: EventType) -> int:
     return max_streak
 
 
+def _conversion_rate(
+    events: list[MatchEvent],
+    trigger: EventType,
+    result: EventType,
+    window: int = 5,
+) -> tuple[int, int]:
+    """trigger イベントの後 window 件以内に result が来た回数を返す。
+
+    Returns:
+        (変換できた回数, trigger の総回数)
+    """
+    converted = 0
+    total = 0
+    for i, ev in enumerate(events):
+        if ev.event_type == trigger:
+            total += 1
+            if any(e.event_type == result for e in events[i + 1: i + 1 + window]):
+                converted += 1
+    return converted, total
+
+
+def build_strategic_report(log: MatchLog) -> list[dict]:
+    """戦略レポートを生成する。
+
+    個別イベントではなく試合全体のパターン・因果関係を分析し、
+    「最も勝率に影響する1〜2の優先課題」を特定する。
+
+    分析軸:
+      - チャンス変換率（パニッシュ/リーサル → 実ダメージ）
+      - バーンアウト → ピンチ連鎖率
+      - 相手バーンアウトの活用度
+      - 攻守バランスと被ダメの偏り
+      - 最優先課題の断言
+
+    Returns:
+        [{level, title, body}] のリスト。最後の要素が総合診断。
+    """
+    advice: list[dict] = []
+    events = log.events
+
+    if len(events) < 3:
+        return [{
+            "level": "info",
+            "title": "データ不足",
+            "body": "戦略分析には最低でも3分以上の監視データが必要です。監視時間を伸ばしてください。",
+        }]
+
+    # ── 1. パニッシュ変換率 ──────────────────────────────────────────────
+    punish_hit, punish_total = _conversion_rate(
+        events, EventType.PUNISH_OPPORTUNITY, EventType.OPPONENT_TOOK_DAMAGE
+    )
+    if punish_total > 0:
+        p_rate = punish_hit / punish_total * 100
+        if p_rate < 40:
+            advice.append({
+                "level": "warn",
+                "title": f"確定反撃の変換率 {p_rate:.0f}% （{punish_hit}/{punish_total}）",
+                "body": (
+                    "パニッシュチャンスを取れていない回が多いです。"
+                    "反射的に出せる最大コンボ（主にcMP→SA）をトレーニングモードで体に染み込ませましょう。"
+                    "判断ではなく「反射」で動けるようになるのがプロの水準です。"
+                ),
+            })
+        elif p_rate < 70:
+            advice.append({
+                "level": "info",
+                "title": f"確定反撃の変換率 {p_rate:.0f}% （{punish_hit}/{punish_total}）",
+                "body": (
+                    "半数以上は取れています。取れなかった場面を映像で振り返り、"
+                    "状況別（画面端/中央、ゲージあり/なし）で最適コンボを整理しましょう。"
+                ),
+            })
+        else:
+            advice.append({
+                "level": "good",
+                "title": f"確定反撃の変換率 {p_rate:.0f}% （{punish_hit}/{punish_total}）",
+                "body": "高い変換率です。次のステップはパニッシュ後の起き攻め継続まで含めたダメージ効率の最大化です。",
+            })
+
+    # ── 2. リーサル変換率 ────────────────────────────────────────────────
+    lethal_hit, lethal_total = _conversion_rate(
+        events, EventType.LETHAL_CHANCE, EventType.OPPONENT_TOOK_DAMAGE, window=4
+    )
+    if lethal_total > 0:
+        l_rate = lethal_hit / lethal_total * 100
+        if l_rate < 50:
+            advice.append({
+                "level": "warn",
+                "title": f"リーサル圏内の仕留め率 {l_rate:.0f}% （{lethal_hit}/{lethal_total}）",
+                "body": (
+                    f"リーサルチャンスが {lethal_total} 回あったのに半数以上を取り逃しています。"
+                    "「仕留めに行く」局面ではSAゲージを出し惜しみしないことが大前提です。"
+                    "コンボ途中でゲージ残量を確認する習慣をつけ、SA締めを必ず組み込みましょう。"
+                ),
+            })
+        else:
+            advice.append({
+                "level": "good",
+                "title": f"リーサル圏内の仕留め率 {l_rate:.0f}% （{lethal_hit}/{lethal_total}）",
+                "body": "リーサル圏内でしっかり仕留められています。この精度を維持してください。",
+            })
+
+    # ── 3. バーンアウト → ピンチ連鎖率 ──────────────────────────────────
+    cascade_count = 0
+    for i, ev in enumerate(events):
+        if ev.event_type == EventType.BURNOUT:
+            window = events[i + 1: i + 8]
+            if any(e.event_type == EventType.LOW_HP for e in window):
+                cascade_count += 1
+
+    if log.burnout_count > 0:
+        cascade_rate = cascade_count / log.burnout_count * 100
+        if cascade_rate >= 50:
+            advice.append({
+                "level": "warn",
+                "title": f"バーンアウト→ピンチ連鎖率 {cascade_rate:.0f}%",
+                "body": (
+                    "バーンアウト後に高確率で体力30%以下まで追い込まれています。"
+                    "これは試合の構造的敗因です。バーンアウト中はドライブパリィ不可・DR不可で"
+                    "防御択が激減するため、バーンアウト自体を避けることが最優先です。"
+                    "ゲージ残量50%を『警告ライン』として常に意識してください。"
+                ),
+            })
+        elif log.burnout_count >= 2:
+            advice.append({
+                "level": "info",
+                "title": f"バーンアウト {log.burnout_count} 回（連鎖率 {cascade_rate:.0f}%）",
+                "body": (
+                    "バーンアウト後の立て直しは比較的できていますが、"
+                    "バーンアウト頻度自体を下げることで試合をより安定させられます。"
+                ),
+            })
+
+    # ── 4. 相手バーンアウトの活用度 ─────────────────────────────────────
+    opp_burnout_hit, opp_burnout_total = _conversion_rate(
+        events, EventType.BURNOUT_OPPONENT, EventType.OPPONENT_TOOK_DAMAGE, window=6
+    )
+    if opp_burnout_total > 0:
+        ob_rate = opp_burnout_hit / opp_burnout_total * 100
+        if ob_rate < 50:
+            advice.append({
+                "level": "warn",
+                "title": f"相手バーンアウト後の攻め変換率 {ob_rate:.0f}%",
+                "body": (
+                    "相手のバーンアウトという絶好のチャンスを活かしきれていません。"
+                    "バーンアウト確認後は即DRで距離を詰め、崩し択（投げ/打撃）を重ねるのが定石です。"
+                    "相手はガード固めしか選択肢がなくなるため、表裏の2択が通りやすくなります。"
+                ),
+            })
+        else:
+            advice.append({
+                "level": "good",
+                "title": f"相手バーンアウトを {ob_rate:.0f}% の確率で攻め込めている",
+                "body": "バーンアウトへの圧力がうまく機能しています。コーナーキャリーまで繋げられるとさらに有効です。",
+            })
+
+    # ── 5. 攻守バランスの偏り ────────────────────────────────────────────
+    took = log.times_took_damage
+    dealt = log.times_dealt_damage
+    total_dmg = took + dealt
+    if total_dmg >= 4:
+        deal_ratio = dealt / total_dmg * 100
+        if deal_ratio < 35:
+            advice.append({
+                "level": "warn",
+                "title": f"ダメージ交換効率 {deal_ratio:.0f}%（受けすぎ傾向）",
+                "body": (
+                    "与ダメよりも被ダメが大きく上回っています。"
+                    "攻め込む場面の選択（どこで攻めるか）を見直す必要があります。"
+                    "相手の確定反撃がない技を軸に、リターンとリスクのバランスを再計算しましょう。"
+                ),
+            })
+        elif deal_ratio > 65:
+            advice.append({
+                "level": "good",
+                "title": f"ダメージ交換効率 {deal_ratio:.0f}%（優勢）",
+                "body": (
+                    "攻めが機能しており有利なダメージ交換ができています。"
+                    "この効率を維持しながらリーサル圏内での締めを徹底すれば勝率がさらに上がります。"
+                ),
+            })
+
+    # ── 6. 総合診断（最優先課題の断言） ─────────────────────────────────
+    # スコアリングして最も深刻な問題を特定
+    issues: list[tuple[int, str, str]] = []  # (priority, title, body)
+
+    if punish_total > 0 and punish_hit / punish_total < 0.4:
+        issues.append((3, "確定反撃の取りこぼし", "最大ダメージを取れる場面で取れていない。コンボ精度の向上が最優先。"))
+
+    cascade_severe = log.burnout_count >= 2 and cascade_count / max(log.burnout_count, 1) >= 0.5
+    if cascade_severe:
+        issues.append((3, "バーンアウト管理", "ゲージ切れ→ピンチの連鎖が試合を壊している。ゲージ50%管理が急務。"))
+
+    if lethal_total >= 2 and lethal_hit / lethal_total < 0.5:
+        issues.append((2, "リーサルの取りこぼし", "仕留め切れない場面が多い。SAゲージの使いどころを固定化する。"))
+
+    if opp_burnout_total >= 1 and opp_burnout_hit / opp_burnout_total < 0.5:
+        issues.append((1, "相手バーンアウトの活用不足", "絶好のチャンスを逃している。DR+崩し2択を練習する。"))
+
+    if total_dmg >= 4 and dealt / max(total_dmg, 1) < 0.35:
+        issues.append((2, "攻め択の精度不足", "不利な場面での攻めが多い。技選択を見直す。"))
+
+    if issues:
+        issues.sort(key=lambda x: -x[0])
+        top_issue = issues[0]
+        summary_body = f"**最優先課題: {top_issue[1]}**\n{top_issue[2]}"
+        if len(issues) > 1:
+            secondary = issues[1]
+            summary_body += f"\n\n次点の課題: {secondary[1]} — {secondary[2]}"
+        advice.append({
+            "level": "warn",
+            "title": "総合診断",
+            "body": summary_body,
+        })
+    else:
+        advice.append({
+            "level": "good",
+            "title": "総合診断",
+            "body": "全指標で大きな問題が見当たりません。より高いダメージ効率とゲージ運用の最適化がさらなる上達の鍵です。",
+        })
+
+    return advice
+
+
 def build_coaching_report(log: MatchLog) -> list[dict]:
     """基本コーチング型レポートを生成する（初心者〜中級者向け）。
 
