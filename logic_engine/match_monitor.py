@@ -464,15 +464,15 @@ def build_strategic_report(log: MatchLog) -> list[dict]:
 
     if issues:
         issues.sort(key=lambda x: -x[0])
-        top_issue = issues[0]
-        summary_body = f"**最優先課題: {top_issue[1]}**\n{top_issue[2]}"
-        if len(issues) > 1:
-            secondary = issues[1]
-            summary_body += f"\n\n次点の課題: {secondary[1]} — {secondary[2]}"
+        top3 = issues[:3]
+        ranks = ["① 最優先", "② 次点", "③ 改善余地"]
+        lines = []
+        for rank, (_, title, body) in zip(ranks, top3):
+            lines.append(f"**{rank}: {title}**\n{body}")
         advice.append({
             "level": "warn",
-            "title": "総合診断",
-            "body": summary_body,
+            "title": f"総合診断（課題 TOP{len(top3)}）",
+            "body": "\n\n".join(lines),
         })
     else:
         advice.append({
