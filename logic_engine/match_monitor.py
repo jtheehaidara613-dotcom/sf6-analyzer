@@ -1,5 +1,4 @@
 """SF6 AI動画解析システム - 試合監視モジュール。
-
 ライブ監視モードとVOD解析モードで使用するイベント検知・ログ管理を担当する。
 
 イベント種別:
@@ -20,6 +19,12 @@ from enum import Enum
 from typing import Optional
 
 from schemas import GameState, PunishOpportunity, LethalResult
+from logic_engine.pro_benchmarks import (  # noqa: E402
+    PlayerBenchmark,
+    composite_benchmark,
+    get_all_players,
+    get_benchmark,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -713,3 +718,426 @@ def build_pro_coaching_report(log: MatchLog) -> list[dict]:
         })
 
     return advice
+
+
+# ---------------------------------------------------------------------------
+# プロ比較レポート
+# ---------------------------------------------------------------------------
+
+def _user_stats(log: MatchLog) -> dict:
+    """MatchLog からユーザーの各指標を計算する。"""
+    total_damage_events = log.times_took_damage + log.times_dealt_damage
+    deal_ratio = (
+        log.times_dealt_damage / total_damage_events * 100
+        if total_damage_events > 0 else 0.0
+    )
+
+    total_events = max(len(log.events), 1)
+    burnout_rate = log.burnout_count / total_events * 100
+    opp_burnout_rate = log.burnout_opponent_count / total_events * 100
+
+    punish_hit, punish_total = _conversion_rate(
+        log.events, EventType.PUNISH_OPPORTUNITY, EventType.OPPONENT_TOOK_DAMAGE
+    )
+    punish_conv = punish_hit / punish_total * 100 if punish_total > 0 else None
+
+    lethal_hit, lethal_total = _conversion_rate(
+        log.events, EventType.LETHAL_CHANCE, EventType.OPPONENT_TOOK_DAMAGE, window=4
+    )
+    lethal_conv = lethal_hit / lethal_total * 100 if lethal_total > 0 else None
+
+    return {
+        "burnout_rate": burnout_rate,
+        "opp_burnout_rate": opp_burnout_rate,
+        "punish_conv": punish_conv,
+        "lethal_conv": lethal_conv,
+        "deal_ratio": deal_ratio,
+        "burnout_count": log.burnout_count,
+        "opp_burnout_count": log.burnout_opponent_count,
+    }
+
+
+def _diff_label(user_val: float | None, bench_val: float, lower_is_better: bool = False) -> tuple[str, str]:
+    """差分を計算して (差分文字列, level) を返す。"""
+    if user_val is None:
+        return "データなし", "info"
+    diff = user_val - bench_val
+    if lower_is_better:
+        diff = -diff
+    if diff >= 5:
+        return f"+{diff:.1f}pt ✓", "good"
+    elif diff >= -10:
+        return f"{diff:+.1f}pt", "info"
+    else:
+        return f"{diff:.1f}pt △", "warn"
+
+
+def build_pro_comparison_report(
+    log: MatchLog,
+    player_key: str = "composite",
+) -> list[dict]:
+    """指定プレイヤーのベンチマークとユーザーを比較するレポートを生成する。
+
+    Args:
+        log: 試合ログ。
+        player_key: 比較対象プレイヤーキー（"composite" で全員平均）。
+
+    Returns:
+        [{level, title, body}] のリスト。
+    """
+    if len(log.events) < 3:
+        return [{
+            "level": "info",
+            "title": "データ不足",
+            "body": "プロ比較には最低でも3分以上の監視データが必要です。",
+        }]
+
+    bench: PlayerBenchmark = (
+        composite_benchmark() if player_key == "composite"
+        else get_benchmark(player_key) or composite_benchmark()
+    )
+
+    user = _user_stats(log)
+    verified_note = "" if bench.verified else "（※ 推定値）"
+    results: list[dict] = []
+
+    results.append({
+        "level": "info",
+        "title": f"比較対象: {bench.display_name} {verified_note}",
+        "body": f"スタイル: **{bench.style_label}**\n{bench.style_note}",
+    })
+
+    # バーンアウト率
+    bo_diff_str, bo_level = _diff_label(
+        user["burnout_rate"], bench.burnout_rate_pct, lower_is_better=True
+    )
+    results.append({
+        "level": bo_level,
+        "title": (
+            f"自分バーンアウト率  "
+            f"あなた: {user['burnout_rate']:.1f}%  |  "
+            f"{bench.display_name}: {bench.burnout_rate_pct:.1f}%  [{bo_diff_str}]"
+        ),
+        "body": (
+            f"バーンアウト回数: {user['burnout_count']} 回。"
+            + (
+                "\nゲージ管理がプロ水準に近いです。DRの使用場面を引き続き厳選してください。"
+                if bo_level == "good" else
+                f"\n{bench.display_name}のバーンアウト率は {bench.burnout_rate_pct:.0f}% 水準です。"
+                "\nゲージ50%を警告ラインとして設定し、それ以下ではDRを封印する習慣をつけましょう。"
+            )
+        ),
+    })
+
+    # 相手バーンアウト誘導率
+    obo_diff_str, obo_level = _diff_label(user["opp_burnout_rate"], bench.opp_burnout_pct)
+    results.append({
+        "level": obo_level,
+        "title": (
+            f"相手BO誘導率  "
+            f"あなた: {user['opp_burnout_rate']:.1f}%  |  "
+            f"{bench.display_name}: {bench.opp_burnout_pct:.1f}%  [{obo_diff_str}]"
+        ),
+        "body": (
+            f"相手バーンアウト引き出し: {user['opp_burnout_count']} 回。"
+            + (
+                f"\n{bench.display_name}水準に達しています。BOした相手への変換精度をさらに磨きましょう。"
+                if obo_level == "good" else
+                f"\n{bench.display_name}は固め継続で相手ゲージを削り続けます。"
+                "\n固めの場面でDRを使った連携を増やし、相手がゲージを使わざるを得ない状況を作りましょう。"
+            )
+        ),
+    })
+
+    # 確定反撃変換率
+    if user["punish_conv"] is not None:
+        p_diff_str, p_level = _diff_label(user["punish_conv"], bench.punish_conv_pct)
+        results.append({
+            "level": p_level,
+            "title": (
+                f"確定反撃変換率  "
+                f"あなた: {user['punish_conv']:.0f}%  |  "
+                f"{bench.display_name}: {bench.punish_conv_pct:.0f}%  [{p_diff_str}]"
+            ),
+            "body": (
+                f"{bench.display_name}の確定反撃変換率は {bench.punish_conv_pct:.0f}% 水準です。"
+                + (
+                    "\nプロ水準に匹敵しています。状況別の最大コンボを磨くと更に差がつきます。"
+                    if p_level == "good" else
+                    "\n確定反撃は「判断」ではなく「反射」で出せるまでトレモで繰り返す必要があります。"
+                    "\nDP後（-27F〜）には屈み弱P → 屈み中P → SA締めを固定コンボとして染み込ませましょう。"
+                )
+            ),
+        })
+    else:
+        results.append({
+            "level": "info",
+            "title": f"確定反撃変換率  （データなし）  |  {bench.display_name}: {bench.punish_conv_pct:.0f}%",
+            "body": "確定反撃チャンスが検出されませんでした。監視時間を伸ばしてください。",
+        })
+
+    # リーサル変換率
+    if user["lethal_conv"] is not None:
+        l_diff_str, l_level = _diff_label(user["lethal_conv"], bench.lethal_conv_pct)
+        results.append({
+            "level": l_level,
+            "title": (
+                f"リーサル仕留め率  "
+                f"あなた: {user['lethal_conv']:.0f}%  |  "
+                f"{bench.display_name}: {bench.lethal_conv_pct:.0f}%  [{l_diff_str}]"
+            ),
+            "body": (
+                f"{bench.display_name}のリーサル仕留め率は {bench.lethal_conv_pct:.0f}% 水準です。"
+                + (
+                    "\nリーサル精度がプロ水準です。"
+                    if l_level == "good" else
+                    "\nリーサル圏内でSAゲージを出し惜しみしないことが基本です。"
+                    "\nプロは「仕留めに行く」と決めた瞬間に全リソースを投入します。"
+                )
+            ),
+        })
+    else:
+        results.append({
+            "level": "info",
+            "title": f"リーサル仕留め率  （データなし）  |  {bench.display_name}: {bench.lethal_conv_pct:.0f}%",
+            "body": "リーサル圏内シーンが検出されませんでした。",
+        })
+
+    # 与ダメ率
+    d_diff_str, d_level = _diff_label(user["deal_ratio"], bench.deal_ratio_pct)
+    results.append({
+        "level": d_level,
+        "title": (
+            f"与ダメ率  "
+            f"あなた: {user['deal_ratio']:.0f}%  |  "
+            f"{bench.display_name}: {bench.deal_ratio_pct:.0f}%  [{d_diff_str}]"
+        ),
+        "body": (
+            f"{bench.display_name}の与ダメ率は {bench.deal_ratio_pct:.0f}% 水準です。"
+            + (
+                "\n攻めが機能しています。リーサル圏内での締めをさらに磨きましょう。"
+                if d_level == "good" else
+                "\n不利なダメージ交換が多い状況です。"
+                "\n相手の確定反撃がない距離から攻める択を増やし、リスクリターンを見直しましょう。"
+            )
+        ),
+    })
+
+    # DR運用スタイルアドバイス
+    dr_advice = {
+        "high": f"{bench.display_name}はDRを確定コンボ時のみに絞って使います。ゲージ50%以下ではDRを封印する練習を。",
+        "med":  f"{bench.display_name}はバランス型のDR使用。攻めと守りでゲージを戦略的に配分します。",
+        "low":  f"{bench.display_name}はDRを積極的に使う攻め型。その分コンボ精度と変換率が高いのが特徴。",
+    }.get(bench.dr_economy, "")
+    results.append({
+        "level": "info",
+        "title": f"DRゲージ運用スタイル（{bench.display_name}）: {bench.dr_economy.upper()}",
+        "body": dr_advice,
+    })
+
+    return results
+
+
+# ---------------------------------------------------------------------------
+# 対戦相手分析 → 対策レポート
+# ---------------------------------------------------------------------------
+
+def build_counter_strategy_report(opp_log: MatchLog) -> list[dict]:
+    """相手VODのMatchLogから対策アドバイスを生成する。
+
+    相手のプレイパターン（BO率・パニッシュ変換・ゲージ運用）を分析し、
+    「この相手にどう勝つか」を具体的に提示する。
+
+    Args:
+        opp_log: 相手VODを解析して得たMatchLog（相手視点でP1=相手）。
+
+    Returns:
+        [{level, title, body}] のリスト。
+    """
+    if len(opp_log.events) < 3:
+        return [{
+            "level": "info",
+            "title": "相手データ不足",
+            "body": "対策分析には相手VODの3分以上のデータが必要です。相手URLを確認してください。",
+        }]
+
+    opp = _user_stats(opp_log)
+    tips: list[dict] = []
+
+    # ── 相手プロフィール概要 ─────────────────────────────────────────────
+    opp_bo = opp["burnout_rate"]
+    opp_obo = opp["opp_burnout_rate"]
+    opp_punish = opp["punish_conv"]
+    opp_deal = opp["deal_ratio"]
+    opp_bo_count = opp["burnout_count"]
+
+    style_tags = []
+    if opp_bo >= 30:
+        style_tags.append("ゲージ浪費型")
+    elif opp_bo <= 12:
+        style_tags.append("ゲージ節約型")
+    if opp_obo >= 35:
+        style_tags.append("相手BO誘導が得意")
+    if opp_punish is not None and opp_punish >= 75:
+        style_tags.append("パニッシュ精度が高い")
+    elif opp_punish is not None and opp_punish < 45:
+        style_tags.append("パニッシュを取りこぼしやすい")
+    if opp_deal >= 62:
+        style_tags.append("与ダメ有利")
+    elif opp_deal < 45:
+        style_tags.append("被ダメ過多")
+
+    style_summary = " / ".join(style_tags) if style_tags else "バランス型"
+    tips.append({
+        "level": "info",
+        "title": f"相手プレイヤー分析: {style_summary}",
+        "body": (
+            f"バーンアウト率: {opp_bo:.1f}%（{opp_bo_count}回）  "
+            f"| 相手BO誘導率: {opp_obo:.1f}%  "
+            f"| 与ダメ率: {opp_deal:.0f}%"
+            + (f"  | パニッシュ変換: {opp_punish:.0f}%" if opp_punish is not None else "")
+        ),
+    })
+
+    # ── ① 相手のBO率 → 誘発戦略 ─────────────────────────────────────────
+    if opp_bo >= 35:
+        tips.append({
+            "level": "good",
+            "title": f"相手はBOしやすい（BO率 {opp_bo:.0f}%）→ ゲージ浪費を誘発せよ",
+            "body": (
+                "相手はDRを多用してゲージを消費する傾向があります。\n"
+                "① 中距離で設置を置き、相手が反応してDRを使う場面を作る\n"
+                "② 固め継続を増やして相手にDRパリィを使わせる\n"
+                "③ 相手のBO後は即DRで距離を詰め、投げ/打撃の2択を重ねて確実にダメージを取る"
+            ),
+        })
+    elif opp_bo >= 20:
+        tips.append({
+            "level": "info",
+            "title": f"相手のBO率は {opp_bo:.0f}%（中程度）",
+            "body": (
+                "BOは起こりうるが頻繁ではありません。\n"
+                "固め時に相手がパリィやDRで反応するパターンを観察し、"
+                "それを読んでゲージを削る戦略が有効です。"
+            ),
+        })
+    else:
+        tips.append({
+            "level": "warn",
+            "title": f"相手はゲージ管理が堅い（BO率 {opp_bo:.0f}%）→ BO誘発は困難",
+            "body": (
+                "相手はDRを節約しておりBOを狙いにくいです。\n"
+                "代わりに自分のゲージを温存し、"
+                "相手のSAゲージが切れたタイミングでリーサルを決めに行く戦略を取りましょう。"
+            ),
+        })
+
+    # ── ② 相手のパニッシュ変換率 → リスク許容度 ─────────────────────────
+    if opp_punish is not None:
+        if opp_punish < 45:
+            tips.append({
+                "level": "good",
+                "title": f"相手のパニッシュ精度が低い（変換率 {opp_punish:.0f}%）→ 強気な択を増やせ",
+                "body": (
+                    "相手は確定反撃を取りこぼすことが多いです。\n"
+                    "通常なら控える-7F〜-10F不利の技（ドライブラッシュ差し込み等）を"
+                    "積極的に出しても反撃されにくい傾向があります。\n"
+                    "ただし油断は禁物。BO中や体力有利時は慎重に。"
+                ),
+            })
+        elif opp_punish >= 75:
+            tips.append({
+                "level": "warn",
+                "title": f"相手のパニッシュ精度が高い（変換率 {opp_punish:.0f}%）→ 隙を見せるな",
+                "body": (
+                    "相手は確定反撃を確実に取ってきます。\n"
+                    "① 不利フレームの技は使用を極力控える\n"
+                    "② 設置・飛び道具の後隙を読まれないよう技の引き方を工夫する\n"
+                    "③ SA後の隙も計算に入れて安全なコンボルートを選択する"
+                ),
+            })
+        else:
+            tips.append({
+                "level": "info",
+                "title": f"相手のパニッシュ変換率は {opp_punish:.0f}%（標準水準）",
+                "body": "大きな隙は確実に返してきます。-7F以上の技は状況を選んで使いましょう。",
+            })
+    else:
+        tips.append({
+            "level": "info",
+            "title": "相手のパニッシュデータなし",
+            "body": "パニッシュ変換率を計測するにはもう少し長いVODが必要です。",
+        })
+
+    # ── ③ 相手の与ダメ率 → 攻め圧力の強さ ──────────────────────────────
+    if opp_deal >= 62:
+        tips.append({
+            "level": "warn",
+            "title": f"相手の攻めが強い（与ダメ率 {opp_deal:.0f}%）→ 守りを固めよ",
+            "body": (
+                "相手は有利なダメージ交換ができています。正面からの打ち合いは不利です。\n"
+                "① 起き攻めに対してはバックジャンプや完全ガードで距離を取る\n"
+                "② ドライブパリィ（Lv1）でゲージを回復しながら凌ぐ\n"
+                "③ 相手の攻め継続パターンを把握して最も安全な択を選ぶ"
+            ),
+        })
+    elif opp_deal < 45:
+        tips.append({
+            "level": "good",
+            "title": f"相手の攻めが非効率（与ダメ率 {opp_deal:.0f}%）→ 積極的に仕掛けよ",
+            "body": (
+                "相手は被ダメが多く攻め択の精度が低いです。\n"
+                "① ニュートラルで有利を作ったらDRで一気に攻め込む\n"
+                "② 相手がリスクの高い択を選びやすいので、"
+                "相手の攻めを受け流してカウンターを狙う戦略が有効です。"
+            ),
+        })
+    else:
+        tips.append({
+            "level": "info",
+            "title": f"相手の与ダメ率は {opp_deal:.0f}%（拮抗）",
+            "body": "ダメージ交換は拮抗しています。リーサル圏内でのSAゲージ使用タイミングが勝敗を分けます。",
+        })
+
+    # ── ④ 相手の相手BO誘導率 → ゲージ削り意識 ───────────────────────────
+    if opp_obo >= 35:
+        tips.append({
+            "level": "warn",
+            "title": f"相手はこちらのBO誘導が得意（誘導率 {opp_obo:.0f}%）→ ゲージ管理を徹底せよ",
+            "body": (
+                "相手は固め継続でこちらのゲージを削ることを意図しています。\n"
+                "① こちらのゲージが50%を切ったらDRを完全封印\n"
+                "② 相手の固めに対してはドライブパリィではなくガードを優先\n"
+                "③ BO中は投げ抜けとバックジャンプのみを選択し暴れは厳禁"
+            ),
+        })
+    elif opp_obo <= 15:
+        tips.append({
+            "level": "good",
+            "title": f"相手のBO誘導が弱い（誘導率 {opp_obo:.0f}%）→ こちらのDR余裕あり",
+            "body": (
+                "相手はこちらのゲージを効率的に削れていません。\n"
+                "こちらがDRを使う余裕があります。"
+                "積極的にDRを使った攻め継続で相手のゲージを先に削りに行きましょう。"
+            ),
+        })
+
+    # ── ⑤ 総合対策まとめ ────────────────────────────────────────────────
+    priority_tips = []
+    if opp_bo >= 30:
+        priority_tips.append("BO誘発を軸に戦う（設置→固め継続でゲージを削る）")
+    if opp_punish is not None and opp_punish < 50:
+        priority_tips.append("強気な不利択を増やしてリターンを取る")
+    if opp_deal >= 60:
+        priority_tips.append("守備を固めて反撃カウンターを狙う")
+    if opp_obo >= 35:
+        priority_tips.append("自分のBO管理を徹底（50%ライン厳守）")
+
+    if priority_tips:
+        tips.append({
+            "level": "warn",
+            "title": "この相手への最優先対策",
+            "body": "\n".join(f"{'① ② ③ ④'[i*2]} {t}" for i, t in enumerate(priority_tips[:4])),
+        })
+
+    return tips

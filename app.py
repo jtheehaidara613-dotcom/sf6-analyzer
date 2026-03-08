@@ -15,12 +15,15 @@ from logic_engine.lethal_calculator import calculate_lethal
 from logic_engine.match_monitor import (
     MatchLog,
     build_coaching_report,
+    build_counter_strategy_report,
     build_pro_coaching_report,
+    build_pro_comparison_report,
     build_stats_report,
     build_strategic_report,
     build_vod_summary,
     detect_events,
 )
+from logic_engine.pro_benchmarks import get_all_players, get_benchmark, composite_benchmark
 from logic_engine.punish_detector import detect_punish_opportunity
 from schemas import CharacterName
 from vision_extractor import detect_characters_from_url, extract_game_state
@@ -245,7 +248,11 @@ def _render_coaching(advices: list) -> None:
             st.info(f"**{adv['title']}**  \n{adv['body']}")
 
 
-def report_ui(log: MatchLog, report_type: str) -> None:
+_PRO_PLAYER_OPTIONS = ["プロ6名平均"] + get_all_players()
+_PRO_PLAYER_KEYS    = ["composite"]   + get_all_players()
+
+
+def report_ui(log: MatchLog, report_type: str, tab_key: str = "") -> None:
     """レポートタイプに応じてサマリーを描画する。"""
     if report_type == "統計分析":
         stats = build_stats_report(log)
@@ -264,6 +271,31 @@ def report_ui(log: MatchLog, report_type: str) -> None:
     elif report_type == "戦略レポート":
         st.caption("チャンス変換率・因果連鎖・優先課題を分析します（3分以上のデータ推奨）")
         _render_coaching(build_strategic_report(log))
+
+    elif report_type == "プロ比較":
+        st.caption("登録済みプロJPプレイヤーのベンチマークと自分の指標を比較します")
+        sel_idx = st.selectbox(
+            "比較対象プレイヤー",
+            range(len(_PRO_PLAYER_OPTIONS)),
+            format_func=lambda i: _PRO_PLAYER_OPTIONS[i],
+            key=f"pro_compare_sel_{tab_key}",
+        )
+        player_key = _PRO_PLAYER_KEYS[sel_idx]
+        # 選手プロフィールバッジ
+        if player_key != "composite":
+            bench = get_benchmark(player_key)
+            if bench:
+                verified = "公開情報・大会実績で検証済み" if bench.verified else "推定値"
+                dr_label = {"high": "節約型", "med": "バランス型", "low": "積極使用型"}.get(bench.dr_economy, "")
+                st.markdown(
+                    f"<div style='background:#1a2a3a;border-left:4px solid #3498db;"
+                    f"padding:8px 14px;border-radius:0 6px 6px 0;margin-bottom:12px;'>"
+                    f"<b>{bench.display_name}</b> — {bench.style_label} &nbsp;"
+                    f"<span style='font-size:0.8rem;color:#aaa;'>DR: {dr_label} / データ: {verified}</span>"
+                    f"</div>",
+                    unsafe_allow_html=True,
+                )
+        _render_coaching(build_pro_comparison_report(log, player_key=player_key))
 
     else:  # イベントログ（デフォルト）
         event_log_ui(log, n=len(log.events) if len(log.events) <= 20 else 20)
@@ -353,7 +385,7 @@ st.title("SF6 AI動画解析システム")
 my_char = CharacterName(st.session_state[KEY_MY_CHAR])
 st.caption(f"自分のキャラ: **{CHARACTER_LABELS[my_char]}** （サイドバーから変更できます）")
 
-tab_live, tab_vod = st.tabs(["🔴 ライブ監視", "📼 VOD解析"])
+tab_live, tab_vod, tab_vs = st.tabs(["🔴 ライブ監視", "📼 VOD解析", "🆚 対戦相手分析"])
 
 
 # ===========================================================================
@@ -448,11 +480,11 @@ with tab_live:
             st.subheader("レポート")
             report_type_live = st.radio(
                 "レポートタイプ",
-                ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング", "戦略レポート"],
+                ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング", "戦略レポート", "プロ比較"],
                 horizontal=True,
                 key="live_report_type",
             )
-            report_ui(log, report_type_live)
+            report_ui(log, report_type_live, tab_key="live")
 
     else:
         st.info("「監視開始」を押すと自動で配信を解析し始めます。")
@@ -514,9 +546,121 @@ with tab_vod:
         st.subheader("レポート")
         report_type_vod = st.radio(
             "レポートタイプ",
-            ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング", "戦略レポート"],
+            ["イベントログ", "統計分析", "コーチング", "プロ向けコーチング", "戦略レポート", "プロ比較"],
             horizontal=True,
             key="vod_report_type",
         )
-        report_ui(vod_log, report_type_vod)
+        report_ui(vod_log, report_type_vod, tab_key="vod")
 
+
+# ===========================================================================
+# 対戦相手分析タブ
+# ===========================================================================
+
+with tab_vs:
+    st.subheader("対戦相手分析モード")
+    st.caption(
+        "自分と相手それぞれのVOD URLを入力して解析し、"
+        "「この相手にどう勝つか」の対策アドバイスを生成します。"
+    )
+
+    col_my, col_opp = st.columns(2)
+    with col_my:
+        st.markdown("**自分のVOD**")
+        vs_my_url = st.text_input(
+            "自分のVOD URL",
+            placeholder="https://youtube.com/watch?v=... （自分が映っている動画）",
+            key="vs_my_url",
+        )
+        vs_my_char_idx = st.selectbox(
+            "自分のキャラ",
+            range(len(CHARACTER_OPTIONS)),
+            format_func=lambda i: CHARACTER_DISPLAY[i],
+            index=CHARACTER_OPTIONS.index(CharacterName(st.session_state[KEY_MY_CHAR])),
+            key="vs_my_char",
+        )
+    with col_opp:
+        st.markdown("**相手のVOD**")
+        vs_opp_url = st.text_input(
+            "相手のVOD URL",
+            placeholder="https://youtube.com/watch?v=... （相手が映っている動画）",
+            key="vs_opp_url",
+        )
+        vs_opp_char_idx = st.selectbox(
+            "相手のキャラ",
+            range(len(CHARACTER_OPTIONS)),
+            format_func=lambda i: CHARACTER_DISPLAY[i],
+            index=1,
+            key="vs_opp_char",
+        )
+
+    st.caption(
+        "💡 相手のVODは「相手が自分視点（P1）で映っている動画」を使うと精度が上がります。"
+        "相手の配信アーカイブや、相手視点リプレイが理想です。"
+    )
+
+    if st.button("対戦相手を分析する", type="primary", use_container_width=True, key="vs_run"):
+        if not vs_my_url.strip() or not vs_opp_url.strip():
+            st.error("自分・相手、両方のURLを入力してください")
+            st.stop()
+
+        my_char_vs  = CHARACTER_OPTIONS[vs_my_char_idx]
+        opp_char_vs = CHARACTER_OPTIONS[vs_opp_char_idx]
+
+        col_spin_my, col_spin_opp = st.columns(2)
+
+        with col_spin_my:
+            with st.spinner("自分のVODを解析中..."):
+                try:
+                    my_gs = extract_game_state(vs_my_url, my_char_vs, opp_char_vs)
+                    my_punish = detect_punish_opportunity(my_gs.player1, my_gs.player2)
+                    my_lethal = calculate_lethal(my_gs.player1, my_gs.player2)
+                    my_log = MatchLog()
+                    for ev in detect_events(my_gs, my_punish, my_lethal, None, MAX_HP.get(my_char_vs, 10000)):
+                        my_log.append(ev)
+                    my_ok = True
+                except Exception as e:
+                    st.error(f"自分VOD解析エラー: {e}")
+                    my_ok = False
+
+        with col_spin_opp:
+            with st.spinner("相手のVODを解析中..."):
+                try:
+                    # 相手VODでは相手がP1として解析する
+                    opp_gs = extract_game_state(vs_opp_url, opp_char_vs, my_char_vs)
+                    opp_punish = detect_punish_opportunity(opp_gs.player1, opp_gs.player2)
+                    opp_lethal = calculate_lethal(opp_gs.player1, opp_gs.player2)
+                    opp_log = MatchLog()
+                    for ev in detect_events(opp_gs, opp_punish, opp_lethal, None, MAX_HP.get(opp_char_vs, 10000)):
+                        opp_log.append(ev)
+                    opp_ok = True
+                except Exception as e:
+                    st.error(f"相手VOD解析エラー: {e}")
+                    opp_ok = False
+
+        if not (my_ok and opp_ok):
+            st.stop()
+
+        st.divider()
+        st.subheader("解析結果")
+        col_p1, col_p2 = st.columns(2)
+        with col_p1:
+            st.markdown("**自分**")
+            player_card("自分（P1）", my_gs.player1)
+        with col_p2:
+            st.markdown("**相手**")
+            player_card("相手（P1）", opp_gs.player1)
+
+        st.divider()
+        st.subheader("対戦相手分析 → 対策アドバイス")
+        _render_coaching(build_counter_strategy_report(opp_log))
+
+        st.divider()
+        with st.expander("自分のVOD分析レポートを見る", expanded=False):
+            my_report_type = st.radio(
+                "レポートタイプ（自分）",
+                ["統計分析", "プロ向けコーチング", "戦略レポート", "プロ比較"],
+                horizontal=True,
+                key="vs_my_report_type",
+            )
+            report_ui(my_log, my_report_type, tab_key="vs_my")
