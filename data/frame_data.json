@@ -11,173 +11,385 @@
       "moves": {
         "standing_lp": {
           "name": "立ち弱P",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 1, "advantage_on_hit": 4,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 4,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mp": {
           "name": "立ち中P",
-          "startup": 6, "active": 4, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 6,
+          "active": 4,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hp": {
           "name": "立ち強P",
-          "startup": 9, "active": 5, "recovery": 22,
-          "advantage_on_block": -6, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 9,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_lk": {
           "name": "立ち弱K",
-          "startup": 5, "active": 3, "recovery": 10,
-          "advantage_on_block": 0, "advantage_on_hit": 4,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 5,
+          "active": 3,
+          "recovery": 10,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 4,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mk": {
           "name": "立ち中K",
-          "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -3, "advantage_on_hit": 2,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 2,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "standing_hk": {
           "name": "立ち強K",
-          "startup": 11, "active": 5, "recovery": 22,
-          "advantage_on_block": -7, "advantage_on_hit": -1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -7,
+          "advantage_on_hit": -1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lp": {
           "name": "屈み弱P",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 1, "advantage_on_hit": 4,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 4,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mp": {
           "name": "屈み中P",
-          "startup": 7, "active": 4, "recovery": 15,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hp": {
           "name": "屈み強P",
-          "startup": 10, "active": 5, "recovery": 22,
-          "advantage_on_block": -7, "advantage_on_hit": 0,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 10,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -7,
+          "advantage_on_hit": 0,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_lk": {
           "name": "屈み弱K",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 1, "advantage_on_hit": 5,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mk": {
           "name": "屈み中K",
-          "startup": 7, "active": 4, "recovery": 16,
-          "advantage_on_block": -2, "advantage_on_hit": 4,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 4,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hk": {
           "name": "屈み強K（スウィープ）",
-          "startup": 9, "active": 4, "recovery": 23,
-          "advantage_on_block": -12, "advantage_on_hit": -100,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 9,
+          "active": 4,
+          "recovery": 23,
+          "advantage_on_block": -12,
+          "advantage_on_hit": -100,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "hadouken": {
           "name": "波動拳",
-          "startup": 13, "active": 3, "recovery": 32,
-          "advantage_on_block": -2, "advantage_on_hit": 3,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0,
+          "startup": 13,
+          "active": 3,
+          "recovery": 32,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 3,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "shoryuken_lp": {
           "name": "昇龍拳（弱）",
-          "startup": 4, "active": 10, "recovery": 27,
-          "advantage_on_block": -27, "advantage_on_hit": -100,
-          "damage": 1300, "drive_cost": 0, "sa_cost": 0,
+          "startup": 4,
+          "active": 10,
+          "recovery": 27,
+          "advantage_on_block": -27,
+          "advantage_on_hit": -100,
+          "damage": 1300,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "shoryuken_hp": {
           "name": "昇龍拳（強）",
-          "startup": 7, "active": 10, "recovery": 28,
-          "advantage_on_block": -31, "advantage_on_hit": -100,
-          "damage": 1800, "drive_cost": 0, "sa_cost": 0,
+          "startup": 7,
+          "active": 10,
+          "recovery": 28,
+          "advantage_on_block": -31,
+          "advantage_on_hit": -100,
+          "damage": 1800,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "tatsumaki_lk": {
           "name": "竜巻旋風脚（弱）",
-          "startup": 13, "active": 2, "recovery": 22,
-          "advantage_on_block": -6, "advantage_on_hit": 2,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0,
+          "startup": 13,
+          "active": 2,
+          "recovery": 22,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 2,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "shinku_hadouken": {
           "name": "真空波動拳 SA1",
-          "startup": 10, "active": 3, "recovery": 30,
-          "advantage_on_block": -5, "advantage_on_hit": 20,
-          "damage": 2500, "drive_cost": 0, "sa_cost": 1,
+          "startup": 10,
+          "active": 3,
+          "recovery": 30,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 20,
+          "damage": 2500,
+          "drive_cost": 0,
+          "sa_cost": 1,
           "cancel_options": []
         },
         "shin_hadouken": {
           "name": "真・波動拳 SA2",
-          "startup": 8, "active": 5, "recovery": 35,
-          "advantage_on_block": -8, "advantage_on_hit": 25,
-          "damage": 3200, "drive_cost": 0, "sa_cost": 2,
+          "startup": 8,
+          "active": 5,
+          "recovery": 35,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 25,
+          "damage": 3200,
+          "drive_cost": 0,
+          "sa_cost": 2,
           "cancel_options": []
         },
         "shin_shoryuken": {
           "name": "真・昇龍拳 SA3",
-          "startup": 9, "active": 5, "recovery": 28,
-          "advantage_on_block": -3, "advantage_on_hit": -100,
-          "damage": 3600, "drive_cost": 0, "sa_cost": 3,
+          "startup": 9,
+          "active": 5,
+          "recovery": 28,
+          "advantage_on_block": -3,
+          "advantage_on_hit": -100,
+          "damage": 3600,
+          "drive_cost": 0,
+          "sa_cost": 3,
           "cancel_options": []
+        },
+        "od_shoryuken": {
+          "name": "ODアッパー昇龍拳",
+          "startup": 4,
+          "active": 12,
+          "recovery": 29,
+          "advantage_on_block": -28,
+          "advantage_on_hit": -100,
+          "damage": 2000,
+          "drive_cost": 2000,
+          "sa_cost": 0
+        },
+        "od_tatsumaki": {
+          "name": "OD竜巻旋風脚",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 10,
+          "damage": 1200,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
           "id": "bnb_normal",
           "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "shoryuken_lp"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "shoryuken_lp"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 昇龍拳（弱）"
         },
         {
           "id": "bnb_hp_shoryuken",
           "name": "強昇龍拳締めコンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "shoryuken_hp"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "shoryuken_hp"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 昇龍拳（強）。ダメージ重視"
         },
         {
           "id": "sa1_combo",
           "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "shinku_hadouken"],
-          "sa_cost": 1, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "shinku_hadouken"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 真空波動拳"
         },
         {
           "id": "sa2_combo",
           "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "shin_hadouken"],
-          "sa_cost": 2, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "shin_hadouken"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 真・波動拳"
         },
         {
           "id": "sa3_combo",
           "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "shin_shoryuken"],
-          "sa_cost": 3, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "shin_shoryuken"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 真・昇龍拳"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODアッパー締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_shoryuken"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODアッパー昇龍拳。ODで打ち上げ最大ダメージ"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "shoryuken_hp",
+            "shin_shoryuken"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→強昇龍拳→真・昇龍拳。4hit始動でSA3最大火力"
+        },
+        {
+          "id": "advanced_od_sa3",
+          "name": "ODキャンセルSA3（最大火力）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "od_shoryuken",
+            "shin_shoryuken"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 2000,
+          "notes": "屈み弱P→屈み中P→OD昇龍拳（ドライブキャンセル）→真・昇龍拳"
         }
       ]
     },
@@ -187,159 +399,350 @@
       "moves": {
         "standing_lp": {
           "name": "立ち弱P",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 350, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 350,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mp": {
           "name": "立ち中P",
-          "startup": 6, "active": 3, "recovery": 13,
-          "advantage_on_block": 0, "advantage_on_hit": 6,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 6,
+          "active": 3,
+          "recovery": 13,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 6,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hp": {
           "name": "立ち強P",
-          "startup": 9, "active": 4, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 2,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 9,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 2,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_lk": {
           "name": "立ち弱K",
-          "startup": 5, "active": 3, "recovery": 9,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 5,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mk": {
           "name": "立ち中K",
-          "startup": 7, "active": 4, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 4,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 4,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hk": {
           "name": "立ち強K",
-          "startup": 11, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 0,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 0,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lp": {
           "name": "屈み弱P",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mp": {
           "name": "屈み中P",
-          "startup": 7, "active": 3, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 4,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 4,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hp": {
           "name": "屈み強P",
-          "startup": 8, "active": 5, "recovery": 20,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 8,
+          "active": 5,
+          "recovery": 20,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_lk": {
           "name": "屈み弱K",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 6,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 6,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mk": {
           "name": "屈み中K",
-          "startup": 7, "active": 4, "recovery": 14,
-          "advantage_on_block": -2, "advantage_on_hit": 3,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 14,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 3,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hk": {
           "name": "屈み強K（スウィープ）",
-          "startup": 9, "active": 5, "recovery": 22,
-          "advantage_on_block": -12, "advantage_on_hit": -100,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
+          "startup": 9,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -12,
+          "advantage_on_hit": -100,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "hyakuretsu_kyaku": {
           "name": "百裂脚",
-          "startup": 10, "active": 4, "recovery": 18,
-          "advantage_on_block": -4, "advantage_on_hit": 3,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0,
+          "startup": 10,
+          "active": 4,
+          "recovery": 18,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 3,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "spinning_bird_kick": {
           "name": "スピニングバードキック",
-          "startup": 18, "active": 8, "recovery": 30,
-          "advantage_on_block": -15, "advantage_on_hit": 5,
-          "damage": 1200, "drive_cost": 0, "sa_cost": 0,
+          "startup": 18,
+          "active": 8,
+          "recovery": 30,
+          "advantage_on_block": -15,
+          "advantage_on_hit": 5,
+          "damage": 1200,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "tenshokyaku": {
           "name": "天昇脚",
-          "startup": 5, "active": 8, "recovery": 28,
-          "advantage_on_block": -28, "advantage_on_hit": -100,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0,
+          "startup": 5,
+          "active": 8,
+          "recovery": 28,
+          "advantage_on_block": -28,
+          "advantage_on_hit": -100,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "kikosho": {
           "name": "気功掌 SA1",
-          "startup": 9, "active": 4, "recovery": 28,
-          "advantage_on_block": -6, "advantage_on_hit": 22,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1,
+          "startup": 9,
+          "active": 4,
+          "recovery": 28,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 22,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1,
           "cancel_options": []
         },
         "hazan_shu": {
           "name": "覇山蹴 SA2",
-          "startup": 7, "active": 5, "recovery": 26,
-          "advantage_on_block": -8, "advantage_on_hit": -100,
-          "damage": 2600, "drive_cost": 0, "sa_cost": 2,
+          "startup": 7,
+          "active": 5,
+          "recovery": 26,
+          "advantage_on_block": -8,
+          "advantage_on_hit": -100,
+          "damage": 2600,
+          "drive_cost": 0,
+          "sa_cost": 2,
           "cancel_options": []
         },
         "hosenka": {
           "name": "鳳翼扇 SA3",
-          "startup": 7, "active": 5, "recovery": 25,
-          "advantage_on_block": -8, "advantage_on_hit": 25,
-          "damage": 2800, "drive_cost": 0, "sa_cost": 3,
+          "startup": 7,
+          "active": 5,
+          "recovery": 25,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 25,
+          "damage": 2800,
+          "drive_cost": 0,
+          "sa_cost": 3,
           "cancel_options": []
+        },
+        "od_tenshokyaku": {
+          "name": "OD天昇脚",
+          "startup": 4,
+          "active": 12,
+          "recovery": 30,
+          "advantage_on_block": -30,
+          "advantage_on_hit": -100,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
+        },
+        "od_spinning_bird_kick": {
+          "name": "ODスピニングバードキック",
+          "startup": 14,
+          "active": 10,
+          "recovery": 32,
+          "advantage_on_block": -12,
+          "advantage_on_hit": 8,
+          "damage": 1800,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
           "id": "bnb_normal",
           "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "tenshokyaku"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "tenshokyaku"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 天昇脚"
         },
         {
           "id": "sa1_combo",
           "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "kikosho"],
-          "sa_cost": 1, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "kikosho"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 気功掌"
         },
         {
           "id": "sa2_combo",
           "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "hazan_shu"],
-          "sa_cost": 2, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "hazan_shu"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 覇山蹴"
         },
         {
           "id": "sa3_combo",
           "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "hosenka"],
-          "sa_cost": 3, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "hosenka"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 鳳翼扇"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（OD天昇脚締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_tenshokyaku"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→OD天昇脚。打ち上げ後のリターン大"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（5hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "tenshokyaku",
+            "hosenka"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→天昇脚→鳳翼扇。天昇脚でジャグリングからSA3"
         }
       ]
     },
@@ -349,145 +752,317 @@
       "moves": {
         "standing_lp": {
           "name": "立ち弱P",
-          "startup": 5, "active": 3, "recovery": 10,
-          "advantage_on_block": 0, "advantage_on_hit": 4,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 5,
+          "active": 3,
+          "recovery": 10,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 4,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mp": {
           "name": "立ち中P",
-          "startup": 7, "active": 4, "recovery": 15,
-          "advantage_on_block": -2, "advantage_on_hit": 4,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 4,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hp": {
           "name": "立ち強P",
-          "startup": 10, "active": 4, "recovery": 24,
-          "advantage_on_block": -8, "advantage_on_hit": 1,
-          "damage": 1050, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 10,
+          "active": 4,
+          "recovery": 24,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 1,
+          "damage": 1050,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_lk": {
           "name": "立ち弱K",
-          "startup": 5, "active": 3, "recovery": 10,
-          "advantage_on_block": 0, "advantage_on_hit": 4,
-          "damage": 350, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 5,
+          "active": 3,
+          "recovery": 10,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 4,
+          "damage": 350,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mk": {
           "name": "立ち中K",
-          "startup": 8, "active": 4, "recovery": 17,
-          "advantage_on_block": -3, "advantage_on_hit": 3,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
+          "startup": 8,
+          "active": 4,
+          "recovery": 17,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 3,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "standing_hk": {
           "name": "立ち強K",
-          "startup": 11, "active": 5, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lp": {
           "name": "屈み弱P",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 1, "advantage_on_hit": 5,
-          "damage": 350, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 5,
+          "damage": 350,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mp": {
           "name": "屈み中P",
-          "startup": 7, "active": 4, "recovery": 15,
-          "advantage_on_block": -2, "advantage_on_hit": 4,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 4,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hp": {
           "name": "屈み強P",
-          "startup": 11, "active": 5, "recovery": 23,
-          "advantage_on_block": -8, "advantage_on_hit": -1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 5,
+          "recovery": 23,
+          "advantage_on_block": -8,
+          "advantage_on_hit": -1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lk": {
           "name": "屈み弱K",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 1, "advantage_on_hit": 5,
-          "damage": 350, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 5,
+          "damage": 350,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mk": {
           "name": "屈み中K",
-          "startup": 8, "active": 4, "recovery": 17,
-          "advantage_on_block": -3, "advantage_on_hit": 3,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
+          "startup": 8,
+          "active": 4,
+          "recovery": 17,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 3,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_hk": {
           "name": "屈み強K（スウィープ）",
-          "startup": 10, "active": 4, "recovery": 24,
-          "advantage_on_block": -13, "advantage_on_hit": -100,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
+          "startup": 10,
+          "active": 4,
+          "recovery": 24,
+          "advantage_on_block": -13,
+          "advantage_on_hit": -100,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "face_smasher": {
           "name": "フェイスブレイカー",
-          "startup": 12, "active": 5, "recovery": 22,
-          "advantage_on_block": -6, "advantage_on_hit": 4,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 12,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 4,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "swagger_step": {
           "name": "スワッガーステップ",
-          "startup": 16, "active": 6, "recovery": 26,
-          "advantage_on_block": -12, "advantage_on_hit": 7,
-          "damage": 1100, "drive_cost": 0, "sa_cost": 0,
+          "startup": 16,
+          "active": 6,
+          "recovery": 26,
+          "advantage_on_block": -12,
+          "advantage_on_hit": 7,
+          "damage": 1100,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "bakkai": {
           "name": "八卦廻 SA1",
-          "startup": 9, "active": 4, "recovery": 26,
-          "advantage_on_block": -6, "advantage_on_hit": 20,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1,
+          "startup": 9,
+          "active": 4,
+          "recovery": 26,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 20,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1,
           "cancel_options": []
         },
         "issen": {
           "name": "一閃 SA2",
-          "startup": 8, "active": 4, "recovery": 28,
-          "advantage_on_block": -10, "advantage_on_hit": 22,
-          "damage": 2600, "drive_cost": 0, "sa_cost": 2,
+          "startup": 8,
+          "active": 4,
+          "recovery": 28,
+          "advantage_on_block": -10,
+          "advantage_on_hit": 22,
+          "damage": 2600,
+          "drive_cost": 0,
+          "sa_cost": 2,
           "cancel_options": []
         },
         "gochuusen": {
           "name": "五柱扇 SA3",
-          "startup": 1, "active": 5, "recovery": 30,
-          "advantage_on_block": -20, "advantage_on_hit": -100,
-          "damage": 3500, "drive_cost": 0, "sa_cost": 3,
+          "startup": 1,
+          "active": 5,
+          "recovery": 30,
+          "advantage_on_block": -20,
+          "advantage_on_hit": -100,
+          "damage": 3500,
+          "drive_cost": 0,
+          "sa_cost": 3,
           "cancel_options": []
+        },
+        "od_face_smasher": {
+          "name": "ODフェイスブレイカー",
+          "startup": 10,
+          "active": 6,
+          "recovery": 24,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 8,
+          "damage": 1600,
+          "drive_cost": 2000,
+          "sa_cost": 0
+        },
+        "od_swagger_step": {
+          "name": "ODスワッガーステップ",
+          "startup": 13,
+          "active": 8,
+          "recovery": 28,
+          "advantage_on_block": -10,
+          "advantage_on_hit": 12,
+          "damage": 1700,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
           "id": "bnb_normal",
           "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "face_smasher"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "face_smasher"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → フェイスブレイカー"
         },
         {
           "id": "sa1_combo",
           "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "bakkai"],
-          "sa_cost": 1, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "bakkai"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 八卦廻"
         },
         {
           "id": "sa3_combo",
           "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "gochuusen"],
-          "sa_cost": 3, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "gochuusen"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 五柱扇"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODスワッガー締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_swagger_step"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODスワッガーステップ"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "face_smasher",
+            "gochuusen"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→フェイスブレイカー→五柱扇"
         }
       ]
     },
@@ -497,166 +1072,359 @@
       "moves": {
         "standing_lp": {
           "name": "立ち弱P",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 3, "advantage_on_hit": 6,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 6,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mp": {
           "name": "立ち中P",
-          "startup": 7, "active": 4, "recovery": 14,
-          "advantage_on_block": 2, "advantage_on_hit": 6,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 14,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 6,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hp": {
           "name": "立ち強P",
-          "startup": 10, "active": 5, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 2,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 10,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 2,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_lk": {
           "name": "立ち弱K",
-          "startup": 5, "active": 3, "recovery": 9,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 5,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mk": {
           "name": "立ち中K",
-          "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -2, "advantage_on_hit": 4,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 4,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hk": {
           "name": "立ち強K",
-          "startup": 11, "active": 5, "recovery": 22,
-          "advantage_on_block": -7, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -7,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lp": {
           "name": "屈み弱P",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 3, "advantage_on_hit": 7,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 7,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mp": {
           "name": "屈み中P",
-          "startup": 7, "active": 4, "recovery": 15,
-          "advantage_on_block": 1, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hp": {
           "name": "屈み強P",
-          "startup": 10, "active": 5, "recovery": 22,
-          "advantage_on_block": -6, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 10,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lk": {
           "name": "屈み弱K",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 3, "advantage_on_hit": 7,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 7,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mk": {
           "name": "屈み中K",
-          "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -1, "advantage_on_hit": 4,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 4,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hk": {
           "name": "屈み強K（スウィープ）",
-          "startup": 9, "active": 4, "recovery": 23,
-          "advantage_on_block": -12, "advantage_on_hit": -100,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 9,
+          "active": 4,
+          "recovery": 23,
+          "advantage_on_block": -12,
+          "advantage_on_hit": -100,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "sand_blast_lp": {
           "name": "サンドブラスト（弱）",
-          "startup": 14, "active": 3, "recovery": 32,
-          "advantage_on_block": -2, "advantage_on_hit": 3,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0,
+          "startup": 14,
+          "active": 3,
+          "recovery": 32,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 3,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "flash_knuckle_lp": {
           "name": "フラッシュナックル（弱）",
-          "startup": 8, "active": 4, "recovery": 20,
-          "advantage_on_block": -4, "advantage_on_hit": 4,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0,
+          "startup": 8,
+          "active": 4,
+          "recovery": 20,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 4,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "flash_knuckle_hp": {
           "name": "フラッシュナックル（強）",
-          "startup": 16, "active": 4, "recovery": 22,
-          "advantage_on_block": -8, "advantage_on_hit": 6,
-          "damage": 1200, "drive_cost": 0, "sa_cost": 0,
+          "startup": 16,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 6,
+          "damage": 1200,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "rising_uppercut": {
           "name": "ライジングアッパー（DP）",
-          "startup": 4, "active": 10, "recovery": 27,
-          "advantage_on_block": -27, "advantage_on_hit": -100,
-          "damage": 1500, "drive_cost": 0, "sa_cost": 0,
+          "startup": 4,
+          "active": 10,
+          "recovery": 27,
+          "advantage_on_block": -27,
+          "advantage_on_hit": -100,
+          "damage": 1500,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "lightning_legs": {
           "name": "ライトニングレッグス SA1",
-          "startup": 9, "active": 3, "recovery": 28,
-          "advantage_on_block": -5, "advantage_on_hit": 22,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1,
+          "startup": 9,
+          "active": 3,
+          "recovery": 28,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 22,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1,
           "cancel_options": []
         },
         "sand_storm": {
           "name": "サンドストーム SA2",
-          "startup": 12, "active": 3, "recovery": 32,
-          "advantage_on_block": -8, "advantage_on_hit": 25,
-          "damage": 2800, "drive_cost": 0, "sa_cost": 2,
+          "startup": 12,
+          "active": 3,
+          "recovery": 32,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 25,
+          "damage": 2800,
+          "drive_cost": 0,
+          "sa_cost": 2,
           "cancel_options": []
         },
         "hard_lemonade": {
           "name": "ハードレモネード SA3",
-          "startup": 3, "active": 5, "recovery": 30,
-          "advantage_on_block": -10, "advantage_on_hit": -100,
-          "damage": 3800, "drive_cost": 0, "sa_cost": 3,
+          "startup": 3,
+          "active": 5,
+          "recovery": 30,
+          "advantage_on_block": -10,
+          "advantage_on_hit": -100,
+          "damage": 3800,
+          "drive_cost": 0,
+          "sa_cost": 3,
           "cancel_options": []
+        },
+        "od_rising_uppercut": {
+          "name": "ODライジングアッパー",
+          "startup": 4,
+          "active": 12,
+          "recovery": 28,
+          "advantage_on_block": -28,
+          "advantage_on_hit": -100,
+          "damage": 2000,
+          "drive_cost": 2000,
+          "sa_cost": 0
+        },
+        "od_flash_knuckle": {
+          "name": "ODフラッシュナックル",
+          "startup": 12,
+          "active": 6,
+          "recovery": 22,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 8,
+          "damage": 1700,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
           "id": "bnb_normal",
           "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "flash_knuckle_hp"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "flash_knuckle_hp"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → フラッシュナックル（強）"
         },
         {
           "id": "sa1_combo",
           "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "lightning_legs"],
-          "sa_cost": 1, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "lightning_legs"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ライトニングレッグス"
         },
         {
           "id": "sa2_combo",
           "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "sand_storm"],
-          "sa_cost": 2, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "sand_storm"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → サンドストーム"
         },
         {
           "id": "sa3_combo",
           "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "hard_lemonade"],
-          "sa_cost": 3, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "hard_lemonade"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ハードレモネード"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODライジングアッパー締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_rising_uppercut"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODライジングアッパー"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "rising_uppercut",
+            "hard_lemonade"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→ライジングアッパー→ハードレモネード"
         }
       ]
     },
@@ -666,173 +1434,370 @@
       "moves": {
         "standing_lp": {
           "name": "立ち弱P",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 3, "advantage_on_hit": 6,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 6,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mp": {
           "name": "立ち中P",
-          "startup": 6, "active": 4, "recovery": 13,
-          "advantage_on_block": 2, "advantage_on_hit": 7,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 6,
+          "active": 4,
+          "recovery": 13,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 7,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hp": {
           "name": "立ち強P",
-          "startup": 9, "active": 5, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 9,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_lk": {
           "name": "立ち弱K",
-          "startup": 5, "active": 3, "recovery": 10,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 5,
+          "active": 3,
+          "recovery": 10,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mk": {
           "name": "立ち中K",
-          "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -2, "advantage_on_hit": 3,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 3,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hk": {
           "name": "立ち強K",
-          "startup": 12, "active": 5, "recovery": 22,
-          "advantage_on_block": -7, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 12,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -7,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lp": {
           "name": "屈み弱P",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 3, "advantage_on_hit": 7,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 7,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mp": {
           "name": "屈み中P",
-          "startup": 7, "active": 4, "recovery": 14,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 14,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hp": {
           "name": "屈み強P",
-          "startup": 10, "active": 5, "recovery": 22,
-          "advantage_on_block": -7, "advantage_on_hit": 0,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
+          "startup": 10,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -7,
+          "advantage_on_hit": 0,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lk": {
           "name": "屈み弱K",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 3, "advantage_on_hit": 7,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 7,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mk": {
           "name": "屈み中K",
-          "startup": 7, "active": 4, "recovery": 15,
-          "advantage_on_block": -1, "advantage_on_hit": 4,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 4,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hk": {
           "name": "屈み強K（スウィープ）",
-          "startup": 9, "active": 4, "recovery": 23,
-          "advantage_on_block": -12, "advantage_on_hit": -100,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 9,
+          "active": 4,
+          "recovery": 23,
+          "advantage_on_block": -12,
+          "advantage_on_hit": -100,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "hadouken": {
           "name": "波動拳",
-          "startup": 13, "active": 3, "recovery": 32,
-          "advantage_on_block": -2, "advantage_on_hit": 3,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
+          "startup": 13,
+          "active": 3,
+          "recovery": 32,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 3,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "shoryuken_lp": {
           "name": "昇龍拳（弱）",
-          "startup": 4, "active": 10, "recovery": 27,
-          "advantage_on_block": -27, "advantage_on_hit": -100,
-          "damage": 1200, "drive_cost": 0, "sa_cost": 0,
+          "startup": 4,
+          "active": 10,
+          "recovery": 27,
+          "advantage_on_block": -27,
+          "advantage_on_hit": -100,
+          "damage": 1200,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "shoryuken_hp": {
           "name": "昇龍拳（強）",
-          "startup": 7, "active": 10, "recovery": 28,
-          "advantage_on_block": -31, "advantage_on_hit": -100,
-          "damage": 1700, "drive_cost": 0, "sa_cost": 0,
+          "startup": 7,
+          "active": 10,
+          "recovery": 28,
+          "advantage_on_block": -31,
+          "advantage_on_hit": -100,
+          "damage": 1700,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "tatsumaki_mk": {
           "name": "竜巻旋風脚（中）",
-          "startup": 14, "active": 3, "recovery": 24,
-          "advantage_on_block": -6, "advantage_on_hit": -100,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 14,
+          "active": 3,
+          "recovery": 24,
+          "advantage_on_block": -6,
+          "advantage_on_hit": -100,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "dragonlash": {
           "name": "ドラゴンラッシュ",
-          "startup": 12, "active": 4, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": -100,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 12,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": -100,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "dragonlash_flame": {
           "name": "ドラゴンラッシュフレイム SA1",
-          "startup": 9, "active": 4, "recovery": 28,
-          "advantage_on_block": -5, "advantage_on_hit": 22,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1,
+          "startup": 9,
+          "active": 4,
+          "recovery": 28,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 22,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1,
           "cancel_options": []
         },
         "shippu_jinraikyaku": {
           "name": "疾風迅雷脚 SA2",
-          "startup": 7, "active": 5, "recovery": 30,
-          "advantage_on_block": -8, "advantage_on_hit": 25,
-          "damage": 2800, "drive_cost": 0, "sa_cost": 2,
+          "startup": 7,
+          "active": 5,
+          "recovery": 30,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 25,
+          "damage": 2800,
+          "drive_cost": 0,
+          "sa_cost": 2,
           "cancel_options": []
         },
         "shinryuken": {
           "name": "神龍拳 SA3",
-          "startup": 9, "active": 5, "recovery": 30,
-          "advantage_on_block": -3, "advantage_on_hit": -100,
-          "damage": 3800, "drive_cost": 0, "sa_cost": 3,
+          "startup": 9,
+          "active": 5,
+          "recovery": 30,
+          "advantage_on_block": -3,
+          "advantage_on_hit": -100,
+          "damage": 3800,
+          "drive_cost": 0,
+          "sa_cost": 3,
           "cancel_options": []
+        },
+        "od_shoryuken": {
+          "name": "OD昇龍拳",
+          "startup": 4,
+          "active": 12,
+          "recovery": 29,
+          "advantage_on_block": -28,
+          "advantage_on_hit": -100,
+          "damage": 2000,
+          "drive_cost": 2000,
+          "sa_cost": 0
+        },
+        "od_tatsumaki": {
+          "name": "OD竜巻旋風脚",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 10,
+          "damage": 1400,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
           "id": "bnb_normal",
           "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mk", "shoryuken_lp"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mk",
+            "shoryuken_lp"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → 昇龍拳（弱）"
         },
         {
           "id": "sa1_combo",
           "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "crouching_mk", "dragonlash_flame"],
-          "sa_cost": 1, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mk",
+            "dragonlash_flame"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → ドラゴンラッシュフレイム"
         },
         {
           "id": "sa2_combo",
           "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "crouching_mk", "shippu_jinraikyaku"],
-          "sa_cost": 2, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mk",
+            "shippu_jinraikyaku"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → 疾風迅雷脚"
         },
         {
           "id": "sa3_combo",
           "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mk", "shinryuken"],
-          "sa_cost": 3, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mk",
+            "shinryuken"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → 神龍拳"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（OD昇龍拳締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_shoryuken"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→OD昇龍拳"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（OD始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "od_shoryuken",
+            "shinryuken"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 2000,
+          "notes": "屈み弱P→屈み中P→OD昇龍拳→神龍拳（SA3）"
         }
       ]
     },
@@ -842,159 +1807,347 @@
       "moves": {
         "standing_lp": {
           "name": "立ち弱P",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 3, "advantage_on_hit": 6,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 6,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mp": {
           "name": "立ち中P",
-          "startup": 7, "active": 3, "recovery": 14,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hp": {
           "name": "立ち強P",
-          "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_lk": {
           "name": "立ち弱K",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 3, "advantage_on_hit": 6,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 6,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mk": {
           "name": "立ち中K",
-          "startup": 7, "active": 3, "recovery": 15,
-          "advantage_on_block": -1, "advantage_on_hit": 4,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 3,
+          "recovery": 15,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 4,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hk": {
           "name": "立ち強K",
-          "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lp": {
           "name": "屈み弱P",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 3, "advantage_on_hit": 7,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 7,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mp": {
           "name": "屈み中P",
-          "startup": 7, "active": 4, "recovery": 14,
-          "advantage_on_block": 0, "advantage_on_hit": 4,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 14,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 4,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hp": {
           "name": "屈み強P",
-          "startup": 11, "active": 5, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lk": {
           "name": "屈み弱K",
-          "startup": 4, "active": 3, "recovery": 8,
-          "advantage_on_block": 3, "advantage_on_hit": 7,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 8,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 7,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mk": {
           "name": "屈み中K",
-          "startup": 7, "active": 4, "recovery": 14,
-          "advantage_on_block": -2, "advantage_on_hit": 3,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 14,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 3,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hk": {
           "name": "屈み強K（スウィープ）",
-          "startup": 9, "active": 4, "recovery": 23,
-          "advantage_on_block": -12, "advantage_on_hit": -100,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 9,
+          "active": 4,
+          "recovery": 23,
+          "advantage_on_block": -12,
+          "advantage_on_hit": -100,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "spiral_arrow": {
           "name": "スパイラルアロー",
-          "startup": 12, "active": 4, "recovery": 24,
-          "advantage_on_block": -6, "advantage_on_hit": -100,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0,
+          "startup": 12,
+          "active": 4,
+          "recovery": 24,
+          "advantage_on_block": -6,
+          "advantage_on_hit": -100,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "cannon_spike": {
           "name": "キャノンスパイク（DP）",
-          "startup": 5, "active": 8, "recovery": 28,
-          "advantage_on_block": -28, "advantage_on_hit": -100,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 5,
+          "active": 8,
+          "recovery": 28,
+          "advantage_on_block": -28,
+          "advantage_on_hit": -100,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "hooligan": {
           "name": "フーリガンコンビネーション",
-          "startup": 14, "active": 4, "recovery": 20,
-          "advantage_on_block": -4, "advantage_on_hit": -100,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0,
+          "startup": 14,
+          "active": 4,
+          "recovery": 20,
+          "advantage_on_block": -4,
+          "advantage_on_hit": -100,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "delta_red_assault": {
           "name": "デルタレッドアサルト SA1",
-          "startup": 11, "active": 4, "recovery": 28,
-          "advantage_on_block": -6, "advantage_on_hit": 22,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1,
+          "startup": 11,
+          "active": 4,
+          "recovery": 28,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 22,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1,
           "cancel_options": []
         },
         "spin_drive_smasher": {
           "name": "スピンドライブスマッシャー SA2",
-          "startup": 7, "active": 5, "recovery": 28,
-          "advantage_on_block": -8, "advantage_on_hit": 25,
-          "damage": 2600, "drive_cost": 0, "sa_cost": 2,
+          "startup": 7,
+          "active": 5,
+          "recovery": 28,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 25,
+          "damage": 2600,
+          "drive_cost": 0,
+          "sa_cost": 2,
           "cancel_options": []
         },
         "cqc": {
           "name": "CQC SA3",
-          "startup": 1, "active": 5, "recovery": 32,
-          "advantage_on_block": -20, "advantage_on_hit": -100,
-          "damage": 3800, "drive_cost": 0, "sa_cost": 3,
+          "startup": 1,
+          "active": 5,
+          "recovery": 32,
+          "advantage_on_block": -20,
+          "advantage_on_hit": -100,
+          "damage": 3800,
+          "drive_cost": 0,
+          "sa_cost": 3,
           "cancel_options": []
+        },
+        "od_spiral_arrow": {
+          "name": "ODスパイラルアロー",
+          "startup": 9,
+          "active": 6,
+          "recovery": 22,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 10,
+          "damage": 1600,
+          "drive_cost": 2000,
+          "sa_cost": 0
+        },
+        "od_cannon_spike": {
+          "name": "ODキャノンスパイク",
+          "startup": 4,
+          "active": 12,
+          "recovery": 30,
+          "advantage_on_block": -30,
+          "advantage_on_hit": -100,
+          "damage": 1800,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
           "id": "bnb_normal",
           "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "spiral_arrow"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "spiral_arrow"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → スパイラルアロー"
         },
         {
           "id": "sa1_combo",
           "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "delta_red_assault"],
-          "sa_cost": 1, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "delta_red_assault"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → デルタレッドアサルト"
         },
         {
           "id": "sa2_combo",
           "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "spin_drive_smasher"],
-          "sa_cost": 2, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "spin_drive_smasher"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → スピンドライブスマッシャー"
         },
         {
           "id": "sa3_combo",
           "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "cqc"],
-          "sa_cost": 3, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "cqc"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → CQC"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODキャノンスパイク締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_cannon_spike"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODキャノンスパイク"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_spiral_arrow",
+            "spin_drive_smasher"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 2000,
+          "notes": "屈み弱K→屈み弱P→屈み中P→ODスパイラルアロー→スピンドライブスマッシャー（SA3）"
         }
       ]
     },
@@ -1004,159 +2157,321 @@
       "moves": {
         "standing_lp": {
           "name": "立ち弱P",
-          "startup": 5, "active": 3, "recovery": 10,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 5,
+          "active": 3,
+          "recovery": 10,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mp": {
           "name": "立ち中P",
-          "startup": 7, "active": 4, "recovery": 15,
-          "advantage_on_block": 1, "advantage_on_hit": 5,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 7,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 5,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hp": {
           "name": "立ち強P",
-          "startup": 10, "active": 5, "recovery": 22,
-          "advantage_on_block": -3, "advantage_on_hit": 2,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 10,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 2,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_lk": {
           "name": "立ち弱K",
-          "startup": 6, "active": 3, "recovery": 10,
-          "advantage_on_block": 1, "advantage_on_hit": 5,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 6,
+          "active": 3,
+          "recovery": 10,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_mk": {
           "name": "立ち中K",
-          "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -1, "advantage_on_hit": 3,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 3,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "standing_hk": {
           "name": "立ち強K",
-          "startup": 11, "active": 5, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lp": {
           "name": "屈み弱P",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 2, "advantage_on_hit": 6,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 6,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mp": {
           "name": "屈み中P",
-          "startup": 8, "active": 4, "recovery": 15,
-          "advantage_on_block": 0, "advantage_on_hit": 4,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 8,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 4,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hp": {
           "name": "屈み強P",
-          "startup": 11, "active": 5, "recovery": 23,
-          "advantage_on_block": -5, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0,
+          "startup": 11,
+          "active": 5,
+          "recovery": 23,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "crouching_lk": {
           "name": "屈み弱K",
-          "startup": 4, "active": 3, "recovery": 9,
-          "advantage_on_block": 2, "advantage_on_hit": 6,
-          "damage": 300, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 4,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 6,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_mk": {
           "name": "屈み中K",
-          "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -1, "advantage_on_hit": 3,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0,
-          "cancel_options": ["special", "super"]
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 3,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0,
+          "cancel_options": [
+            "special",
+            "super"
+          ]
         },
         "crouching_hk": {
           "name": "屈み強K（スウィープ）",
-          "startup": 10, "active": 4, "recovery": 24,
-          "advantage_on_block": -12, "advantage_on_hit": -100,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0,
+          "startup": 10,
+          "active": 4,
+          "recovery": 24,
+          "advantage_on_block": -12,
+          "advantage_on_hit": -100,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "tsokame": {
           "name": "ツォカメ（飛び道具）",
-          "startup": 14, "active": 3, "recovery": 30,
-          "advantage_on_block": -2, "advantage_on_hit": 3,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0,
+          "startup": 14,
+          "active": 3,
+          "recovery": 30,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 3,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "amnesia": {
           "name": "アムネジア（アーマー）",
-          "startup": 14, "active": 5, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 4,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0,
+          "startup": 14,
+          "active": 5,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 4,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "triglav": {
           "name": "トリグラフ（対空）",
-          "startup": 7, "active": 8, "recovery": 25,
-          "advantage_on_block": -25, "advantage_on_hit": -100,
-          "damage": 1100, "drive_cost": 0, "sa_cost": 0,
+          "startup": 7,
+          "active": 8,
+          "recovery": 25,
+          "advantage_on_block": -25,
+          "advantage_on_hit": -100,
+          "damage": 1100,
+          "drive_cost": 0,
+          "sa_cost": 0,
           "cancel_options": []
         },
         "consume": {
           "name": "コンシューム SA1",
-          "startup": 9, "active": 4, "recovery": 26,
-          "advantage_on_block": -5, "advantage_on_hit": 22,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1,
+          "startup": 9,
+          "active": 4,
+          "recovery": 26,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 22,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1,
           "cancel_options": []
         },
         "bringer_of_chaos": {
           "name": "ブリンガー・オブ・ケイオス SA2",
-          "startup": 7, "active": 5, "recovery": 28,
-          "advantage_on_block": -8, "advantage_on_hit": 25,
-          "damage": 2800, "drive_cost": 0, "sa_cost": 2,
+          "startup": 7,
+          "active": 5,
+          "recovery": 28,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 25,
+          "damage": 2800,
+          "drive_cost": 0,
+          "sa_cost": 2,
           "cancel_options": []
         },
         "heavenly_king": {
           "name": "ヘヴンリーキング SA3",
-          "startup": 5, "active": 5, "recovery": 35,
-          "advantage_on_block": -15, "advantage_on_hit": -100,
-          "damage": 4000, "drive_cost": 0, "sa_cost": 3,
+          "startup": 5,
+          "active": 5,
+          "recovery": 35,
+          "advantage_on_block": -15,
+          "advantage_on_hit": -100,
+          "damage": 4000,
+          "drive_cost": 0,
+          "sa_cost": 3,
           "cancel_options": []
+        },
+        "od_torbalan": {
+          "name": "ODトルバラン",
+          "startup": 18,
+          "active": 5,
+          "recovery": 26,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 10,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
           "id": "bnb_normal",
           "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "triglav"],
-          "sa_cost": 0, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "triglav"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → トリグラフ"
         },
         {
           "id": "sa1_combo",
           "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "consume"],
-          "sa_cost": 1, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "consume"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → コンシューム"
         },
         {
           "id": "sa2_combo",
           "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "crouching_mp", "bringer_of_chaos"],
-          "sa_cost": 2, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "bringer_of_chaos"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ブリンガー・オブ・ケイオス"
         },
         {
           "id": "sa3_combo",
           "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "heavenly_king"],
-          "sa_cost": 3, "drive_cost": 0,
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "heavenly_king"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ヘヴンリーキング"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（ODトルバラン経由）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "od_torbalan",
+            "heavenly_king"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 2000,
+          "notes": "屈み弱P→屈み中P→ODトルバラン→ヘヴンリーキング（SA3）"
         }
       ]
     },
@@ -1164,60 +2479,181 @@
       "display_name": "ガイル",
       "max_hp": 10000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 10, "active": 4, "recovery": 21,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 10,
+          "active": 4,
+          "recovery": 21,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "sonic_boom": {
-          "name": "ソニックブーム", "startup": 13, "active": 20, "recovery": 17,
-          "advantage_on_block": 3, "advantage_on_hit": 6,
-          "damage": 600, "drive_cost": 0, "sa_cost": 0
+          "name": "ソニックブーム",
+          "startup": 13,
+          "active": 20,
+          "recovery": 17,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 6,
+          "damage": 600,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "flash_kick": {
-          "name": "サマーソルトキック", "startup": 9, "active": 4, "recovery": 25,
-          "advantage_on_block": -8, "advantage_on_hit": 15,
-          "damage": 1300, "drive_cost": 0, "sa_cost": 0
+          "name": "サマーソルトキック",
+          "startup": 9,
+          "active": 4,
+          "recovery": 25,
+          "advantage_on_block": -8,
+          "advantage_on_hit": 15,
+          "damage": 1300,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "sonic_hurricane": {
-          "name": "ソニックハリケーン（SA1）", "startup": 14, "active": 8, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 10,
-          "damage": 2500, "drive_cost": 0, "sa_cost": 1
+          "name": "ソニックハリケーン（SA1）",
+          "startup": 14,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 2500,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "solid_puncher": {
-          "name": "ソリッドパンチャー（SA3）", "startup": 8, "active": 10, "recovery": 18,
-          "advantage_on_block": 0, "advantage_on_hit": 12,
-          "damage": 3200, "drive_cost": 0, "sa_cost": 3
+          "name": "ソリッドパンチャー（SA3）",
+          "startup": 8,
+          "active": 10,
+          "recovery": 18,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 12,
+          "damage": 3200,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_flash_kick": {
+          "name": "ODサマーソルトキック",
+          "startup": 4,
+          "active": 12,
+          "recovery": 28,
+          "advantage_on_block": -26,
+          "advantage_on_hit": -100,
+          "damage": 1900,
+          "drive_cost": 2000,
+          "sa_cost": 0
+        },
+        "od_sonic_boom": {
+          "name": "ODソニックブーム",
+          "startup": 10,
+          "active": 22,
+          "recovery": 16,
+          "advantage_on_block": 4,
+          "advantage_on_hit": 8,
+          "damage": 1000,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "flash_kick"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "flash_kick"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → サマーソルトキック"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "sonic_hurricane"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "sonic_hurricane"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → ソニックハリケーン"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "solid_puncher"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "solid_puncher"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ソリッドパンチャー"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODサマーソルト締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_flash_kick"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODサマーソルトキック"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "flash_kick",
+            "solid_puncher"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→サマーソルト→ソリッドパンチャー（SA3）"
         }
       ]
     },
@@ -1225,55 +2661,158 @@
       "display_name": "ザンギエフ",
       "max_hp": 11000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 350,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 5, "active": 3, "recovery": 9,
-          "advantage_on_block": 1, "advantage_on_hit": 4,
-          "damage": 500, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 5,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 4,
+          "damage": 500,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 7, "active": 4, "recovery": 16,
-          "advantage_on_block": -2, "advantage_on_hit": 4,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 7,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 4,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "lariat": {
-          "name": "ラリアット", "startup": 7, "active": 10, "recovery": 20,
-          "advantage_on_block": -4, "advantage_on_hit": 3,
-          "damage": 1100, "drive_cost": 0, "sa_cost": 0
+          "name": "ラリアット",
+          "startup": 7,
+          "active": 10,
+          "recovery": 20,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 3,
+          "damage": 1100,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "spd": {
-          "name": "スクリューパイルドライバー", "startup": 5, "active": 2, "recovery": 30,
-          "advantage_on_block": 0, "advantage_on_hit": 0,
-          "damage": 2000, "drive_cost": 0, "sa_cost": 0
+          "name": "スクリューパイルドライバー",
+          "startup": 5,
+          "active": 2,
+          "recovery": 30,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 0,
+          "damage": 2000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "cyclone_lariat": {
-          "name": "サイクロンラリアット（SA1）", "startup": 12, "active": 10, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 8,
-          "damage": 2600, "drive_cost": 0, "sa_cost": 1
+          "name": "サイクロンラリアット（SA1）",
+          "startup": 12,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 8,
+          "damage": 2600,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "final_atomic_buster": {
-          "name": "ファイナルアトミックバスター（SA3）", "startup": 4, "active": 2, "recovery": 40,
-          "advantage_on_block": 0, "advantage_on_hit": 0,
-          "damage": 3800, "drive_cost": 0, "sa_cost": 3
+          "name": "ファイナルアトミックバスター（SA3）",
+          "startup": 4,
+          "active": 2,
+          "recovery": 40,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 0,
+          "damage": 3800,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_spd": {
+          "name": "ODスクリューパイルドライバー",
+          "startup": 4,
+          "active": 2,
+          "recovery": 32,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 0,
+          "damage": 2800,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "lariat"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "lariat"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ラリアット"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "cyclone_lariat"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "cyclone_lariat"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → サイクロンラリアット"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "final_atomic_buster"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "final_atomic_buster"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ファイナルアトミックバスター"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODスクリュー締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_spd"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODスクリューパイルドライバー。起き攻めから超高ダメージ"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "lariat",
+            "final_atomic_buster"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→ラリアット→FAB（SA3）。ラリアット対空後SA3〆"
         }
       ]
     },
@@ -1281,49 +2820,148 @@
       "display_name": "ブランカ",
       "max_hp": 10000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 7, "active": 3, "recovery": 15,
-          "advantage_on_block": -2, "advantage_on_hit": 4,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 7,
+          "active": 3,
+          "recovery": 15,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 4,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 9, "active": 4, "recovery": 22,
-          "advantage_on_block": -6, "advantage_on_hit": 1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 9,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "rolling_attack": {
-          "name": "ローリングアタック", "startup": 15, "active": 8, "recovery": 18,
-          "advantage_on_block": -4, "advantage_on_hit": 4,
-          "damage": 1100, "drive_cost": 0, "sa_cost": 0
+          "name": "ローリングアタック",
+          "startup": 15,
+          "active": 8,
+          "recovery": 18,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 4,
+          "damage": 1100,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "electric_thunder_sa1": {
-          "name": "エレクトリックサンダー（SA1）", "startup": 10, "active": 10, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2300, "drive_cost": 0, "sa_cost": 1
+          "name": "エレクトリックサンダー（SA1）",
+          "startup": 10,
+          "active": 10,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2300,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "ground_shave_rolling": {
-          "name": "グラウンドシェイブローリング（SA3）", "startup": 8, "active": 12, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3000, "drive_cost": 0, "sa_cost": 3
+          "name": "グラウンドシェイブローリング（SA3）",
+          "startup": 8,
+          "active": 12,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3000,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_rolling_attack": {
+          "name": "ODローリングアタック",
+          "startup": 12,
+          "active": 10,
+          "recovery": 20,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1700,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "rolling_attack"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "rolling_attack"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ローリングアタック"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "ground_shave_rolling"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "ground_shave_rolling"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → グラウンドシェイブローリング"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODローリング締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_rolling_attack"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODローリングアタック"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "rolling_attack",
+            "ground_shave_rolling"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→ローリングアタック→グラウンドシェイブローリング"
         }
       ]
     },
@@ -1331,49 +2969,132 @@
       "display_name": "ダルシム",
       "max_hp": 9000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 280,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 5, "active": 3, "recovery": 9,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 350, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 5,
+          "active": 3,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 350,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 8, "active": 5, "recovery": 16,
-          "advantage_on_block": -3, "advantage_on_hit": 3,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 8,
+          "active": 5,
+          "recovery": 16,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 3,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P（リーチ長）", "startup": 11, "active": 6, "recovery": 24,
-          "advantage_on_block": -8, "advantage_on_hit": -2,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P（リーチ長）",
+          "startup": 11,
+          "active": 6,
+          "recovery": 24,
+          "advantage_on_block": -8,
+          "advantage_on_hit": -2,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "yoga_fire": {
-          "name": "ヨガファイアー", "startup": 12, "active": 20, "recovery": 25,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "ヨガファイアー",
+          "startup": 12,
+          "active": 20,
+          "recovery": 25,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "yoga_inferno": {
-          "name": "ヨガインフェルノ（SA2）", "startup": 10, "active": 15, "recovery": 22,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 2
+          "name": "ヨガインフェルノ（SA2）",
+          "startup": 10,
+          "active": 15,
+          "recovery": 22,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 2
         },
         "yoga_catastrophe": {
-          "name": "ヨガカタストロフィー（SA3）", "startup": 9, "active": 20, "recovery": 25,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3000, "drive_cost": 0, "sa_cost": 3
+          "name": "ヨガカタストロフィー（SA3）",
+          "startup": 9,
+          "active": 20,
+          "recovery": 25,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3000,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_yoga_fire": {
+          "name": "ODヨガファイアー",
+          "startup": 10,
+          "active": 22,
+          "recovery": 24,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 7,
+          "damage": 1100,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "standing_hp"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "standing_hp"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 立ち強P"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "yoga_catastrophe"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "yoga_catastrophe"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → ヨガカタストロフィー"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（ODファイアー経由）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "od_yoga_fire",
+            "yoga_catastrophe"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 2000,
+          "notes": "屈み弱P→屈み中P→ODヨガファイアー→ヨガカタストロフィー"
         }
       ]
     },
@@ -1381,55 +3102,159 @@
       "display_name": "ディージェイ",
       "max_hp": 10000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "air_slasher": {
-          "name": "エアスラッシャー", "startup": 14, "active": 20, "recovery": 18,
-          "advantage_on_block": 3, "advantage_on_hit": 6,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0
+          "name": "エアスラッシャー",
+          "startup": 14,
+          "active": 20,
+          "recovery": 18,
+          "advantage_on_block": 3,
+          "advantage_on_hit": 6,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "double_rolling_sobat": {
-          "name": "ダブルローリングソバット（SA1）", "startup": 11, "active": 8, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1
+          "name": "ダブルローリングソバット（SA1）",
+          "startup": 11,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "sa3_super_mach": {
-          "name": "SA3コンボ（超マッハスラッシャー）", "startup": 8, "active": 12, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 10,
-          "damage": 3100, "drive_cost": 0, "sa_cost": 3
+          "name": "SA3コンボ（超マッハスラッシャー）",
+          "startup": 8,
+          "active": 12,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 3100,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_sobat": {
+          "name": "ODソバット",
+          "startup": 8,
+          "active": 6,
+          "recovery": 20,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "standing_hp"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "standing_hp"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 立ち強P"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "double_rolling_sobat"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "double_rolling_sobat"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → ダブルローリングソバット"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "sa3_super_mach"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "sa3_super_mach"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 超マッハスラッシャー"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODソバット締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_sobat"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODソバット"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "double_rolling_sobat",
+            "sa3_super_mach"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→ダブルローリング→超マッハスラッシャー"
         }
       ]
     },
@@ -1437,55 +3262,159 @@
       "display_name": "キンバリー",
       "max_hp": 9500,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 280,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 13,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 680, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 13,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 680,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 9, "active": 4, "recovery": 21,
-          "advantage_on_block": -5, "advantage_on_hit": 2,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 9,
+          "active": 4,
+          "recovery": 21,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 2,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "bushin_senpukyaku": {
-          "name": "武神旋風脚", "startup": 14, "active": 6, "recovery": 18,
-          "advantage_on_block": -4, "advantage_on_hit": 5,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0
+          "name": "武神旋風脚",
+          "startup": 14,
+          "active": 6,
+          "recovery": 18,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 5,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "bushin_hasoken": {
-          "name": "武神破相拳（SA1）", "startup": 10, "active": 6, "recovery": 18,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2300, "drive_cost": 0, "sa_cost": 1
+          "name": "武神破相拳（SA1）",
+          "startup": 10,
+          "active": 6,
+          "recovery": 18,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2300,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "bushin_ninjastar_dance": {
-          "name": "武神忍者星の舞（SA3）", "startup": 6, "active": 10, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3000, "drive_cost": 0, "sa_cost": 3
+          "name": "武神忍者星の舞（SA3）",
+          "startup": 6,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3000,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_bushin_senpukyaku": {
+          "name": "OD武神旋風脚",
+          "startup": 11,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "bushin_senpukyaku"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "bushin_senpukyaku"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 武神旋風脚"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "bushin_hasoken"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "bushin_hasoken"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 武神破相拳"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "bushin_ninjastar_dance"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "bushin_ninjastar_dance"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 武神忍者星の舞"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（OD旋風脚締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_bushin_senpukyaku"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→OD武神旋風脚"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "bushin_senpukyaku",
+            "bushin_ninjastar_dance"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→武神旋風脚→武神忍者星の舞"
         }
       ]
     },
@@ -1493,55 +3422,159 @@
       "display_name": "ジュリ",
       "max_hp": 9500,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 6,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 6,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中K", "startup": 6, "active": 4, "recovery": 13,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中K",
+          "startup": 6,
+          "active": 4,
+          "recovery": 13,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強K", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強K",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "fuha_wheel": {
-          "name": "風破輪", "startup": 11, "active": 5, "recovery": 17,
-          "advantage_on_block": -3, "advantage_on_hit": 6,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0
+          "name": "風破輪",
+          "startup": 11,
+          "active": 5,
+          "recovery": 17,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 6,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "feng_shui_engine": {
-          "name": "風水エンジン（SA1）", "startup": 7, "active": 10, "recovery": 20,
-          "advantage_on_block": 0, "advantage_on_hit": 12,
-          "damage": 2200, "drive_cost": 0, "sa_cost": 1
+          "name": "風水エンジン（SA1）",
+          "startup": 7,
+          "active": 10,
+          "recovery": 20,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 12,
+          "damage": 2200,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "sakkai_fuhazan": {
-          "name": "雑海風破斬（SA3）", "startup": 5, "active": 10, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3000, "drive_cost": 0, "sa_cost": 3
+          "name": "雑海風破斬（SA3）",
+          "startup": 5,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3000,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_fuha_wheel": {
+          "name": "OD風破輪",
+          "startup": 8,
+          "active": 7,
+          "recovery": 18,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "fuha_wheel"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "fuha_wheel"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → 風破輪"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "feng_shui_engine"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "feng_shui_engine"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 風水エンジン"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "sakkai_fuhazan"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "sakkai_fuhazan"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → 雑海風破斬"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（OD風破輪締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_fuha_wheel"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中K→OD風破輪"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（5hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "fuha_wheel",
+            "sakkai_fuhazan"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中K→風破輪→雑海風破斬（SA3）"
         }
       ]
     },
@@ -1549,55 +3582,159 @@
       "display_name": "マノン",
       "max_hp": 10000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 5, "active": 2, "recovery": 9,
-          "advantage_on_block": 1, "advantage_on_hit": 4,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 5,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 4,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 7, "active": 4, "recovery": 15,
-          "advantage_on_block": -2, "advantage_on_hit": 4,
-          "damage": 750, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 7,
+          "active": 4,
+          "recovery": 15,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 4,
+          "damage": 750,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 11, "active": 5, "recovery": 23,
-          "advantage_on_block": -6, "advantage_on_hit": 0,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 11,
+          "active": 5,
+          "recovery": 23,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 0,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "ballet_step_a": {
-          "name": "バレエステップA", "startup": 9, "active": 4, "recovery": 20,
-          "advantage_on_block": -4, "advantage_on_hit": 4,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0
+          "name": "バレエステップA",
+          "startup": 9,
+          "active": 4,
+          "recovery": 20,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 4,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "manege_dore": {
-          "name": "マネージュドーレ（SA2）", "startup": 6, "active": 8, "recovery": 22,
-          "advantage_on_block": -2, "advantage_on_hit": 10,
-          "damage": 2500, "drive_cost": 0, "sa_cost": 2
+          "name": "マネージュドーレ（SA2）",
+          "startup": 6,
+          "active": 8,
+          "recovery": 22,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 2500,
+          "drive_cost": 0,
+          "sa_cost": 2
         },
         "etoile_du_nord": {
-          "name": "エトワールデュノール（SA3）", "startup": 8, "active": 10, "recovery": 25,
-          "advantage_on_block": -4, "advantage_on_hit": 8,
-          "damage": 3200, "drive_cost": 0, "sa_cost": 3
+          "name": "エトワールデュノール（SA3）",
+          "startup": 8,
+          "active": 10,
+          "recovery": 25,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 8,
+          "damage": 3200,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_ballet_step": {
+          "name": "ODバレエステップ",
+          "startup": 7,
+          "active": 6,
+          "recovery": 22,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1400,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "ballet_step_a"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "ballet_step_a"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → バレエステップA"
         },
         {
-          "id": "sa2_combo", "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "manege_dore"],
-          "sa_cost": 2, "drive_cost": 0,
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "manege_dore"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → マネージュドーレ"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "etoile_du_nord"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "etoile_du_nord"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → エトワールデュノール"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODバレエステップ締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_ballet_step"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODバレエステップA"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（メダル最大）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "ballet_step_a",
+            "etoile_du_nord"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→バレエステップ→エトワールデュノール"
         }
       ]
     },
@@ -1605,55 +3742,159 @@
       "display_name": "マリーザ",
       "max_hp": 11000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 350,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 5, "active": 3, "recovery": 10,
-          "advantage_on_block": 1, "advantage_on_hit": 4,
-          "damage": 500, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 5,
+          "active": 3,
+          "recovery": 10,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 4,
+          "damage": 500,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -3, "advantage_on_hit": 3,
-          "damage": 850, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 3,
+          "damage": 850,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 12, "active": 5, "recovery": 25,
-          "advantage_on_block": -8, "advantage_on_hit": -2,
-          "damage": 1200, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 12,
+          "active": 5,
+          "recovery": 25,
+          "advantage_on_block": -8,
+          "advantage_on_hit": -2,
+          "damage": 1200,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "scutum": {
-          "name": "スクトゥム", "startup": 10, "active": 8, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 3,
-          "damage": 1100, "drive_cost": 0, "sa_cost": 0
+          "name": "スクトゥム",
+          "startup": 10,
+          "active": 8,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 3,
+          "damage": 1100,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "quadriga": {
-          "name": "クアドリガ（SA1）", "startup": 10, "active": 12, "recovery": 22,
-          "advantage_on_block": -2, "advantage_on_hit": 10,
-          "damage": 2600, "drive_cost": 0, "sa_cost": 1
+          "name": "クアドリガ（SA1）",
+          "startup": 10,
+          "active": 12,
+          "recovery": 22,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 2600,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "ravager": {
-          "name": "ラヴェジャー（SA3）", "startup": 7, "active": 12, "recovery": 28,
-          "advantage_on_block": -6, "advantage_on_hit": 8,
-          "damage": 3500, "drive_cost": 0, "sa_cost": 3
+          "name": "ラヴェジャー（SA3）",
+          "startup": 7,
+          "active": 12,
+          "recovery": 28,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 8,
+          "damage": 3500,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_scutum": {
+          "name": "ODスクトゥム",
+          "startup": 8,
+          "active": 10,
+          "recovery": 24,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 6,
+          "damage": 1800,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "scutum"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "scutum"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → スクトゥム"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "quadriga"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "quadriga"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → クアドリガ"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "ravager"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "ravager"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ラヴェジャー"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODスクトゥム締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_scutum"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODスクトゥム。アーマーで対策も可能"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "scutum",
+            "ravager"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→スクトゥム→ラヴェジャー（SA3）"
         }
       ]
     },
@@ -1661,55 +3902,159 @@
       "display_name": "リリー",
       "max_hp": 9500,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 280,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 7, "active": 3, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 7,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "condor_dive": {
-          "name": "コンドルダイブ", "startup": 14, "active": 6, "recovery": 18,
-          "advantage_on_block": -4, "advantage_on_hit": 4,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0
+          "name": "コンドルダイブ",
+          "startup": 14,
+          "active": 6,
+          "recovery": 18,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 4,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "thunderclap_tomahawk": {
-          "name": "サンダークラップトマホーク（SA1）", "startup": 9, "active": 8, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2200, "drive_cost": 0, "sa_cost": 1
+          "name": "サンダークラップトマホーク（SA1）",
+          "startup": 9,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2200,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "great_spirit": {
-          "name": "グレートスピリット（SA3）", "startup": 7, "active": 10, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 2900, "drive_cost": 0, "sa_cost": 3
+          "name": "グレートスピリット（SA3）",
+          "startup": 7,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 2900,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_condor_dive": {
+          "name": "ODコンドルダイブ",
+          "startup": 11,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "condor_dive"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "condor_dive"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → コンドルダイブ"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "thunderclap_tomahawk"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "thunderclap_tomahawk"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → サンダークラップトマホーク"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "great_spirit"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "great_spirit"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → グレートスピリット"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODコンドルダイブ締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_condor_dive"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODコンドルダイブ"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（テンポストック有）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "condor_dive",
+            "great_spirit"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→コンドルダイブ→グレートスピリット（SA3）"
         }
       ]
     },
@@ -1717,55 +4062,159 @@
       "display_name": "ラシード",
       "max_hp": 9500,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 280,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 13,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 680, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 13,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 680,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "whirlwind_shot": {
-          "name": "ウィンドウォール", "startup": 13, "active": 20, "recovery": 18,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 600, "drive_cost": 0, "sa_cost": 0
+          "name": "ウィンドウォール",
+          "startup": 13,
+          "active": 20,
+          "recovery": 18,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 600,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "eagle_spike": {
-          "name": "イーグルスパイク（SA1）", "startup": 10, "active": 6, "recovery": 18,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2300, "drive_cost": 0, "sa_cost": 1
+          "name": "イーグルスパイク（SA1）",
+          "startup": 10,
+          "active": 6,
+          "recovery": 18,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2300,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "azzam": {
-          "name": "アザム（SA3）", "startup": 8, "active": 10, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3000, "drive_cost": 0, "sa_cost": 3
+          "name": "アザム（SA3）",
+          "startup": 8,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3000,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_eagle_spike": {
+          "name": "ODイーグルスパイク",
+          "startup": 8,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "standing_hp"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "standing_hp"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 立ち強P"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "eagle_spike"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "eagle_spike"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → イーグルスパイク"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "azzam"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "azzam"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → アザム"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODイーグルスパイク締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_eagle_spike"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODイーグルスパイク"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "eagle_spike",
+            "azzam"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→イーグルスパイク→アザム（SA3）"
         }
       ]
     },
@@ -1773,55 +4222,159 @@
       "display_name": "エド",
       "max_hp": 10000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 720, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 720,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "psycho_flicker": {
-          "name": "サイコフリッカー", "startup": 8, "active": 4, "recovery": 16,
-          "advantage_on_block": -2, "advantage_on_hit": 6,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0
+          "name": "サイコフリッカー",
+          "startup": 8,
+          "active": 4,
+          "recovery": 16,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 6,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "psycho_barrage": {
-          "name": "サイコバレット（SA1）", "startup": 10, "active": 8, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 1
+          "name": "サイコバレット（SA1）",
+          "startup": 10,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "psycho_cannon": {
-          "name": "サイコキャノン（SA3）", "startup": 8, "active": 10, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3100, "drive_cost": 0, "sa_cost": 3
+          "name": "サイコキャノン（SA3）",
+          "startup": 8,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3100,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_psycho_flicker": {
+          "name": "ODサイコフリッカー",
+          "startup": 5,
+          "active": 6,
+          "recovery": 18,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 10,
+          "damage": 1400,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "psycho_flicker"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "psycho_flicker"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → サイコフリッカー"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "psycho_barrage"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "psycho_barrage"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → サイコバレット"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "psycho_cannon"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "psycho_cannon"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → サイコキャノン"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODフリッカー締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_psycho_flicker"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODサイコフリッカー"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "psycho_flicker",
+            "psycho_cannon"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→サイコフリッカー→サイコキャノン（SA3）"
         }
       ]
     },
@@ -1829,49 +4382,148 @@
       "display_name": "AKI",
       "max_hp": 9500,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 280,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 5, "active": 2, "recovery": 9,
-          "advantage_on_block": 1, "advantage_on_hit": 4,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 5,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 1,
+          "advantage_on_hit": 4,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 7, "active": 3, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 7,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "lunge_poison": {
-          "name": "毒爪突き", "startup": 14, "active": 5, "recovery": 20,
-          "advantage_on_block": -4, "advantage_on_hit": 5,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0
+          "name": "毒爪突き",
+          "startup": 14,
+          "active": 5,
+          "recovery": 20,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 5,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "serpent_lash": {
-          "name": "蛇鞭（SA2）", "startup": 11, "active": 8, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2400, "drive_cost": 0, "sa_cost": 2
+          "name": "蛇鞭（SA2）",
+          "startup": 11,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2400,
+          "drive_cost": 0,
+          "sa_cost": 2
         },
         "cleopatra_s_needle": {
-          "name": "クレオパトラズニードル（SA3）", "startup": 9, "active": 10, "recovery": 24,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3100, "drive_cost": 0, "sa_cost": 3
+          "name": "クレオパトラズニードル（SA3）",
+          "startup": 9,
+          "active": 10,
+          "recovery": 24,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3100,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_lunge_poison": {
+          "name": "OD毒爪突き",
+          "startup": 11,
+          "active": 7,
+          "recovery": 22,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "lunge_poison"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "lunge_poison"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 毒爪突き"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "cleopatra_s_needle"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "cleopatra_s_needle"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → クレオパトラズニードル"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（OD毒爪突き締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_lunge_poison"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→OD毒爪突き。毒スタック稼ぎも兼ねる"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（毒あり最大）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "lunge_poison",
+            "cleopatra_s_needle"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→毒爪突き→クレオパトラズニードル（SA3）"
         }
       ]
     },
@@ -1879,49 +4531,148 @@
       "display_name": "アクマ",
       "max_hp": 9000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 280,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 13,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 13,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 9, "active": 4, "recovery": 21,
-          "advantage_on_block": -5, "advantage_on_hit": 2,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 9,
+          "active": 4,
+          "recovery": 21,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 2,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "goshoryuken": {
-          "name": "豪昇龍拳", "startup": 5, "active": 5, "recovery": 28,
-          "advantage_on_block": -12, "advantage_on_hit": 20,
-          "damage": 1400, "drive_cost": 0, "sa_cost": 0
+          "name": "豪昇龍拳",
+          "startup": 5,
+          "active": 5,
+          "recovery": 28,
+          "advantage_on_block": -12,
+          "advantage_on_hit": 20,
+          "damage": 1400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "tenma_gozanku": {
-          "name": "天魔豪斬空（SA2）", "startup": 9, "active": 8, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 10,
-          "damage": 2600, "drive_cost": 0, "sa_cost": 2
+          "name": "天魔豪斬空（SA2）",
+          "startup": 9,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 2600,
+          "drive_cost": 0,
+          "sa_cost": 2
         },
         "shun_goku_satsu": {
-          "name": "瞬獄殺（SA3）", "startup": 3, "active": 2, "recovery": 50,
-          "advantage_on_block": 0, "advantage_on_hit": 0,
-          "damage": 4000, "drive_cost": 0, "sa_cost": 3
+          "name": "瞬獄殺（SA3）",
+          "startup": 3,
+          "active": 2,
+          "recovery": 50,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 0,
+          "damage": 4000,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_goshoryuken": {
+          "name": "OD豪昇龍拳",
+          "startup": 4,
+          "active": 12,
+          "recovery": 30,
+          "advantage_on_block": -30,
+          "advantage_on_hit": -100,
+          "damage": 2100,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "goshoryuken"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "goshoryuken"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 豪昇龍拳"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "shun_goku_satsu"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "shun_goku_satsu"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 瞬獄殺"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（OD豪昇龍拳締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_goshoryuken"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→OD豪昇龍拳。最高効率BnB"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit瞬獄殺）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "goshoryuken",
+            "shun_goku_satsu"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→豪昇龍拳→瞬獄殺（SA3）。最大火力"
         }
       ]
     },
@@ -1929,55 +4680,159 @@
       "display_name": "M.バイソン",
       "max_hp": 10500,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 320,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 430, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 430,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 7, "active": 3, "recovery": 15,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 750, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 7,
+          "active": 3,
+          "recovery": 15,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 750,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 11, "active": 4, "recovery": 23,
-          "advantage_on_block": -6, "advantage_on_hit": 0,
-          "damage": 1050, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 11,
+          "active": 4,
+          "recovery": 23,
+          "advantage_on_block": -6,
+          "advantage_on_hit": 0,
+          "damage": 1050,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "psycho_crusher": {
-          "name": "サイコクラッシャー", "startup": 16, "active": 10, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 5,
-          "damage": 1100, "drive_cost": 0, "sa_cost": 0
+          "name": "サイコクラッシャー",
+          "startup": 16,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 5,
+          "damage": 1100,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "psycho_dream": {
-          "name": "サイコドリーム（SA2）", "startup": 10, "active": 10, "recovery": 22,
-          "advantage_on_block": -2, "advantage_on_hit": 10,
-          "damage": 2700, "drive_cost": 0, "sa_cost": 2
+          "name": "サイコドリーム（SA2）",
+          "startup": 10,
+          "active": 10,
+          "recovery": 22,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 2700,
+          "drive_cost": 0,
+          "sa_cost": 2
         },
         "last_psycho_crusher": {
-          "name": "ラストサイコクラッシャー（SA3）", "startup": 7, "active": 15, "recovery": 25,
-          "advantage_on_block": -5, "advantage_on_hit": 8,
-          "damage": 3400, "drive_cost": 0, "sa_cost": 3
+          "name": "ラストサイコクラッシャー（SA3）",
+          "startup": 7,
+          "active": 15,
+          "recovery": 25,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 8,
+          "damage": 3400,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_psycho_crusher": {
+          "name": "ODサイコクラッシャー",
+          "startup": 12,
+          "active": 14,
+          "recovery": 24,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1700,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "psycho_crusher"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "psycho_crusher"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → サイコクラッシャー"
         },
         {
-          "id": "sa2_combo", "name": "SA2コンボ",
-          "move_ids": ["crouching_lp", "psycho_dream"],
-          "sa_cost": 2, "drive_cost": 0,
+          "id": "sa2_combo",
+          "name": "SA2コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "psycho_dream"
+          ],
+          "sa_cost": 2,
+          "drive_cost": 0,
           "notes": "屈み弱P → サイコドリーム"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "last_psycho_crusher"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "last_psycho_crusher"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → ラストサイコクラッシャー"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODサイコクラッシャー締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_psycho_crusher"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODサイコクラッシャー"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（4hit始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "psycho_crusher",
+            "last_psycho_crusher"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→サイコクラッシャー→ラストサイコクラッシャー"
         }
       ]
     },
@@ -1985,49 +4840,148 @@
       "display_name": "テリー",
       "max_hp": 10000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 14,
-          "advantage_on_block": -1, "advantage_on_hit": 5,
-          "damage": 720, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 14,
+          "advantage_on_block": -1,
+          "advantage_on_hit": 5,
+          "damage": 720,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "power_wave": {
-          "name": "パワーウェイブ", "startup": 12, "active": 20, "recovery": 18,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 650, "drive_cost": 0, "sa_cost": 0
+          "name": "パワーウェイブ",
+          "startup": 12,
+          "active": 20,
+          "recovery": 18,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 650,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "burn_knuckle": {
-          "name": "バーンナックル", "startup": 15, "active": 5, "recovery": 20,
-          "advantage_on_block": -4, "advantage_on_hit": 5,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0
+          "name": "バーンナックル",
+          "startup": 15,
+          "active": 5,
+          "recovery": 20,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 5,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "buster_wolf": {
-          "name": "バスターウルフ（SA3）", "startup": 5, "active": 8, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3300, "drive_cost": 0, "sa_cost": 3
+          "name": "バスターウルフ（SA3）",
+          "startup": 5,
+          "active": 8,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3300,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_burn_knuckle": {
+          "name": "ODバーンナックル",
+          "startup": 12,
+          "active": 8,
+          "recovery": 22,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 10,
+          "damage": 1400,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "burn_knuckle"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "burn_knuckle"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → バーンナックル"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "buster_wolf"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "buster_wolf"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → バスターウルフ"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODバーンナックル締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_burn_knuckle"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→ODバーンナックル"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（バスターウルフ始動）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "burn_knuckle",
+            "buster_wolf"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→バーンナックル→バスターウルフ（SA3）"
         }
       ]
     },
@@ -2035,55 +4989,159 @@
       "display_name": "マイ",
       "max_hp": 9500,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 280,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 380, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 380,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中P", "startup": 6, "active": 3, "recovery": 13,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 680, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中P",
+          "startup": 6,
+          "active": 3,
+          "recovery": 13,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 680,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強P", "startup": 9, "active": 4, "recovery": 21,
-          "advantage_on_block": -5, "advantage_on_hit": 2,
-          "damage": 950, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強P",
+          "startup": 9,
+          "active": 4,
+          "recovery": 21,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 2,
+          "damage": 950,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "ryuenbu": {
-          "name": "龍炎舞", "startup": 12, "active": 5, "recovery": 18,
-          "advantage_on_block": -3, "advantage_on_hit": 6,
-          "damage": 800, "drive_cost": 0, "sa_cost": 0
+          "name": "龍炎舞",
+          "startup": 12,
+          "active": 5,
+          "recovery": 18,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 6,
+          "damage": 800,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "kachosen": {
-          "name": "花蝶扇（SA1）", "startup": 9, "active": 8, "recovery": 20,
-          "advantage_on_block": -2, "advantage_on_hit": 8,
-          "damage": 2200, "drive_cost": 0, "sa_cost": 1
+          "name": "花蝶扇（SA1）",
+          "startup": 9,
+          "active": 8,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 8,
+          "damage": 2200,
+          "drive_cost": 0,
+          "sa_cost": 1
         },
         "shiranui_ryuka": {
-          "name": "不知火流火（SA3）", "startup": 6, "active": 10, "recovery": 24,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3000, "drive_cost": 0, "sa_cost": 3
+          "name": "不知火流火（SA3）",
+          "startup": 6,
+          "active": 10,
+          "recovery": 24,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3000,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_ryuenbu": {
+          "name": "OD龍炎舞",
+          "startup": 10,
+          "active": 7,
+          "recovery": 20,
+          "advantage_on_block": -2,
+          "advantage_on_hit": 10,
+          "damage": 1300,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "ryuenbu"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "ryuenbu"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 龍炎舞"
         },
         {
-          "id": "sa1_combo", "name": "SA1コンボ",
-          "move_ids": ["crouching_lp", "kachosen"],
-          "sa_cost": 1, "drive_cost": 0,
+          "id": "sa1_combo",
+          "name": "SA1コンボ",
+          "move_ids": [
+            "crouching_lp",
+            "kachosen"
+          ],
+          "sa_cost": 1,
+          "drive_cost": 0,
           "notes": "屈み弱P → 花蝶扇"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "shiranui_ryuka"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "shiranui_ryuka"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中P → 不知火流火"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（OD龍炎舞締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_ryuenbu"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中P→OD龍炎舞"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "ryuenbu",
+            "shiranui_ryuka"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中P→龍炎舞→不知火流火（SA3）"
         }
       ]
     },
@@ -2091,55 +5149,165 @@
       "display_name": "エレナ",
       "max_hp": 10000,
       "moves": {
+        "crouching_lk": {
+          "name": "屈み弱K",
+          "startup": 4,
+          "active": 2,
+          "recovery": 9,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 300,
+          "drive_cost": 0,
+          "sa_cost": 0
+        },
         "crouching_lp": {
-          "name": "屈み弱P", "startup": 4, "active": 2, "recovery": 8,
-          "advantage_on_block": 2, "advantage_on_hit": 5,
-          "damage": 400, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み弱P",
+          "startup": 4,
+          "active": 2,
+          "recovery": 8,
+          "advantage_on_block": 2,
+          "advantage_on_hit": 5,
+          "damage": 400,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "crouching_mp": {
-          "name": "屈み中K", "startup": 6, "active": 4, "recovery": 13,
-          "advantage_on_block": 0, "advantage_on_hit": 5,
-          "damage": 700, "drive_cost": 0, "sa_cost": 0
+          "name": "屈み中K",
+          "startup": 6,
+          "active": 4,
+          "recovery": 13,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 5,
+          "damage": 700,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "standing_hp": {
-          "name": "立ち強K", "startup": 10, "active": 4, "recovery": 22,
-          "advantage_on_block": -5, "advantage_on_hit": 1,
-          "damage": 1000, "drive_cost": 0, "sa_cost": 0
+          "name": "立ち強K",
+          "startup": 10,
+          "active": 4,
+          "recovery": 22,
+          "advantage_on_block": -5,
+          "advantage_on_hit": 1,
+          "damage": 1000,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "lynx_tail": {
-          "name": "リンクステール", "startup": 12, "active": 5, "recovery": 20,
-          "advantage_on_block": -4, "advantage_on_hit": 5,
-          "damage": 900, "drive_cost": 0, "sa_cost": 0
+          "name": "リンクステール",
+          "startup": 12,
+          "active": 5,
+          "recovery": 20,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 5,
+          "damage": 900,
+          "drive_cost": 0,
+          "sa_cost": 0
         },
         "healing": {
-          "name": "ヒーリング（SA2）", "startup": 15, "active": 1, "recovery": 30,
-          "advantage_on_block": 0, "advantage_on_hit": 0,
-          "damage": 0, "drive_cost": 0, "sa_cost": 2
+          "name": "ヒーリング（SA2）",
+          "startup": 15,
+          "active": 1,
+          "recovery": 30,
+          "advantage_on_block": 0,
+          "advantage_on_hit": 0,
+          "damage": 0,
+          "drive_cost": 0,
+          "sa_cost": 2
         },
         "brave_dance": {
-          "name": "ブレイブダンス（SA3）", "startup": 8, "active": 12, "recovery": 22,
-          "advantage_on_block": -4, "advantage_on_hit": 10,
-          "damage": 3100, "drive_cost": 0, "sa_cost": 3
+          "name": "ブレイブダンス（SA3）",
+          "startup": 8,
+          "active": 12,
+          "recovery": 22,
+          "advantage_on_block": -4,
+          "advantage_on_hit": 10,
+          "damage": 3100,
+          "drive_cost": 0,
+          "sa_cost": 3
+        },
+        "od_lynx_tail": {
+          "name": "ODリンクステール",
+          "startup": 9,
+          "active": 7,
+          "recovery": 22,
+          "advantage_on_block": -3,
+          "advantage_on_hit": 8,
+          "damage": 1500,
+          "drive_cost": 2000,
+          "sa_cost": 0
         }
       },
       "combos": [
         {
-          "id": "bnb_normal", "name": "基本コンボ（ゲージなし）",
-          "move_ids": ["crouching_lp", "crouching_mp", "lynx_tail"],
-          "sa_cost": 0, "drive_cost": 0,
+          "id": "bnb_normal",
+          "name": "基本コンボ（ゲージなし）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "lynx_tail"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → リンクステール"
         },
         {
-          "id": "sa3_combo", "name": "SA3コンボ（最大火力）",
-          "move_ids": ["crouching_lp", "crouching_mp", "brave_dance"],
-          "sa_cost": 3, "drive_cost": 0,
+          "id": "sa3_combo",
+          "name": "SA3コンボ（最大火力）",
+          "move_ids": [
+            "crouching_lp",
+            "crouching_mp",
+            "brave_dance"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
           "notes": "屈み弱P → 屈み中K → ブレイブダンス"
+        },
+        {
+          "id": "advanced_bnb",
+          "name": "最適BnB（ODリンクステール締め）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "od_lynx_tail"
+          ],
+          "sa_cost": 0,
+          "drive_cost": 2000,
+          "notes": "屈み弱K始動→屈み弱P→屈み中K→ODリンクステール"
+        },
+        {
+          "id": "advanced_sa3",
+          "name": "最適SA3（ブレイブダンス）",
+          "tier": "advanced",
+          "move_ids": [
+            "crouching_lk",
+            "crouching_lp",
+            "crouching_mp",
+            "lynx_tail",
+            "brave_dance"
+          ],
+          "sa_cost": 3,
+          "drive_cost": 0,
+          "notes": "屈み弱K→屈み弱P→屈み中K→リンクステール→ブレイブダンス（SA3）"
         }
       ]
     }
   },
   "damage_scaling": {
     "description": "コンボヒット数に応じたダメージ補正テーブル（1始まり）",
-    "scaling_table": [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.35, 0.3, 0.3]
+    "scaling_table": [
+      1.0,
+      0.9,
+      0.8,
+      0.7,
+      0.6,
+      0.5,
+      0.4,
+      0.35,
+      0.3,
+      0.3
+    ]
   }
 }

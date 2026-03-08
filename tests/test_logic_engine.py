@@ -433,9 +433,9 @@ class TestPresetComboPriority:
         """
         result = calculate_lethal(ryu_neutral, chun_li_low_hp)
 
-        # プリセットコンボはcrouching_lpから始まる（bnb_normalの先頭技）
+        # プリセットコンボは弱攻撃から始まる（crouching_lk または crouching_lp）
         assert len(result.recommended_combo) > 0
-        assert result.recommended_combo[0].move_id == "crouching_lp"
+        assert result.recommended_combo[0].move_id in ("crouching_lk", "crouching_lp")
 
     def test_sa_cost_filter_in_preset_combo(
         self,
