@@ -204,24 +204,32 @@ def capture_frames_from_url(url: str, n_frames: int = 8, start_sec: float | None
     return frames
 
 
-def _resolve_youtube_url(url: str) -> str:
-    """yt-dlp で YouTube のストリームURLを解決する（キャッシュあり）。"""
-    cached = _get_cached_stream_url(url)
+def _resolve_youtube_url(url: str, low_res: bool = False) -> str:
+    """yt-dlp で YouTube のストリームURLを解決する（キャッシュあり）。
+
+    Args:
+        url: YouTube の動画 / 配信 URL。
+        low_res: True のときスキャン用低解像度（480p 以下）を返す。
+                 シーン判定のみに使用し、解析用フレームには False を使う。
+    """
+    cache_key = f"{url}::{'lr' if low_res else 'hr'}"
+    cached = _get_cached_stream_url(cache_key)
     if cached:
         return cached
 
     import yt_dlp
 
-    ydl_opts = {
-        "format": "bestvideo[height>=1080]/bestvideo[height>=720]/bestvideo/best",
-        "quiet": True,
-        "no_warnings": True,
-    }
+    if low_res:
+        fmt = "bestvideo[height<=480][ext=mp4]/bestvideo[height<=480]/worstvideo/worst"
+    else:
+        fmt = "bestvideo[height>=1080]/bestvideo[height>=720]/bestvideo/best"
+
+    ydl_opts = {"format": fmt, "quiet": True, "no_warnings": True}
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
         stream_url = info.get("url") or info["formats"][-1]["url"]
 
-    _set_cached_stream_url(url, stream_url)
+    _set_cached_stream_url(cache_key, stream_url)
     return stream_url
 
 
@@ -866,9 +874,12 @@ def scan_and_capture_frames(
 ) -> list[tuple[float, list[np.ndarray]]]:
     """スキャンと複数フレームキャプチャを1パスで行う。
 
-    1つの VideoCapture 接続でシーン検出と解析用フレーム取得を同時に行う。
-    scan_video_for_match_scenes + N × capture_frames_from_url の代替として使い、
-    VideoCapture の開閉コストと重複シークを削減する。
+    最適化ポイント:
+      - YouTube の場合はシーン判定用に低解像度（480p）ストリームを使用する。
+        セグメントサイズが小さくなりseekが高速化する。
+      - 試合シーンが連続している場合は seek をスキップし cap.grab() で
+        フレームを前進させる（デコードなし、seek なし）。
+      - 非試合→試合の切り替え時のみ seek + 2フレームフラッシュを実施する。
 
     Args:
         url: YouTube / Twitch の動画URL。
@@ -880,30 +891,51 @@ def scan_and_capture_frames(
     Returns:
         試合シーンごとの (秒数, フレームリスト) のリスト。
     """
-    cap = _open_cap(url)
+    is_youtube = "youtube.com" in url.lower() or "youtu.be" in url.lower()
+
+    if is_youtube:
+        # シーン判定用: 低解像度（480p 以下）で高速スキャン
+        scan_url = _resolve_youtube_url(url, low_res=True)
+        logger.info("低解像度スキャンURL取得完了（480p）")
+    else:
+        scan_url = _resolve_twitch_url(url) if "twitch.tv" in url.lower() else url
+
+    cap = cv2.VideoCapture(scan_url)
     limit = _scan_limit(cap, max_duration_sec)
+    fps = max(1.0, cap.get(cv2.CAP_PROP_FPS) or 30.0)
+    # スキャン間隔に対応するフレーム数（試合継続中の grab スキップ用）
+    interval_frames = max(1, int(scan_interval_sec * fps))
 
     logger.info(
-        "スキャン+キャプチャ開始: 間隔=%.1f秒, 上限=%.0f秒, frames/scene=%d",
-        scan_interval_sec, limit, n_frames,
+        "スキャン+キャプチャ開始: 間隔=%.1f秒(≈%dframes), 上限=%.0f秒, frames/scene=%d",
+        scan_interval_sec, interval_frames, limit, n_frames,
     )
 
     results: list[tuple[float, list[np.ndarray]]] = []
     t = 0.0
+    in_match = False  # 前回のポイントが試合シーンだったか
+
     while t <= limit:
-        cap.set(cv2.CAP_PROP_POS_MSEC, t * 1000)
+        if in_match:
+            # ── 試合継続: seek なし、grab() でフレームを前進 ──────────────
+            # 前回 n_frames 分は読み済み → 残り (interval_frames - n_frames) をスキップ
+            skip = max(0, interval_frames - n_frames)
+            for _ in range(skip):
+                if not cap.grab():
+                    break
+        else:
+            # ── 非試合 or 初回: seek + 2フレームフラッシュ ────────────────
+            cap.set(cv2.CAP_PROP_POS_MSEC, t * 1000)
+            cap.grab()
+            cap.grab()  # フラッシュ 2フレーム（ステールフレーム除去）
 
-        # seek後のデコーダバッファをフラッシュ（ステールフレーム除去）
-        for _ in range(3):
-            cap.read()
-
-        # 1フレーム目でシーン判定
         ret, first = cap.read()
         if not ret or first is None:
             break
 
         if not is_match_scene(first):
             logger.debug("非試合シーン: %.1f秒", t)
+            in_match = False
             t += scan_interval_sec
             continue
 
@@ -916,6 +948,7 @@ def scan_and_capture_frames(
 
         results.append((t, frames))
         logger.info("試合シーン検出+キャプチャ: %.1f秒 (%d枚)", t, len(frames))
+        in_match = True
         t += scan_interval_sec
 
     cap.release()
