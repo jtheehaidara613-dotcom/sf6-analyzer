@@ -100,11 +100,13 @@ def _set_cached_stream_url(source_url: str, stream_url: str) -> None:
 
 _HUD = {
     # P1（左側）: バーは左→右に伸びる
-    "p1_hp":    (90,  66, 856,  93),   # x1, y1, x2, y2
+    # NOTE: x=90〜200 はキャラアバター領域のため除外
+    "p1_hp":    (200,  66, 856,  93),   # x1, y1, x2, y2
     "p1_drive": (712, 114, 828, 132),  # P1ドライブ（中央左、左詰め）
     "p1_sa":    (700, 88, 870, 135),   # SAストック指標（菱形アイコン群）
     # P2（右側）: HPは左→右、Driveは右→左に伸びる
-    "p2_hp":    (1184, 66, 1855, 93),
+    # NOTE: x=1750〜1855 はキャラアバター領域のため除外
+    "p2_hp":    (1184, 66, 1750, 93),
     "p2_drive": (1092, 114, 1208, 132), # P2ドライブ（中央右、右詰め）
     "p2_sa":    (1050, 88, 1220, 135),  # SAストック指標（菱形アイコン群）
     # ラウンド勝利ドット（タイマー両脇）
@@ -114,11 +116,18 @@ _HUD = {
 
 # ゲージ検出に使用する色相範囲 (OpenCV HSV, 0-180スケール)
 _HUD_HUE = {
-    "p1_hp":    (155, 175),  # ピンク赤
-    "p2_hp":    [(10, 40), (100, 130)],  # 黄色（低HP）または青（高HP）
-    "p1_drive": (15,  55),   # 黄色〜黄緑
-    "p2_drive": (15,  55),   # 黄色〜黄緑
+    # SF6 HP バーはキャラごとに色が異なる（例: JP=青、Juri=ピンク、Ryu=赤等）
+    # None を指定すると _bar_ratio が「高彩度・高輝度」全色で検出するモードになる
+    "p1_hp":    None,   # 任意色（キャラ固有色に対応）
+    "p2_hp":    None,   # 任意色（キャラ固有色に対応）
+    "p1_drive": (15,  55),               # 黄色〜黄緑（通常時）
+    "p2_drive": (15,  55),               # 黄色〜黄緑（通常時）
+    # バーンアウト中: ドライブゲージが赤くフラッシュする
+    "drive_burnout": [(0, 15), (155, 180)],  # 赤〜オレンジ（バーンアウト色）
 }
+
+# バーンアウト判定: ドライブゲージ領域の赤ピクセル比率がこれ以上 → バーンアウト中
+_BURNOUT_RED_THRESH = 0.20
 
 # キャラクターが映る画面領域（フレーム状態検出に使用）
 _CHAR_ROI = {
@@ -127,13 +136,32 @@ _CHAR_ROI = {
 }
 
 _MAX_HP: dict[CharacterName, int] = {
-    CharacterName.RYU: 10000,
-    CharacterName.CHUN_LI: 9500,
-    CharacterName.JAMIE: 10500,
-    CharacterName.LUKE: 10000,
-    CharacterName.KEN: 10000,
-    CharacterName.CAMMY: 9500,
-    CharacterName.JP: 10000,
+    # SF6 各キャラクターの最大HP（公式値）
+    CharacterName.RYU:      10000,
+    CharacterName.KEN:      10000,
+    CharacterName.LUKE:     10000,
+    CharacterName.JAMIE:    10500,
+    CharacterName.CHUN_LI:  9500,
+    CharacterName.CAMMY:    9500,
+    CharacterName.JURI:     9500,
+    CharacterName.KIMBERLY: 9500,
+    CharacterName.GUILE:    10000,
+    CharacterName.ZANGIEF:  11000,
+    CharacterName.BLANKA:   10500,
+    CharacterName.DHALSIM:  9000,
+    CharacterName.DEE_JAY:  10000,
+    CharacterName.MANON:    10000,
+    CharacterName.MARISA:   11000,
+    CharacterName.LILY:     10000,
+    CharacterName.RASHID:   9500,
+    CharacterName.ED:       9500,
+    CharacterName.AKI:      9500,
+    CharacterName.JP:       10000,
+    CharacterName.AKUMA:    9000,
+    CharacterName.M_BISON:  10500,
+    CharacterName.TERRY:    10000,
+    CharacterName.MAI:      9500,
+    CharacterName.ELENA:    9500,
 }
 
 # フレーム状態推定のしきい値
@@ -220,9 +248,21 @@ def _resolve_youtube_url(url: str, low_res: bool = False) -> str:
     import yt_dlp
 
     if low_res:
-        fmt = "bestvideo[height<=480][ext=mp4]/bestvideo[height<=480]/worstvideo/worst"
+        fmt = (
+            "bestvideo[height<=480][ext=mp4][vcodec^=avc]"
+            "/bestvideo[height<=480][ext=mp4]"
+            "/bestvideo[height<=480][vcodec^=avc]"
+            "/bestvideo[height<=480]"
+            "/worstvideo/worst"
+        )
     else:
-        fmt = "bestvideo[height>=1080]/bestvideo[height>=720]/bestvideo/best"
+        fmt = (
+            "bestvideo[height>=1080][vcodec^=avc]"
+            "/bestvideo[height>=1080]"
+            "/bestvideo[height>=720][vcodec^=avc]"
+            "/bestvideo[height>=720]"
+            "/bestvideo/best"
+        )
 
     ydl_opts = {"format": fmt, "quiet": True, "no_warnings": True}
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -285,7 +325,9 @@ def _bar_ratio(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
                 & (hsv[:, :, 2] > 80)
             )
     else:
-        active = hsv[:, :, 2] > 25
+        # hue_range=None の場合: 高彩度・高輝度のピクセル全色を対象とする
+        # これにより JP(青), Juri(ピンク), Ryu(赤) 等キャラ固有色のHPバーを統一検出
+        active = (hsv[:, :, 1] > 80) & (hsv[:, :, 2] > 80)
 
     # 列ごとの密度で判定（行数の15%以上がマッチした列のみ有効）
     col_density = active.sum(axis=0) / active.shape[0]
@@ -294,13 +336,13 @@ def _bar_ratio(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
     if not np.any(col_active):
         return 0.0
 
-    # テキスト等による小さなギャップ（≤10列）を埋める
+    # アンチエイリアス等による小さなギャップ（≤10列）を埋める
     filled_active = col_active.copy()
     gap = 0
     last_true = -1
     for i, v in enumerate(col_active):
         if v:
-            if last_true >= 0 and gap <= 80:
+            if last_true >= 0 and gap <= 10:
                 filled_active[last_true + 1:i] = True
             gap = 0
             last_true = i
@@ -371,6 +413,75 @@ def _sa_stock_count(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
     elif ratio >= _SA_THRESH_1:
         return 1
     return 0
+
+
+# ---------------------------------------------------------------------------
+# バーンアウト状態検出
+# ---------------------------------------------------------------------------
+
+def is_in_burnout(frame: np.ndarray, player: str) -> bool:
+    """プレイヤーがバーンアウト状態かどうかを判定する。
+
+    SF6のバーンアウト中はドライブゲージ領域が赤くフラッシュする。
+    通常時の黄緑色ピクセルがなく、代わりに赤ピクセルが多い場合に True を返す。
+
+    Args:
+        frame: 正規化済みフレーム（1920×1080）。
+        player: "p1" または "p2"。
+
+    Returns:
+        バーンアウト中なら True。
+    """
+    key = f"{player}_drive"
+    x1, y1, x2, y2 = _HUD[key]
+    roi = frame[y1:y2, x1:x2]
+    if roi.size == 0:
+        return False
+
+    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+
+    # 通常のドライブ色（黄緑）が存在するか
+    normal_mask = (
+        (hsv[:, :, 0] >= 15) & (hsv[:, :, 0] <= 55)
+        & (hsv[:, :, 1] > 80) & (hsv[:, :, 2] > 80)
+    )
+    if normal_mask.sum() / normal_mask.size > 0.05:
+        return False  # 黄緑が残っている → 通常状態
+
+    # 赤系ピクセルが多ければバーンアウト
+    red_ranges = _HUD_HUE["drive_burnout"]
+    red_mask = np.zeros(hsv.shape[:2], dtype=bool)
+    for h_min, h_max in red_ranges:
+        red_mask |= (
+            (hsv[:, :, 0] >= h_min) & (hsv[:, :, 0] <= h_max)
+            & (hsv[:, :, 1] > 60) & (hsv[:, :, 2] > 80)
+        )
+    ratio = red_mask.sum() / red_mask.size
+    result = ratio >= _BURNOUT_RED_THRESH
+    logger.debug("バーンアウト判定 %s: red_ratio=%.3f → %s", player, ratio, result)
+    return result
+
+
+def drive_gauge_ratio(frame: np.ndarray, player: str) -> tuple[float, bool]:
+    """ドライブゲージ比率とバーンアウト状態を返す。
+
+    バーンアウト中は比率 0.0 を返す（ゲージが空の状態として扱う）。
+
+    Args:
+        frame: 正規化済みフレーム。
+        player: "p1" または "p2"。
+
+    Returns:
+        (ゲージ比率 0.0〜1.0, バーンアウト中かどうか) のタプル。
+    """
+    burnout = is_in_burnout(frame, player)
+    if burnout:
+        return 0.0, True
+
+    key = f"{player}_drive"
+    fill_right = (player == "p2")
+    ratio = _bar_ratio(frame, *_HUD[key], fill_from_right=fill_right, hue_range=_HUD_HUE[key])
+    return ratio, False
 
 
 # ---------------------------------------------------------------------------
@@ -560,15 +671,24 @@ def extract_game_state_from_frames(
     frames = _normalize_frames(frames)
     latest = frames[-1]
 
-    # HP・ゲージ（複数フレームの中央値でノイズを除去）
-    def _med(key: str, **kw) -> float:
-        ratios = [_bar_ratio(f, *_HUD[key], **kw) for f in frames]
+    # HP バー（複数フレームの中央値でノイズを除去）
+    # P1: 左詰め / P2: 右詰め
+    def _med_hp(key: str, fill_right: bool) -> float:
+        ratios = [_bar_ratio(f, *_HUD[key], fill_from_right=fill_right,
+                             hue_range=_HUD_HUE[key]) for f in frames]
         return float(np.median(ratios))
 
-    p1_hp_ratio    = _med("p1_hp",    fill_from_right=True, hue_range=_HUD_HUE["p1_hp"])
-    p2_hp_ratio    = _med("p2_hp",    hue_range=_HUD_HUE["p2_hp"])
-    p1_drive_ratio = _med("p1_drive", hue_range=_HUD_HUE["p1_drive"])
-    p2_drive_ratio = _med("p2_drive", fill_from_right=True, hue_range=_HUD_HUE["p2_drive"])
+    p1_hp_ratio = _med_hp("p1_hp", fill_right=False)
+    p2_hp_ratio = _med_hp("p2_hp", fill_right=True)
+
+    # ドライブゲージ: バーンアウト判定込みで最終フレームで確定
+    # バーンアウト中は drive_gauge=0 として扱う
+    p1_drive_ratio, p1_burnout = drive_gauge_ratio(latest, "p1")
+    p2_drive_ratio, p2_burnout = drive_gauge_ratio(latest, "p2")
+    if p1_burnout:
+        logger.info("P1 バーンアウト中（ドライブ=0）")
+    if p2_burnout:
+        logger.info("P2 バーンアウト中（ドライブ=0）")
     p1_sa = _sa_stock_count(latest, *_HUD["p1_sa"], label="p1")
     p2_sa = _sa_stock_count(latest, *_HUD["p2_sa"], label="p2")
 
@@ -583,8 +703,8 @@ def extract_game_state_from_frames(
         p1_state, p1_recovery = FrameState.NEUTRAL, 0
         p2_state, p2_recovery = FrameState.NEUTRAL, 0
     else:
-        p1_state, p1_recovery = detect_frame_state(frames, "p1", _HUD["p1_hp"], True)
-        p2_state, p2_recovery = detect_frame_state(frames, "p2", _HUD["p2_hp"], True)
+        p1_state, p1_recovery = detect_frame_state(frames, "p1", _HUD["p1_hp"], False)  # P1 左詰め
+        p2_state, p2_recovery = detect_frame_state(frames, "p2", _HUD["p2_hp"], True)   # P2 右詰め
 
     p1_max_hp = _MAX_HP.get(character_p1, 10000)
     p2_max_hp = _MAX_HP.get(character_p2, 10000)
@@ -810,12 +930,9 @@ def is_match_scene(frame: np.ndarray) -> bool:
         logger.debug("タイマー領域がオレンジのため非試合画面と判定")
         return False
 
-    # 2. タイマー数字チェック（白い数字がなければ非試合画面）
-    if not _timer_has_digits(timer_hsv):
-        logger.debug("タイマー領域に数字が検出されないため非試合画面と判定")
-        return False
-
-    # 3. HP バーチェック
+    # 2. HP バーチェック（両者が最低限のHPを持っていれば試合中と判定）
+    # NOTE: SF6はキャラ固有色のHPバー（JP=青, Juri=ピンク等）があるため
+    #       hue_range=None で高彩度・高輝度の任意色を検出する
     p1_hp = _bar_ratio(frame, *_HUD["p1_hp"], fill_from_right=True, hue_range=_HUD_HUE["p1_hp"])
     p2_hp = _bar_ratio(frame, *_HUD["p2_hp"], hue_range=_HUD_HUE["p2_hp"])
     if p1_hp < _HUD_HP_MIN or p2_hp < _HUD_HP_MIN:

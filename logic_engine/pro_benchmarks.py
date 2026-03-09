@@ -27,7 +27,11 @@ NOTE: verified=True のデータは公開情報・大会実績から根拠あり
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import json
+import pathlib
+from dataclasses import dataclass, field
+
+_JSON_PATH = pathlib.Path(__file__).parent.parent / "data" / "pro_benchmarks.json"
 
 
 @dataclass(frozen=True)
@@ -41,14 +45,38 @@ class PlayerBenchmark:
     dr_economy: str             # "high" | "med" | "low"
     style_label: str
     style_note: str
+    character: str = ""         # キャラクター識別子（例: "jp", "ryu"）。空文字=汎用
     verified: bool = False
 
 
+def _load_from_json() -> dict[str, PlayerBenchmark]:
+    """data/pro_benchmarks.json からベンチマークデータを読み込む。"""
+    if not _JSON_PATH.exists():
+        return {}
+    try:
+        raw = json.loads(_JSON_PATH.read_text(encoding="utf-8"))
+        return {
+            k: PlayerBenchmark(**{
+                f: v for f, v in entry.items()
+                if f in PlayerBenchmark.__dataclass_fields__
+            })
+            for k, entry in raw.items()
+        }
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning("pro_benchmarks.json の読み込みに失敗: %s", e)
+        return {}
+
+
 # ---------------------------------------------------------------------------
-# プレイヤーデータ
+# プレイヤーデータ（JSON 優先、フォールバックでハードコード値を使用）
 # ---------------------------------------------------------------------------
 
-BENCHMARKS: dict[str, PlayerBenchmark] = {
+# JSON から読み込んだデータ（存在する場合）
+_json_data = _load_from_json()
+
+# ハードコードのフォールバックデータ（JSON にキーがない場合に使用）
+_HARDCODED: dict[str, PlayerBenchmark] = {
 
     "翔": PlayerBenchmark(
         display_name="翔（かける）",
@@ -163,33 +191,125 @@ BENCHMARKS: dict[str, PlayerBenchmark] = {
     ),
 }
 
+# 最終的な BENCHMARKS: JSON データ優先、なければハードコード
+# JSON キーは "player:char" 形式、ハードコードは後方互換のため旧キー形式を維持
+BENCHMARKS: dict[str, PlayerBenchmark] = {**_HARDCODED, **_json_data}
+
 
 # ---------------------------------------------------------------------------
 # ユーティリティ
 # ---------------------------------------------------------------------------
 
 def get_all_players() -> list[str]:
-    """登録プレイヤー名リストを返す。"""
+    """登録プレイヤー名リストを返す（重複排除済みのプレイヤー名）。"""
+    seen: set[str] = set()
+    result: list[str] = []
+    for key in BENCHMARKS:
+        player = key.split(":")[0]
+        if player not in seen:
+            seen.add(player)
+            result.append(player)
+    return result
+
+
+def get_all_keys() -> list[str]:
+    """全キー（"player:char" 形式）を返す。"""
     return list(BENCHMARKS.keys())
 
 
-def get_benchmark(player_key: str) -> PlayerBenchmark | None:
-    return BENCHMARKS.get(player_key)
+def get_benchmark(player_key: str, character: str = "") -> PlayerBenchmark | None:
+    """ベンチマークを返す。
+
+    検索順:
+      1. "player_key:character" の完全一致（character 指定あり）
+      2. "player_key" の完全一致（後方互換）
+      3. "player_key:" で始まるキーの最初のヒット
+    """
+    if character:
+        hit = BENCHMARKS.get(f"{player_key}:{character.lower()}")
+        if hit:
+            return hit
+    # 完全一致（ハードコードの旧キーや引数そのまま）
+    direct = BENCHMARKS.get(player_key)
+    if direct:
+        return direct
+    # プレフィックスマッチ（キャラ問わず最初のデータ）
+    prefix = f"{player_key}:"
+    for k, v in BENCHMARKS.items():
+        if k.startswith(prefix):
+            return v
+    return None
 
 
-def composite_benchmark() -> PlayerBenchmark:
-    """全プレイヤーの平均ベンチマーク（総合プロ水準）。"""
-    vals = list(BENCHMARKS.values())
+def save_benchmark(
+    player_key: str,
+    character: str,
+    benchmark: PlayerBenchmark,
+) -> None:
+    """ベンチマークデータを JSON に保存する。
+
+    既存のキーがあれば上書き、なければ追加。
+
+    Args:
+        player_key: プレイヤー識別子（例: "ときど"）。
+        character: キャラクター識別子（例: "jp"）。
+        benchmark: 保存する PlayerBenchmark。
+    """
+    key = f"{player_key}:{character.lower()}"
+    existing: dict = {}
+    if _JSON_PATH.exists():
+        try:
+            existing = json.loads(_JSON_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    entry = {
+        "display_name": benchmark.display_name,
+        "character": character.lower(),
+        "burnout_rate_pct": benchmark.burnout_rate_pct,
+        "opp_burnout_pct": benchmark.opp_burnout_pct,
+        "punish_conv_pct": benchmark.punish_conv_pct,
+        "lethal_conv_pct": benchmark.lethal_conv_pct,
+        "deal_ratio_pct": benchmark.deal_ratio_pct,
+        "dr_economy": benchmark.dr_economy,
+        "style_label": benchmark.style_label,
+        "style_note": benchmark.style_note,
+        "verified": benchmark.verified,
+    }
+    existing[key] = entry
+    _JSON_PATH.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # メモリ上の BENCHMARKS も即時更新
+    BENCHMARKS[key] = benchmark
+
+
+def composite_benchmark(character: str = "") -> PlayerBenchmark:
+    """登録済みプレイヤーの平均ベンチマーク（総合プロ水準）。
+
+    Args:
+        character: 絞り込むキャラクター（例: "jp"）。空文字で全キャラ平均。
+    """
+    if character:
+        vals = [v for k, v in BENCHMARKS.items() if k.endswith(f":{character.lower()}")]
+    else:
+        vals = list(BENCHMARKS.values())
+
+    if not vals:
+        vals = list(BENCHMARKS.values())
+
     n = len(vals)
+    player_names = "・".join(
+        k.split(":")[0] for k in list(BENCHMARKS)[:6]
+    )
     return PlayerBenchmark(
-        display_name="プロ6名平均",
+        display_name=f"プロ{n}名平均" + (f"（{character.upper()}）" if character else ""),
         burnout_rate_pct=round(sum(v.burnout_rate_pct for v in vals) / n, 1),
         opp_burnout_pct=round(sum(v.opp_burnout_pct for v in vals) / n, 1),
         punish_conv_pct=round(sum(v.punish_conv_pct for v in vals) / n, 1),
         lethal_conv_pct=round(sum(v.lethal_conv_pct for v in vals) / n, 1),
         deal_ratio_pct=round(sum(v.deal_ratio_pct for v in vals) / n, 1),
         dr_economy="med",
-        style_label="翔・ときど・りゅうせい・Juicyjoe・takepi・ふぇんりっち の平均",
-        style_note="登録済みプロ6名の平均ベンチマーク値",
+        style_label=f"{player_names} の平均",
+        style_note="登録済みプロの平均ベンチマーク値",
         verified=False,
     )

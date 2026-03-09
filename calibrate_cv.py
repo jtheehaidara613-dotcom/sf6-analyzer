@@ -59,10 +59,10 @@ def calibrate(url: str, sec: float) -> None:
     )
 
     # --- HP / Drive ---
-    p1_hp    = _bar_ratio(frame, *_HUD["p1_hp"],    fill_from_right=True, hue_range=_HUD_HUE["p1_hp"])
-    p2_hp    = _bar_ratio(frame, *_HUD["p2_hp"],    hue_range=_HUD_HUE["p2_hp"])
-    p1_drive = _bar_ratio(frame, *_HUD["p1_drive"], hue_range=_HUD_HUE["p1_drive"])
-    p2_drive = _bar_ratio(frame, *_HUD["p2_drive"], fill_from_right=True, hue_range=_HUD_HUE["p2_drive"])
+    p1_hp    = _bar_ratio(frame, *_HUD["p1_hp"],    fill_from_right=False, hue_range=_HUD_HUE["p1_hp"])
+    p2_hp    = _bar_ratio(frame, *_HUD["p2_hp"],    fill_from_right=True,  hue_range=_HUD_HUE["p2_hp"])
+    p1_drive = _bar_ratio(frame, *_HUD["p1_drive"], fill_from_right=False, hue_range=_HUD_HUE["p1_drive"])
+    p2_drive = _bar_ratio(frame, *_HUD["p2_drive"], fill_from_right=True,  hue_range=_HUD_HUE["p2_drive"])
 
     print(f"\n[HP / Drive]")
     print(f"  P1 HP:    {p1_hp:.4f}  ({p1_hp*100:.1f}%)")

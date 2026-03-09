@@ -1,0 +1,271 @@
+{
+  "_meta": {
+    "source": "https://sf6freak.com/characters/",
+    "description": "キャラクター別 上位プレイヤー一覧。jp/ryu/luke/ken/cammy/guile/chun_li/akuma/terry/maiはTOP8入賞回数(top8)、それ以外はLegendランクMR順(mr)。",
+    "updated": "2026-03-09"
+  },
+  "jp": [
+    {"name": "翔",          "top8": 16, "note": "CAPCOM CUP 11 世界チャンピオン。神経機能不調により2025年10月引退。"},
+    {"name": "DCQ",         "top8": 11},
+    {"name": "JPKING",      "top8": 10},
+    {"name": "Juicyjoe",    "top8": 8,  "note": "NIP所属。スウェーデン人プロ。CC Top8。"},
+    {"name": "GutsBoom",    "top8": 8},
+    {"name": "ときど",      "top8": 3,  "note": "REJECT所属。EVO殿堂入り。SFL2025参加。"},
+    {"name": "ふぇんりっち","top8": 3,  "note": "CAG OSAKA所属。SFL参加。押し付け積極型。"},
+    {"name": "りゅうせい",  "top8": 2,  "note": "FAV gaming所属。SFL2023優勝チーム。DR→アムネジア多用型。"},
+    {"name": "takepi",      "top8": 2,  "note": "広島TEAM iXA。旧名: taketake-piano。"},
+    {"name": "ネモ",        "top8": 2},
+    {"name": "あくあ",      "top8": 2}
+  ],
+  "ryu": [
+    {"name": "EndingWalker","top8": 11},
+    {"name": "Kusanagi",    "top8": 11},
+    {"name": "Blaz",        "top8": 10},
+    {"name": "Craime",      "top8": 6},
+    {"name": "GTR",         "top8": 4},
+    {"name": "MDZ_jimmY",   "top8": 4},
+    {"name": "Punk",        "top8": 3},
+    {"name": "ひなお",      "top8": 2}
+  ],
+  "luke": [
+    {"name": "NoahTheProdigy","top8": 15},
+    {"name": "Chris Wong",  "top8": 13},
+    {"name": "MenaRD",      "top8": 12},
+    {"name": "JUNINHO-RAS", "top8": 11},
+    {"name": "Abood bboy",  "top8": 9},
+    {"name": "Ugang",       "top8": 7},
+    {"name": "カワノ",      "top8": 4},
+    {"name": "ボンちゃん",  "top8": 4},
+    {"name": "NL",          "top8": 3},
+    {"name": "ひなお",      "top8": 2}
+  ],
+  "ken": [
+    {"name": "ときど",      "top8": 15, "note": "REJECT所属。EVO殿堂入り。KEN使いとして最多TOP8。"},
+    {"name": "AngryBird",   "top8": 14},
+    {"name": "Armperor",    "top8": 13},
+    {"name": "ChrisT",      "top8": 10},
+    {"name": "Uriel Velorio","top8": 10},
+    {"name": "NotPedro",    "top8": 9},
+    {"name": "Sayff",       "top8": 8},
+    {"name": "りゅうきち",  "top8": 7},
+    {"name": "Blaz",        "top8": 6},
+    {"name": "Xiaohai",     "top8": 4},
+    {"name": "ウメハラ",    "top8": 3},
+    {"name": "藤村",        "top8": 3}
+  ],
+  "cammy": [
+    {"name": "Punk",        "top8": 19},
+    {"name": "Alphen",      "top8": 10},
+    {"name": "Hurricane",   "top8": 10},
+    {"name": "Kilzyou",     "top8": 10},
+    {"name": "Micky",       "top8": 9},
+    {"name": "NuckleDu",    "top8": 8},
+    {"name": "Shakz",       "top8": 8},
+    {"name": "Phenom",      "top8": 7},
+    {"name": "かずのこ",    "top8": 6},
+    {"name": "水派",        "top8": 4},
+    {"name": "Xiaohai",     "top8": 3},
+    {"name": "AngryBird",   "top8": 2}
+  ],
+  "guile": [
+    {"name": "NuckleDu",    "top8": 14},
+    {"name": "ひぐち",      "top8": 14},
+    {"name": "Lexx",        "top8": 13},
+    {"name": "Caba",        "top8": 10},
+    {"name": "Rainpro",     "top8": 10},
+    {"name": "Akainu",      "top8": 8},
+    {"name": "Anunnaki",    "top8": 5},
+    {"name": "IamChuan",    "top8": 3}
+  ],
+  "chun_li": [
+    {"name": "GO1",         "top8": 11},
+    {"name": "Valmaster",   "top8": 11},
+    {"name": "もけ",        "top8": 11},
+    {"name": "Hamood",      "top8": 10},
+    {"name": "XIAOHU",      "top8": 8},
+    {"name": "Zackbozz",    "top8": 6},
+    {"name": "Filipinoman", "top8": 5},
+    {"name": "IamChuan",    "top8": 3},
+    {"name": "ハイタニ",    "top8": 2}
+  ],
+  "akuma": [
+    {"name": "AngryBird",   "top8": 12},
+    {"name": "Samurai",     "top8": 10},
+    {"name": "Baadshah_Miya","top8": 9},
+    {"name": "Brandon",     "top8": 8},
+    {"name": "カワノ",      "top8": 8},
+    {"name": "vWsym",       "top8": 8},
+    {"name": "NL",          "top8": 7},
+    {"name": "Punk",        "top8": 6},
+    {"name": "ボンちゃん",  "top8": 5},
+    {"name": "翔",          "top8": 3},
+    {"name": "ウメハラ",    "top8": 3}
+  ],
+  "terry": [
+    {"name": "Riddles",     "top8": 7},
+    {"name": "きんちょ",    "top8": 6},
+    {"name": "Oil King",    "top8": 5},
+    {"name": "Uriel Velorio","top8": 5},
+    {"name": "Sevens",      "top8": 5},
+    {"name": "Booce_Lee",   "top8": 4},
+    {"name": "レシャー",    "top8": 4},
+    {"name": "Punk",        "top8": 2}
+  ],
+  "mai": [
+    {"name": "Xiaohai",     "top8": 7},
+    {"name": "Hamood",      "top8": 5},
+    {"name": "Kilzyou",     "top8": 5},
+    {"name": "Micky",       "top8": 5},
+    {"name": "slow af",     "top8": 5},
+    {"name": "Phenom",      "top8": 4},
+    {"name": "レシャー",    "top8": 4},
+    {"name": "Chico",       "top8": 4},
+    {"name": "Chris Wong",  "top8": 4},
+    {"name": "ヤマグチ",    "top8": 3}
+  ],
+  "kimberly": [
+    {"name": "Pipokun",                   "mr": 2177},
+    {"name": "SURINI",                    "mr": 2174},
+    {"name": "tako956402",                "mr": 2148},
+    {"name": "LUGABO",                    "mr": 2137},
+    {"name": "みすとめーる@iMstMaiL",    "mr": 2135},
+    {"name": "シティ・ポップ増山",        "mr": 2124},
+    {"name": "matsu56",                   "mr": 2115}
+  ],
+  "juri": [
+    {"name": "JACK_DOLL",                 "mr": 2148},
+    {"name": "2BASSA",                    "mr": 2139},
+    {"name": "Betty",                     "mr": 2139},
+    {"name": "Nashi_espopia",             "mr": 2134},
+    {"name": "Malulu",                    "mr": 2123},
+    {"name": "aiai",                      "mr": 2113},
+    {"name": "tacos",                     "mr": 2103}
+  ],
+  "blanka": [
+    {"name": "susa",                      "mr": 2159},
+    {"name": "ACQUA",                     "mr": 2153},
+    {"name": "NISHIKIN",                  "mr": 2145},
+    {"name": "きんぐすベガ",              "mr": 2139},
+    {"name": "光のZeno",                  "mr": 2134},
+    {"name": "ぐんずだったんだ",          "mr": 2120},
+    {"name": "ぼんぎ（　＾ω＾）",        "mr": 2117}
+  ],
+  "dhalsim": [
+    {"name": "YHC-餅",                    "mr": 2269},
+    {"name": "こなつ＠",                  "mr": 2165},
+    {"name": "覚醒まるみ～",              "mr": 2128},
+    {"name": "ねじまき鳥クロニクル",      "mr": 2128},
+    {"name": "Torimeshi",                 "mr": 2121},
+    {"name": "Niko Tokita",               "mr": 2114},
+    {"name": "Monsterjujuju",             "mr": 2110}
+  ],
+  "dee_jay": [
+    {"name": "@Sycom┃zabutonn",           "mr": 2227},
+    {"name": "3S/宗蔵",                   "mr": 2223},
+    {"name": "fataze",                    "mr": 2165},
+    {"name": "tomorock",                  "mr": 2135},
+    {"name": "2G Brayan_Job",             "mr": 2127},
+    {"name": "La_grasa01",                "mr": 2077},
+    {"name": "ネコ派です_ネッコで画面見えぬ", "mr": 2075}
+  ],
+  "manon": [
+    {"name": "あくたがわ",                "mr": 2252},
+    {"name": "Babaaaaa",                  "mr": 2226},
+    {"name": "GGST2.0から逃げるな",       "mr": 2085},
+    {"name": "World Peace",               "mr": 2079},
+    {"name": "Bonvivant",                 "mr": 2064},
+    {"name": "石川マノン",                "mr": 2052},
+    {"name": "JoeyFGC",                   "mr": 2048}
+  ],
+  "marisa": [
+    {"name": "karura",                    "mr": 2165},
+    {"name": "紺外郎/Kon_Uiro",           "mr": 2160},
+    {"name": "kurobuchi_b09",             "mr": 2144},
+    {"name": "GjijiiG",                   "mr": 2135},
+    {"name": "popolinlin",                "mr": 2127},
+    {"name": "usagi",                     "mr": 2103},
+    {"name": "jjnj",                      "mr": 2102}
+  ],
+  "lily": [
+    {"name": "SBI_Hibiki",                "mr": 2200},
+    {"name": "SivaKaeru",                 "mr": 2156},
+    {"name": "Mira",                      "mr": 2125},
+    {"name": "シュラリス",                "mr": 2117},
+    {"name": "MadHawk",                   "mr": 2069},
+    {"name": "モダナー竹野",              "mr": 2058},
+    {"name": "九条/MG_Kujou",             "mr": 2055}
+  ],
+  "rashid": [
+    {"name": "Dual_Kevin",                "mr": 2209},
+    {"name": "TsuneHERO",                 "mr": 2149},
+    {"name": "山田の隣",                  "mr": 2148},
+    {"name": "Nth_satoru",                "mr": 2129},
+    {"name": "とす__",                    "mr": 2126},
+    {"name": "ぽてぽてキリン",            "mr": 2108},
+    {"name": "JBJB",                      "mr": 2094}
+  ],
+  "ed": [
+    {"name": "Taisei",                    "mr": 2205},
+    {"name": "えびはら",                  "mr": 2182},
+    {"name": "Laggia",                    "mr": 2128},
+    {"name": "ChrisCCH",                  "mr": 2122},
+    {"name": "Kitty18",                   "mr": 2117},
+    {"name": "Fuudo",                     "mr": 2113},
+    {"name": "Gorou",                     "mr": 2111}
+  ],
+  "aki": [
+    {"name": "hikaru_shiftne",            "mr": 2208},
+    {"name": "ネコと和解せよ",            "mr": 2187},
+    {"name": "Motchan",                   "mr": 2172},
+    {"name": "ACR Ayasaka",               "mr": 2158},
+    {"name": "ISASAKA",                   "mr": 2133},
+    {"name": "yama_ps5",                  "mr": 2091},
+    {"name": "ZSF | Zydani",              "mr": 2055}
+  ],
+  "m_bison": [
+    {"name": "らおやむやむ☆ハイハイ謝謝♪", "mr": 2191},
+    {"name": "路易十二",                  "mr": 2182},
+    {"name": "まえうしろ",                "mr": 2170},
+    {"name": "ひらまさ",                  "mr": 2140},
+    {"name": "刻音 | Lemochin",           "mr": 2140},
+    {"name": "刻音｜殴打 武",             "mr": 2136},
+    {"name": "Nth Oniki",                 "mr": 2134},
+    {"name": "Zhen",                      "mr": 2120}
+  ],
+  "zangief": [
+    {"name": "Junior",                    "mr": 2200},
+    {"name": "めんたらこ",                "mr": 2180},
+    {"name": "kobayan",                   "mr": 2133},
+    {"name": "海底撈月",                  "mr": 2108},
+    {"name": "ASASE",                     "mr": 2108},
+    {"name": "InvincibleBruce",           "mr": 2068},
+    {"name": "Dynamite-PC",               "mr": 2064}
+  ],
+  "jamie": [
+    {"name": "tsumugiZ",                  "mr": 2137},
+    {"name": "タンタンメン265Twitch",      "mr": 2126},
+    {"name": "HooCHoo",                   "mr": 2092},
+    {"name": "Nagoya Kun",                "mr": 2086},
+    {"name": "sarima",                    "mr": 2084},
+    {"name": "あめ屋。",                  "mr": 2074},
+    {"name": "すがわら",                  "mr": 2070}
+  ],
+  "elena": [
+    {"name": "Seichi（せいち）",           "mr": 2205},
+    {"name": "kosaku",                    "mr": 2185},
+    {"name": "ナショナル動かせ",          "mr": 2160},
+    {"name": "miLiq/みりあ",              "mr": 2101},
+    {"name": "o-yk",                      "mr": 2088},
+    {"name": "今井　翔太",                "mr": 2085},
+    {"name": "くびちょり",                "mr": 2079}
+  ],
+  "sagat": [
+    {"name": "Hand Me Downs",             "mr": 2211},
+    {"name": "BonchanRB",                 "mr": 2181},
+    {"name": "Kushina",                   "mr": 2180},
+    {"name": "プルプルなぷる",            "mr": 2152},
+    {"name": "Nagoya Kun",                "mr": 2148},
+    {"name": "だいわ_",                   "mr": 2135},
+    {"name": "naruo",                     "mr": 2135}
+  ]
+}
