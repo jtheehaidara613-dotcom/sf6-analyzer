@@ -208,7 +208,7 @@ def analyze(
 
     if not results:
         logger.error("試合シーンが1件も検出されませんでした")
-        sys.exit(1)
+        raise RuntimeError("試合シーンが1件も検出されませんでした")
 
     logger.info("スナップショット取得: %d件", len(results))
 
@@ -388,6 +388,7 @@ def search_youtube_vod(player_name: str, char: str, max_results: int = 5) -> str
                 "best replays",
                 "high level gameplay",   # オーバーレイ系チャンネルに多い
                 "▰",                     # "SF6 ▰ Player ▰" 系チャンネル
+                "💥",                     # "player 💥 messatsu 💥" 系オーバーレイチャンネル
                 "🔥sf6",
                 "🔥 sf6",
                 " guide",                # チュートリアル・ガイド動画
