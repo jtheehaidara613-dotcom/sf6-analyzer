@@ -80,11 +80,11 @@
   "JACK_DOLL:juri": {
     "display_name": "JACK_DOLL",
     "character": "juri",
-    "burnout_rate_pct": 27.3,
-    "opp_burnout_pct": 9.1,
+    "burnout_rate_pct": 8.3,
+    "opp_burnout_pct": 25.0,
     "punish_conv_pct": 75.0,
-    "lethal_conv_pct": 65.0,
-    "deal_ratio_pct": 10.7,
+    "lethal_conv_pct": 0.0,
+    "deal_ratio_pct": 74.6,
     "dr_economy": "high",
     "style_label": "",
     "style_note": "",
@@ -506,32 +506,6 @@
     "style_note": "",
     "verified": false
   },
-  "Abood bboy:luke": {
-    "display_name": "Abood bboy",
-    "character": "luke",
-    "burnout_rate_pct": 11.5,
-    "opp_burnout_pct": 30.8,
-    "punish_conv_pct": 75.0,
-    "lethal_conv_pct": 0.0,
-    "deal_ratio_pct": 92.4,
-    "dr_economy": "high",
-    "style_label": "",
-    "style_note": "",
-    "verified": false
-  },
-  "AngryBird:ken": {
-    "display_name": "AngryBird",
-    "character": "ken",
-    "burnout_rate_pct": 0.0,
-    "opp_burnout_pct": 44.0,
-    "punish_conv_pct": 75.0,
-    "lethal_conv_pct": 0.0,
-    "deal_ratio_pct": 93.5,
-    "dr_economy": "high",
-    "style_label": "",
-    "style_note": "",
-    "verified": false
-  },
   "Armperor:ken": {
     "display_name": "Armperor",
     "character": "ken",
@@ -545,19 +519,6 @@
     "style_note": "",
     "verified": false
   },
-  "ChrisT:ken": {
-    "display_name": "ChrisT",
-    "character": "ken",
-    "burnout_rate_pct": 0.0,
-    "opp_burnout_pct": 0.0,
-    "punish_conv_pct": 75.0,
-    "lethal_conv_pct": 65.0,
-    "deal_ratio_pct": 0.0,
-    "dr_economy": "high",
-    "style_label": "",
-    "style_note": "",
-    "verified": false
-  },
   "Uriel Velorio:ken": {
     "display_name": "Uriel Velorio",
     "character": "ken",
@@ -566,19 +527,6 @@
     "punish_conv_pct": 75.0,
     "lethal_conv_pct": 65.0,
     "deal_ratio_pct": 55.9,
-    "dr_economy": "high",
-    "style_label": "",
-    "style_note": "",
-    "verified": false
-  },
-  "Alphen:cammy": {
-    "display_name": "Alphen",
-    "character": "cammy",
-    "burnout_rate_pct": 17.6,
-    "opp_burnout_pct": 5.9,
-    "punish_conv_pct": 75.0,
-    "lethal_conv_pct": 65.0,
-    "deal_ratio_pct": 100.0,
     "dr_economy": "high",
     "style_label": "",
     "style_note": "",

@@ -22,6 +22,7 @@ from logic_engine.match_monitor import (
     build_strategic_report,
     build_vod_summary,
     detect_events,
+    user_stats,
 )
 from logic_engine.pro_benchmarks import get_all_players, get_benchmark, composite_benchmark
 from logic_engine.punish_detector import detect_punish_opportunity
@@ -273,7 +274,8 @@ def report_ui(log: MatchLog, report_type: str, tab_key: str = "") -> None:
         _render_coaching(build_strategic_report(log))
 
     elif report_type == "プロ比較":
-        st.caption("登録済みプロJPプレイヤーのベンチマークと自分の指標を比較します")
+        my_char = CharacterName(st.session_state[KEY_MY_CHAR])
+        st.caption(f"登録済みプロ（{CHARACTER_LABELS[my_char]}）のベンチマークと自分の指標を比較します")
         sel_idx = st.selectbox(
             "比較対象プレイヤー",
             range(len(_PRO_PLAYER_OPTIONS)),
@@ -295,7 +297,32 @@ def report_ui(log: MatchLog, report_type: str, tab_key: str = "") -> None:
                     f"</div>",
                     unsafe_allow_html=True,
                 )
-        _render_coaching(build_pro_comparison_report(log, player_key=player_key))
+        else:
+            bench = composite_benchmark(my_char.value)
+        # 視覚的指標比較
+        if bench and len(log.events) >= 3:
+            u = user_stats(log)
+            c1, c2, c3, c4 = st.columns(4)
+            def _delta(user_v, bench_v, lower_is_better=False):
+                if user_v is None:
+                    return None
+                d = user_v - bench_v
+                return f"{d:+.1f}pt" if not lower_is_better else f"{-d:+.1f}pt"
+            c1.metric("自分BO率", f"{u['burnout_rate']:.1f}%",
+                      delta=_delta(u['burnout_rate'], bench.burnout_rate_pct, lower_is_better=True),
+                      delta_color="normal", help=f"プロ水準: {bench.burnout_rate_pct:.0f}%（低いほど良い）")
+            c2.metric("相手BO誘導率", f"{u['opp_burnout_rate']:.1f}%",
+                      delta=_delta(u['opp_burnout_rate'], bench.opp_burnout_pct),
+                      delta_color="normal", help=f"プロ水準: {bench.opp_burnout_pct:.0f}%（高いほど良い）")
+            c3.metric("与ダメ率", f"{u['deal_ratio']:.1f}%",
+                      delta=_delta(u['deal_ratio'], bench.deal_ratio_pct),
+                      delta_color="normal", help=f"プロ水準: {bench.deal_ratio_pct:.0f}%")
+            punish_label = f"{u['punish_conv']:.0f}%" if u['punish_conv'] is not None else "—"
+            c4.metric("確定反撃変換率", punish_label,
+                      delta=_delta(u['punish_conv'], bench.punish_conv_pct) if u['punish_conv'] is not None else None,
+                      delta_color="normal", help=f"プロ水準: {bench.punish_conv_pct:.0f}%（高いほど良い）")
+            st.divider()
+        _render_coaching(build_pro_comparison_report(log, player_key=player_key, character=my_char.value))
 
     else:  # イベントログ（デフォルト）
         event_log_ui(log, n=len(log.events) if len(log.events) <= 20 else 20)

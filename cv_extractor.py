@@ -933,8 +933,9 @@ def is_match_scene(frame: np.ndarray) -> bool:
     # 2. HP バーチェック（両者が最低限のHPを持っていれば試合中と判定）
     # NOTE: SF6はキャラ固有色のHPバー（JP=青, Juri=ピンク等）があるため
     #       hue_range=None で高彩度・高輝度の任意色を検出する
-    p1_hp = _bar_ratio(frame, *_HUD["p1_hp"], fill_from_right=True, hue_range=_HUD_HUE["p1_hp"])
-    p2_hp = _bar_ratio(frame, *_HUD["p2_hp"], hue_range=_HUD_HUE["p2_hp"])
+    # P1: 左詰め（fill_from_right=False）、P2: 右詰め（fill_from_right=True）
+    p1_hp = _bar_ratio(frame, *_HUD["p1_hp"], fill_from_right=False, hue_range=_HUD_HUE["p1_hp"])
+    p2_hp = _bar_ratio(frame, *_HUD["p2_hp"], fill_from_right=True, hue_range=_HUD_HUE["p2_hp"])
     if p1_hp < _HUD_HP_MIN or p2_hp < _HUD_HP_MIN:
         return False
 

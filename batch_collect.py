@@ -178,6 +178,19 @@ def main() -> None:
                 data = analyze(url, char_p1, char_p2, args.interval, args.max_sec,
                                side=args.side)
 
+                # deal_ratio 異常値チェック（正常範囲: 20〜88%）
+                deal = data.get("deal_ratio_pct", 50.0)
+                if deal < 20.0 or deal > 88.0:
+                    logger.warning(
+                        "deal_ratio=%.1f%% は異常値です（正常範囲: 20〜88%%）。保存をスキップします。"
+                        " 別動画を試すか --side を変えてください。",
+                        deal,
+                    )
+                    results_summary.append({"char": char_id, "player": player_name,
+                                            "status": "bad_quality",
+                                            "deal_ratio": deal, "url": url})
+                    continue
+
                 _save_to_json(
                     player_key=player_name,
                     player_name=player_name,
@@ -206,10 +219,12 @@ def main() -> None:
     for r in results_summary:
         status = r["status"]
         icon = {"ok": "✓", "skip": "-", "no_video": "✗", "error": "!", "dry_run": "?",
-                "unsupported_char": "?"}.get(status, "?")
+                "unsupported_char": "?", "bad_quality": "⚠"}.get(status, "?")
         print(f"  [{icon}] {r['char']:12s}  {r['player']}")
         if status == "error":
             print(f"          → {r.get('error', '')}")
+        if status == "bad_quality":
+            print(f"          → deal_ratio={r.get('deal_ratio', '?'):.1f}%  {r.get('url', '')}")
         if status in ("dry_run", "ok") and "url" in r:
             print(f"          → {r['url']}")
     print("=" * 60)

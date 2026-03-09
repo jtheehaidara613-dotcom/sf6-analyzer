@@ -724,7 +724,7 @@ def build_pro_coaching_report(log: MatchLog) -> list[dict]:
 # プロ比較レポート
 # ---------------------------------------------------------------------------
 
-def _user_stats(log: MatchLog) -> dict:
+def user_stats(log: MatchLog) -> dict:
     """MatchLog からユーザーの各指標を計算する。"""
     total_damage_events = log.times_took_damage + log.times_dealt_damage
     deal_ratio = (
@@ -775,12 +775,14 @@ def _diff_label(user_val: float | None, bench_val: float, lower_is_better: bool 
 def build_pro_comparison_report(
     log: MatchLog,
     player_key: str = "composite",
+    character: str = "",
 ) -> list[dict]:
     """指定プレイヤーのベンチマークとユーザーを比較するレポートを生成する。
 
     Args:
         log: 試合ログ。
         player_key: 比較対象プレイヤーキー（"composite" で全員平均）。
+        character: "composite" 時にキャラ絞り込みで使用（例: "jp"）。
 
     Returns:
         [{level, title, body}] のリスト。
@@ -793,11 +795,11 @@ def build_pro_comparison_report(
         }]
 
     bench: PlayerBenchmark = (
-        composite_benchmark() if player_key == "composite"
-        else get_benchmark(player_key) or composite_benchmark()
+        composite_benchmark(character) if player_key == "composite"
+        else get_benchmark(player_key) or composite_benchmark(character)
     )
 
-    user = _user_stats(log)
+    user = user_stats(log)
     verified_note = "" if bench.verified else "（※ 推定値）"
     results: list[dict] = []
 
@@ -961,7 +963,7 @@ def build_counter_strategy_report(opp_log: MatchLog) -> list[dict]:
             "body": "対策分析には相手VODの3分以上のデータが必要です。相手URLを確認してください。",
         }]
 
-    opp = _user_stats(opp_log)
+    opp = user_stats(opp_log)
     tips: list[dict] = []
 
     # ── 相手プロフィール概要 ─────────────────────────────────────────────
