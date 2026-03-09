@@ -8,3 +8,9 @@ wheels/
 
 # Virtual environments
 .venv
+
+# ユーザーデータ（デプロイ先では不要）
+data/results.db
+
+# ログ
+/tmp/batch_*.log
