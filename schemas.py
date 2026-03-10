@@ -62,6 +62,101 @@ class CharacterName(str, Enum):
 
 
 # ---------------------------------------------------------------------------
+# キャラクターメタデータ（単一定義・全ファイル共通）
+# ---------------------------------------------------------------------------
+
+CHARACTER_LABELS: dict["CharacterName", str] = {
+    CharacterName.RYU:      "リュウ",
+    CharacterName.CHUN_LI:  "春麗",
+    CharacterName.JAMIE:    "ジェイミー",
+    CharacterName.LUKE:     "ルーク",
+    CharacterName.KEN:      "ケン",
+    CharacterName.CAMMY:    "キャミィ",
+    CharacterName.JP:       "JP",
+    CharacterName.GUILE:    "ガイル",
+    CharacterName.ZANGIEF:  "ザンギエフ",
+    CharacterName.BLANKA:   "ブランカ",
+    CharacterName.DHALSIM:  "ダルシム",
+    CharacterName.DEE_JAY:  "ディージェイ",
+    CharacterName.KIMBERLY: "キンバリー",
+    CharacterName.JURI:     "ジュリ",
+    CharacterName.MANON:    "マノン",
+    CharacterName.MARISA:   "マリーザ",
+    CharacterName.LILY:     "リリー",
+    CharacterName.RASHID:   "ラシード",
+    CharacterName.ED:       "エド",
+    CharacterName.AKI:      "AKI",
+    CharacterName.AKUMA:    "アクマ",
+    CharacterName.M_BISON:  "M.バイソン",
+    CharacterName.TERRY:    "テリー",
+    CharacterName.MAI:      "マイ",
+    CharacterName.ELENA:    "エレナ",
+}
+
+# SF6 各キャラクターの最大HP（公式値）
+CHARACTER_MAX_HP: dict["CharacterName", int] = {
+    CharacterName.RYU:      10000,
+    CharacterName.KEN:      10000,
+    CharacterName.LUKE:     10000,
+    CharacterName.JAMIE:    10500,
+    CharacterName.CHUN_LI:  9500,
+    CharacterName.CAMMY:    9500,
+    CharacterName.JURI:     9500,
+    CharacterName.KIMBERLY: 9500,
+    CharacterName.GUILE:    10000,
+    CharacterName.ZANGIEF:  11000,
+    CharacterName.BLANKA:   10500,
+    CharacterName.DHALSIM:  9000,
+    CharacterName.DEE_JAY:  10000,
+    CharacterName.MANON:    10000,
+    CharacterName.MARISA:   11000,
+    CharacterName.LILY:     10000,
+    CharacterName.RASHID:   9500,
+    CharacterName.ED:       9500,
+    CharacterName.AKI:      9500,
+    CharacterName.JP:       10000,
+    CharacterName.AKUMA:    9000,
+    CharacterName.M_BISON:  10500,
+    CharacterName.TERRY:    10000,
+    CharacterName.MAI:      9500,
+    CharacterName.ELENA:    9500,
+}
+
+# 文字列→enum変換の追加エイリアス（OCR出力・CLI引数・表記ゆれに対応）
+_CHAR_ALIASES: dict[str, "CharacterName"] = {
+    "CHUN":    CharacterName.CHUN_LI,
+    "CHUNLI":  CharacterName.CHUN_LI,
+    "BISON":   CharacterName.M_BISON,
+    "MBISON":  CharacterName.M_BISON,
+    "DEEJAY":  CharacterName.DEE_JAY,
+    "KIM":     CharacterName.KIMBERLY,
+    "JP":      CharacterName.JP,
+    "J.P.":    CharacterName.JP,
+    "SAGAT":   CharacterName.RYU,  # 未対応キャラのフォールバック（使用時は要注意）
+}
+
+
+def char_to_enum(s: str) -> "CharacterName | None":
+    """文字列から CharacterName に変換する。
+
+    大文字小文字・ハイフン・スペース・アンダースコアを正規化して検索する。
+    対応しない文字列の場合は None を返す。
+    """
+    # 1. enum値から直接検索（"dee_jay", "chun_li" など）
+    try:
+        return CharacterName(s.lower())
+    except ValueError:
+        pass
+    # 2. 正規化してenum名と比較（"DEE JAY", "CHUN-LI" など）
+    normalized = s.upper().replace("-", "_").replace(" ", "_").replace(".", "")
+    for member in CharacterName:
+        if member.name == normalized:
+            return member
+    # 3. エイリアステーブルで検索
+    return _CHAR_ALIASES.get(normalized)
+
+
+# ---------------------------------------------------------------------------
 # 入力スキーマ
 # ---------------------------------------------------------------------------
 

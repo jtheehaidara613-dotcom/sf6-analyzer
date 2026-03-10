@@ -22,7 +22,7 @@ import time
 import cv2
 import numpy as np
 
-from schemas import CharacterName, CharacterState, FrameState, GameState, Position
+from schemas import CHARACTER_MAX_HP, char_to_enum, CharacterName, CharacterState, FrameState, GameState, Position
 
 logger = logging.getLogger(__name__)
 
@@ -30,39 +30,18 @@ logger = logging.getLogger(__name__)
 # キャラクター略称 → CharacterName マッピング（SF6 HUD表示準拠）
 # ---------------------------------------------------------------------------
 
+# OCR出力の表記ゆれに対応する追加エイリアス（schemas.char_to_enum で解決できないもののみ）
+_OCR_EXTRA_ALIASES: dict[str, CharacterName] = {
+    "CHUN LI":  CharacterName.CHUN_LI,  # スペース区切り（OCR誤読）
+    "DEE JAY":  CharacterName.DEE_JAY,  # スペース区切り
+    "M.BISON":  CharacterName.M_BISON,  # ドット付き表記
+}
+
+# 後方互換のため既存コードが参照できるよう統合マップを生成
 _CHAR_ABBR_MAP: dict[str, CharacterName] = {
-    "RYU":      CharacterName.RYU,
-    "KEN":      CharacterName.KEN,
-    "LUKE":     CharacterName.LUKE,
-    "JAMIE":    CharacterName.JAMIE,
-    "CHUN-LI":  CharacterName.CHUN_LI,
-    "CHUNLI":   CharacterName.CHUN_LI,
-    "CHUN LI":  CharacterName.CHUN_LI,
-    "GUILE":    CharacterName.GUILE,
-    "KIMBERLY": CharacterName.KIMBERLY,
-    "KIM":      CharacterName.KIMBERLY,
-    "JURI":     CharacterName.JURI,
-    "BLANKA":   CharacterName.BLANKA,
-    "DHALSIM":  CharacterName.DHALSIM,
-    "DEE JAY":  CharacterName.DEE_JAY,
-    "DEEJAY":   CharacterName.DEE_JAY,
-    "MANON":    CharacterName.MANON,
-    "MARISA":   CharacterName.MARISA,
-    "JP":       CharacterName.JP,
-    "J.P.":     CharacterName.JP,
-    "ZANGIEF":  CharacterName.ZANGIEF,
-    "LILY":     CharacterName.LILY,
-    "CAMMY":    CharacterName.CAMMY,
-    "RASHID":   CharacterName.RASHID,
-    "AKI":      CharacterName.AKI,
-    "ED":       CharacterName.ED,
-    "AKUMA":    CharacterName.AKUMA,
-    "M.BISON":  CharacterName.M_BISON,
-    "MBISON":   CharacterName.M_BISON,
-    "BISON":    CharacterName.M_BISON,
-    "TERRY":    CharacterName.TERRY,
-    "MAI":      CharacterName.MAI,
-    "ELENA":    CharacterName.ELENA,
+    **{m.name: m for m in CharacterName},            # "RYU", "CHUN_LI" ...
+    **{m.value.upper(): m for m in CharacterName},   # "ryu"→"RYU", "dee_jay"→"DEE_JAY" ...
+    **_OCR_EXTRA_ALIASES,
 }
 
 # SF6 HUD上のキャラクター略称テキスト領域（1920×1080 基準）
@@ -135,34 +114,7 @@ _CHAR_ROI = {
     "p2": (960, 150, 1920, 960),
 }
 
-_MAX_HP: dict[CharacterName, int] = {
-    # SF6 各キャラクターの最大HP（公式値）
-    CharacterName.RYU:      10000,
-    CharacterName.KEN:      10000,
-    CharacterName.LUKE:     10000,
-    CharacterName.JAMIE:    10500,
-    CharacterName.CHUN_LI:  9500,
-    CharacterName.CAMMY:    9500,
-    CharacterName.JURI:     9500,
-    CharacterName.KIMBERLY: 9500,
-    CharacterName.GUILE:    10000,
-    CharacterName.ZANGIEF:  11000,
-    CharacterName.BLANKA:   10500,
-    CharacterName.DHALSIM:  9000,
-    CharacterName.DEE_JAY:  10000,
-    CharacterName.MANON:    10000,
-    CharacterName.MARISA:   11000,
-    CharacterName.LILY:     10000,
-    CharacterName.RASHID:   9500,
-    CharacterName.ED:       9500,
-    CharacterName.AKI:      9500,
-    CharacterName.JP:       10000,
-    CharacterName.AKUMA:    9000,
-    CharacterName.M_BISON:  10500,
-    CharacterName.TERRY:    10000,
-    CharacterName.MAI:      9500,
-    CharacterName.ELENA:    9500,
-}
+_MAX_HP = CHARACTER_MAX_HP  # schemas.CHARACTER_MAX_HP への後方互換エイリアス
 
 # フレーム状態推定のしきい値
 _HP_DELTA_HITSTUN = 0.012    # HP が 1.2% 以上減少 → HITSTUN

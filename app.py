@@ -26,71 +26,16 @@ from logic_engine.match_monitor import (
 )
 from logic_engine.pro_benchmarks import get_all_players, get_benchmark, composite_benchmark
 from logic_engine.punish_detector import detect_punish_opportunity
-from schemas import CharacterName
+from schemas import CHARACTER_LABELS, CHARACTER_MAX_HP, CharacterName
 from vision_extractor import detect_characters_from_url, extract_game_state
 
 # ---------------------------------------------------------------------------
 # 定数
 # ---------------------------------------------------------------------------
 
-CHARACTER_LABELS: dict[CharacterName, str] = {
-    CharacterName.RYU:      "リュウ",
-    CharacterName.CHUN_LI:  "春麗",
-    CharacterName.JAMIE:    "ジェイミー",
-    CharacterName.LUKE:     "ルーク",
-    CharacterName.KEN:      "ケン",
-    CharacterName.CAMMY:    "キャミィ",
-    CharacterName.JP:       "JP",
-    CharacterName.GUILE:    "ガイル",
-    CharacterName.ZANGIEF:  "ザンギエフ",
-    CharacterName.BLANKA:   "ブランカ",
-    CharacterName.DHALSIM:  "ダルシム",
-    CharacterName.DEE_JAY:  "ディージェイ",
-    CharacterName.KIMBERLY: "キンバリー",
-    CharacterName.JURI:     "ジュリ",
-    CharacterName.MANON:    "マノン",
-    CharacterName.MARISA:   "マリーザ",
-    CharacterName.LILY:     "リリー",
-    CharacterName.RASHID:   "ラシード",
-    CharacterName.ED:       "エド",
-    CharacterName.AKI:      "AKI",
-    CharacterName.AKUMA:    "アクマ",
-    CharacterName.M_BISON:  "M.バイソン",
-    CharacterName.TERRY:    "テリー",
-    CharacterName.MAI:      "マイ",
-    CharacterName.ELENA:    "エレナ",
-}
-
 CHARACTER_OPTIONS = list(CHARACTER_LABELS.keys())
 CHARACTER_DISPLAY = [CHARACTER_LABELS[c] for c in CHARACTER_OPTIONS]
-
-MAX_HP: dict[CharacterName, int] = {
-    CharacterName.RYU:      10000,
-    CharacterName.CHUN_LI:  9500,
-    CharacterName.JAMIE:    10500,
-    CharacterName.LUKE:     10000,
-    CharacterName.KEN:      10000,
-    CharacterName.CAMMY:    9500,
-    CharacterName.JP:       10000,
-    CharacterName.GUILE:    10000,
-    CharacterName.ZANGIEF:  11000,
-    CharacterName.BLANKA:   10000,
-    CharacterName.DHALSIM:  9000,
-    CharacterName.DEE_JAY:  10000,
-    CharacterName.KIMBERLY: 9500,
-    CharacterName.JURI:     9500,
-    CharacterName.MANON:    10000,
-    CharacterName.MARISA:   11000,
-    CharacterName.LILY:     9500,
-    CharacterName.RASHID:   9500,
-    CharacterName.ED:       10000,
-    CharacterName.AKI:      9500,
-    CharacterName.AKUMA:    9000,
-    CharacterName.M_BISON:  10500,
-    CharacterName.TERRY:    10000,
-    CharacterName.MAI:      9500,
-    CharacterName.ELENA:    10000,
-}
+MAX_HP = CHARACTER_MAX_HP  # 後方互換エイリアス
 
 KEY_MY_CHAR       = "my_character"
 KEY_AUTO_DETECT   = "auto_detect"

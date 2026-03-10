@@ -100,7 +100,8 @@ def main() -> None:
                         help="プロがどちら側か（大会VODはp2が多い、デフォルト: p2）")
     args = parser.parse_args()
 
-    from collect_pro_data import _CHAR_MAP, _save_to_json, analyze, search_youtube_vod
+    from collect_pro_data import _save_to_json, analyze, search_youtube_vod
+    from schemas import char_to_enum
 
     top_players  = _load_top_players()
     benchmarks   = _load_benchmarks()
@@ -160,7 +161,7 @@ def main() -> None:
 
             # 解析
             try:
-                pro_char = _CHAR_MAP.get(char_cli.lower())
+                pro_char = char_to_enum(char_cli)
                 if pro_char is None:
                     logger.warning("キャラマップ未対応: %s", char_cli)
                     results_summary.append({"char": char_id, "player": player_name,

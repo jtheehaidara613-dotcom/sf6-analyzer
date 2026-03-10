@@ -25,7 +25,7 @@ import logging
 import sys
 from dataclasses import dataclass
 
-from schemas import CharacterName, FrameState, GameState
+from schemas import char_to_enum, CharacterName, FrameState, GameState
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -308,36 +308,12 @@ def _save_to_json(
     print(f"\n  → data/pro_benchmarks.json に保存しました: [{key}]")
 
 
-_CHAR_MAP = {k.lower(): v for k, v in {
-    "JP": CharacterName.JP,
-    "RYU": CharacterName.RYU,
-    "KEN": CharacterName.KEN,
-    "LUKE": CharacterName.LUKE,
-    "JAMIE": CharacterName.JAMIE,
-    "CHUN": CharacterName.CHUN_LI,
-    "CHUN_LI": CharacterName.CHUN_LI,
-    "CAMMY": CharacterName.CAMMY,
-    "GUILE": CharacterName.GUILE,
-    "ZANGIEF": CharacterName.ZANGIEF,
-    "BLANKA": CharacterName.BLANKA,
-    "DHALSIM": CharacterName.DHALSIM,
-    "DEEJAY": CharacterName.DEE_JAY,
-    "DEE_JAY": CharacterName.DEE_JAY,
-    "MANON": CharacterName.MANON,
-    "MARISA": CharacterName.MARISA,
-    "JURI": CharacterName.JURI,
-    "KIMBERLY": CharacterName.KIMBERLY,
-    "LILY": CharacterName.LILY,
-    "RASHID": CharacterName.RASHID,
-    "ED": CharacterName.ED,
-    "AKI": CharacterName.AKI,
-    "AKUMA": CharacterName.AKUMA,
-    "BISON": CharacterName.M_BISON,
-    "M_BISON": CharacterName.M_BISON,
-    "TERRY": CharacterName.TERRY,
-    "MAI": CharacterName.MAI,
-    "ELENA": CharacterName.ELENA,
-}.items()}
+# 後方互換: batch_collect.py が _CHAR_MAP をインポートしているため残す
+# 新規コードは char_to_enum() を直接使うこと
+def _CHAR_MAP_get(key: str) -> "CharacterName | None":
+    return char_to_enum(key)
+
+_CHAR_MAP = {c.value: c for c in CharacterName}  # batch_collect.py の import 用最小互換マップ
 
 
 def _sanitize_name(name: str) -> str:
@@ -467,12 +443,12 @@ def main() -> None:
 
     # プロ側のキャラを「--char」、相手を「--opp」で指定
     # side=p2 の場合は自動的に入れ替えて scan_and_analyze に渡す
-    pro_char = _CHAR_MAP.get(args.char.lower())
+    pro_char = char_to_enum(args.char)
     if pro_char is None:
-        logger.error("不明なキャラクター: %s  (使用可能: %s)",
-                     args.char, ", ".join(sorted(_CHAR_MAP)))
+        valid = ", ".join(c.value for c in CharacterName)
+        logger.error("不明なキャラクター: %s  (使用可能: %s)", args.char, valid)
         sys.exit(1)
-    opp_char = _CHAR_MAP.get(args.opp.lower(), CharacterName.RYU)
+    opp_char = char_to_enum(args.opp) or CharacterName.RYU
 
     # scan_and_analyze には常に (p1_char, p2_char) を渡す
     if args.side == "p1":
