@@ -24,7 +24,7 @@ from logic_engine.match_monitor import (
     detect_events,
     user_stats,
 )
-from logic_engine.pro_benchmarks import get_all_players, get_benchmark, composite_benchmark
+from logic_engine.pro_benchmarks import get_all_players, get_benchmark, composite_benchmark, PlayerBenchmark
 from logic_engine.punish_detector import detect_punish_opportunity
 from schemas import CHARACTER_LABELS, CHARACTER_MAX_HP, CharacterName
 from vision_extractor import detect_characters_from_url, extract_game_state
@@ -173,7 +173,7 @@ def resolve_characters(
 ) -> tuple[CharacterName, CharacterName]:
     my_char = CharacterName(st.session_state[KEY_MY_CHAR])
     if auto_detect:
-        _, p2 = detect_characters_from_url(video_url)
+        _, p2 = _cached_detect_characters(video_url)
         if p2 == my_char:
             p2 = next(c for c in CHARACTER_OPTIONS if c != my_char)
     else:
@@ -196,6 +196,18 @@ def _render_coaching(advices: list) -> None:
 
 _PRO_PLAYER_OPTIONS = ["プロ6名平均"] + get_all_players()
 _PRO_PLAYER_KEYS    = ["composite"]   + get_all_players()
+
+
+@st.cache_data(ttl=300)
+def _cached_detect_characters(video_url: str) -> tuple[CharacterName, CharacterName]:
+    """キャラクター検出結果を300秒キャッシュ（同一URLで毎サイクル再検出しない）。"""
+    return detect_characters_from_url(video_url)
+
+
+@st.cache_data
+def _cached_composite_benchmark(character: str) -> PlayerBenchmark:
+    """composite_benchmark の計算結果をキャッシュ（セッション中変化しない）。"""
+    return composite_benchmark(character)
 
 
 def report_ui(log: MatchLog, report_type: str, tab_key: str = "") -> None:
@@ -243,7 +255,7 @@ def report_ui(log: MatchLog, report_type: str, tab_key: str = "") -> None:
                     unsafe_allow_html=True,
                 )
         else:
-            bench = composite_benchmark(my_char.value)
+            bench = _cached_composite_benchmark(my_char.value)
         # 視覚的指標比較
         if bench and len(log.events) >= 3:
             u = user_stats(log)
