@@ -298,20 +298,25 @@ def extract_game_state(
 
 def _smooth_hp_ewma(
     results: list[tuple[float, GameState]],
-    alpha: float = 0.45,
+    scan_interval_sec: float = 15.0,
 ) -> list[tuple[float, GameState]]:
     """スキャン結果のHP値にEWMAを適用してノイズを除去する。
 
     HP は試合中に単調減少するため、EWMAで瞬間的な読み取りエラーを除去する。
-    ただしラウンドリセット（HP が前フレームより 20% 以上増加）は平滑化しない。
+    ただしラウンドリセット（HP が前フレームより 15% 以上増加）は平滑化しない。
+
+    alpha はスキャン間隔から自動計算する（間隔が短いほど滑らかに）。
+    基準: 15秒間隔 → alpha=0.45
 
     Args:
         results: (秒数, GameState) のリスト（時系列昇順）。
-        alpha: 平滑化係数（0 に近いほど滑らか、1 に近いほど生値に忠実）。
+        scan_interval_sec: スキャン間隔（秒）。alpha の自動計算に使用。
 
     Returns:
         HP 値が平滑化された (秒数, GameState) のリスト。
     """
+    # スキャン間隔に応じて alpha を調整（間隔が短いほど小さく = より滑らか）
+    alpha = min(0.45, 0.45 * (scan_interval_sec / 15.0))
     if len(results) < 2:
         return results
 
@@ -405,5 +410,5 @@ def scan_and_analyze(
                 logger.warning("%.1f秒の解析に失敗（スキップ）: %s", t, e)
 
     results.sort(key=lambda x: x[0])
-    results = _smooth_hp_ewma(results)
+    results = _smooth_hp_ewma(results, scan_interval_sec=scan_interval_sec)
     return results
