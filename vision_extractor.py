@@ -15,7 +15,7 @@ CV実装では検出できない項目（常に NEUTRAL / 0F）:
 """
 
 import logging
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from enum import Enum
 
 from schemas import CharacterName, CharacterState, FrameState, GameState, Position, ROUND_RESET_RATIO
@@ -348,6 +348,26 @@ def _smooth_hp_ewma(
     return smoothed
 
 
+def _analyze_frame_task(
+    t: float,
+    frames: list,
+    character_p1: "CharacterName",
+    character_p2: "CharacterName",
+) -> "tuple[float, GameState]":
+    """ProcessPoolExecutor から呼び出されるモジュールレベルの解析タスク。
+
+    クロージャではなくモジュールレベル関数にすることで pickle 可能にする。
+    """
+    from cv_extractor import extract_game_state_from_frames
+
+    game_state = extract_game_state_from_frames(
+        frames, character_p1, character_p2,
+        frame_number=int(t * 60),
+    )
+    logger.info("解析完了: %.1f秒", t)
+    return t, game_state
+
+
 def scan_and_analyze(
     video_url: str,
     character_p1: CharacterName,
@@ -359,7 +379,7 @@ def scan_and_analyze(
     """動画全体をスキャンして試合シーンのゲーム状態を一括抽出する。
 
     cv_extractor.scan_and_capture_frames で1接続のままシーン検出とフレーム取得を行い、
-    取得済みフレームの解析を ThreadPoolExecutor で並列実行する。
+    取得済みフレームの解析を ProcessPoolExecutor で並列実行する（GIL回避）。
     URLキャッシュ済みのため並列化しても URL 解決コストは 0。
 
     Args:
@@ -374,7 +394,7 @@ def scan_and_analyze(
         (秒数, GameState) のリスト（秒数昇順）。試合シーンが1件もなければ空リスト。
     """
     try:
-        from cv_extractor import extract_game_state_from_frames, scan_and_capture_frames
+        from cv_extractor import scan_and_capture_frames
     except ImportError as e:
         logger.error("cv_extractor のインポートに失敗: %s", e)
         return []
@@ -390,18 +410,13 @@ def scan_and_analyze(
     if not scene_frames:
         return []
 
-    def _analyze_frames(t: float, frames: list) -> tuple[float, GameState]:
-        game_state = extract_game_state_from_frames(
-            frames, character_p1, character_p2,
-            frame_number=int(t * 60),
-        )
-        logger.info("解析完了: %.1f秒", t)
-        return t, game_state
-
     results: list[tuple[float, GameState]] = []
     workers = min(max_workers, len(scene_frames))
-    with ThreadPoolExecutor(max_workers=workers) as executor:
-        futures = {executor.submit(_analyze_frames, t, frames): t for t, frames in scene_frames}
+    with ProcessPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(_analyze_frame_task, t, frames, character_p1, character_p2): t
+            for t, frames in scene_frames
+        }
         for future in as_completed(futures):
             try:
                 results.append(future.result())
