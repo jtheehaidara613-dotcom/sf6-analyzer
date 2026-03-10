@@ -255,18 +255,24 @@ def _resolve_twitch_url(url: str) -> str:
 
 def _bar_ratio(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
                fill_from_right: bool = False,
-               hue_range: tuple[int, int] | list[tuple[int, int]] | None = None) -> float:
+               hue_range: tuple[int, int] | list[tuple[int, int]] | None = None,
+               frame_hsv: np.ndarray | None = None) -> float:
     """バー領域の充填率（0.0〜1.0）を返す。
 
     hue_range が指定された場合は色相フィルタで対象色のみを検出する。
     複数の色相範囲をリストで渡すと OR で合成する（色変化するバー用）。
     指定しない場合は輝度閾値（V>25）にフォールバックする。
+    frame_hsv が指定された場合はフレーム全体の事前変換済みHSVを使用する（高速化）。
     """
-    roi = frame[y1:y2, x1:x2]
-    if roi.size == 0:
-        return 0.0
-
-    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    if frame_hsv is not None:
+        hsv = frame_hsv[y1:y2, x1:x2]
+        if hsv.size == 0:
+            return 0.0
+    else:
+        roi = frame[y1:y2, x1:x2]
+        if roi.size == 0:
+            return 0.0
+        hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
     if hue_range is not None:
         ranges = [hue_range] if isinstance(hue_range, tuple) else hue_range
         active = np.zeros(hsv.shape[:2], dtype=bool)
@@ -302,7 +308,7 @@ def _bar_ratio(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
             gap += 1
 
     # ROI 実サイズを基準にする（フレーム解像度が _HUD 座標より小さい場合に対応）
-    total = roi.shape[1]
+    total = hsv.shape[1]
 
     if fill_from_right:
         # 右端からの連続ブロック長を求める
@@ -326,7 +332,7 @@ def _bar_ratio(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
 
 
 def _sa_stock_count(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
-                    label: str = "") -> int:
+                    label: str = "", frame_hsv: np.ndarray | None = None) -> int:
     """SA ストック数（0〜3）を推定する。
 
     SF6 のSAゲージは六角形アイコン1個の輝度で表現される。
@@ -344,11 +350,15 @@ def _sa_stock_count(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
     Returns:
         SAストック数 (0〜3)。
     """
-    roi = frame[y1:y2, x1:x2]
-    if roi.size == 0:
-        return 0
-
-    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    if frame_hsv is not None:
+        hsv = frame_hsv[y1:y2, x1:x2]
+        if hsv.size == 0:
+            return 0
+    else:
+        roi = frame[y1:y2, x1:x2]
+        if roi.size == 0:
+            return 0
+        hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
     # 紫〜白（SAアイコンの発光色: 色相 120-170、低彩度の白も含む）
     bright_mask = (
         ((hsv[:, :, 0] >= 120) & (hsv[:, :, 0] <= 170) & (hsv[:, :, 1] > 50))
@@ -371,7 +381,7 @@ def _sa_stock_count(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
 # バーンアウト状態検出
 # ---------------------------------------------------------------------------
 
-def is_in_burnout(frame: np.ndarray, player: str) -> bool:
+def is_in_burnout(frame: np.ndarray, player: str, frame_hsv: np.ndarray | None = None) -> bool:
     """プレイヤーがバーンアウト状態かどうかを判定する。
 
     SF6のバーンアウト中はドライブゲージ領域が赤くフラッシュする。
@@ -386,11 +396,15 @@ def is_in_burnout(frame: np.ndarray, player: str) -> bool:
     """
     key = f"{player}_drive"
     x1, y1, x2, y2 = _HUD[key]
-    roi = frame[y1:y2, x1:x2]
-    if roi.size == 0:
-        return False
-
-    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    if frame_hsv is not None:
+        hsv = frame_hsv[y1:y2, x1:x2]
+        if hsv.size == 0:
+            return False
+    else:
+        roi = frame[y1:y2, x1:x2]
+        if roi.size == 0:
+            return False
+        hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
     # 通常のドライブ色（黄緑）が存在するか
     normal_mask = (
@@ -414,7 +428,8 @@ def is_in_burnout(frame: np.ndarray, player: str) -> bool:
     return result
 
 
-def drive_gauge_ratio(frame: np.ndarray, player: str) -> tuple[float, bool]:
+def drive_gauge_ratio(frame: np.ndarray, player: str,
+                      frame_hsv: np.ndarray | None = None) -> tuple[float, bool]:
     """ドライブゲージ比率とバーンアウト状態を返す。
 
     バーンアウト中は比率 0.0 を返す（ゲージが空の状態として扱う）。
@@ -426,13 +441,14 @@ def drive_gauge_ratio(frame: np.ndarray, player: str) -> tuple[float, bool]:
     Returns:
         (ゲージ比率 0.0〜1.0, バーンアウト中かどうか) のタプル。
     """
-    burnout = is_in_burnout(frame, player)
+    burnout = is_in_burnout(frame, player, frame_hsv=frame_hsv)
     if burnout:
         return 0.0, True
 
     key = f"{player}_drive"
     fill_right = (player == "p2")
-    ratio = _bar_ratio(frame, *_HUD[key], fill_from_right=fill_right, hue_range=_HUD_HUE[key])
+    ratio = _bar_ratio(frame, *_HUD[key], fill_from_right=fill_right,
+                       hue_range=_HUD_HUE[key], frame_hsv=frame_hsv)
     return ratio, False
 
 
@@ -440,7 +456,8 @@ def drive_gauge_ratio(frame: np.ndarray, player: str) -> tuple[float, bool]:
 # ラウンド番号検出
 # ---------------------------------------------------------------------------
 
-def _round_wins(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int) -> int:
+def _round_wins(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
+                frame_hsv: np.ndarray | None = None) -> int:
     """勝利ドット領域から何ラウンド勝ったかを返す（0〜2）。
 
     SF6のラウンド勝利ドットは「未勝利=暗い円」「勝利=明るい金色/白色の円」で表される。
@@ -453,12 +470,16 @@ def _round_wins(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int) -> int:
     Returns:
         勝利ラウンド数 (0, 1, 2)。
     """
-    roi = frame[y1:y2, x1:x2]
-    if roi.size == 0:
-        return 0
-
-    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-    h, w = roi.shape[:2]
+    if frame_hsv is not None:
+        hsv = frame_hsv[y1:y2, x1:x2]
+        if hsv.size == 0:
+            return 0
+    else:
+        roi = frame[y1:y2, x1:x2]
+        if roi.size == 0:
+            return 0
+        hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    h, w = hsv.shape[:2]
     mid = w // 2
 
     wins = 0
@@ -496,8 +517,9 @@ def detect_round_number(frame: np.ndarray) -> int:
     if (w, h) != (1920, 1080):
         frame = cv2.resize(frame, (1920, 1080))
 
-    p1_wins = _round_wins(frame, *_HUD["p1_round"])
-    p2_wins = _round_wins(frame, *_HUD["p2_round"])
+    frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    p1_wins = _round_wins(frame, *_HUD["p1_round"], frame_hsv=frame_hsv)
+    p2_wins = _round_wins(frame, *_HUD["p2_round"], frame_hsv=frame_hsv)
     round_number = min(3, p1_wins + p2_wins + 1)
 
     logger.debug("ラウンド番号推定: P1勝=%d P2勝=%d → ラウンド%d", p1_wins, p2_wins, round_number)
@@ -550,9 +572,11 @@ def detect_frame_state(
 
     roi = _CHAR_ROI[player]
 
-    # HP 変化量（フレーム列全体）
-    hp_first = _bar_ratio(frames[0], *hp_coords, fill_from_right=fill_from_right)
-    hp_last  = _bar_ratio(frames[-1], *hp_coords, fill_from_right=fill_from_right)
+    # HP 変化量（先頭と末尾フレームのHSVを事前変換して再利用）
+    hsv_first = cv2.cvtColor(frames[0], cv2.COLOR_BGR2HSV)
+    hsv_last  = cv2.cvtColor(frames[-1], cv2.COLOR_BGR2HSV)
+    hp_first = _bar_ratio(frames[0], *hp_coords, fill_from_right=fill_from_right, frame_hsv=hsv_first)
+    hp_last  = _bar_ratio(frames[-1], *hp_coords, fill_from_right=fill_from_right, frame_hsv=hsv_last)
     hp_delta = hp_last - hp_first  # 負 = ダメージを受けた
 
     # フレーム間モーション量
@@ -623,11 +647,16 @@ def extract_game_state_from_frames(
     frames = _normalize_frames(frames)
     latest = frames[-1]
 
+    # フレームごとのHSVを事前変換（BGR→HSV は各フレーム1回のみ）
+    frames_hsv = [cv2.cvtColor(f, cv2.COLOR_BGR2HSV) for f in frames]
+    latest_hsv = frames_hsv[-1]
+
     # HP バー（複数フレームの中央値でノイズを除去）
     # P1: 左詰め / P2: 右詰め
     def _med_hp(key: str, fill_right: bool) -> float:
         ratios = [_bar_ratio(f, *_HUD[key], fill_from_right=fill_right,
-                             hue_range=_HUD_HUE[key]) for f in frames]
+                             hue_range=_HUD_HUE[key], frame_hsv=fh)
+                  for f, fh in zip(frames, frames_hsv)]
         return float(np.median(ratios))
 
     p1_hp_ratio = _med_hp("p1_hp", fill_right=False)
@@ -635,18 +664,21 @@ def extract_game_state_from_frames(
 
     # ドライブゲージ: バーンアウト判定込みで最終フレームで確定
     # バーンアウト中は drive_gauge=0 として扱う
-    p1_drive_ratio, p1_burnout = drive_gauge_ratio(latest, "p1")
-    p2_drive_ratio, p2_burnout = drive_gauge_ratio(latest, "p2")
+    p1_drive_ratio, p1_burnout = drive_gauge_ratio(latest, "p1", frame_hsv=latest_hsv)
+    p2_drive_ratio, p2_burnout = drive_gauge_ratio(latest, "p2", frame_hsv=latest_hsv)
     if p1_burnout:
         logger.info("P1 バーンアウト中（ドライブ=0）")
     if p2_burnout:
         logger.info("P2 バーンアウト中（ドライブ=0）")
-    p1_sa = _sa_stock_count(latest, *_HUD["p1_sa"], label="p1")
-    p2_sa = _sa_stock_count(latest, *_HUD["p2_sa"], label="p2")
+    p1_sa = _sa_stock_count(latest, *_HUD["p1_sa"], label="p1", frame_hsv=latest_hsv)
+    p2_sa = _sa_stock_count(latest, *_HUD["p2_sa"], label="p2", frame_hsv=latest_hsv)
 
     # ラウンド番号（引数で明示された場合はそちらを優先、1の場合は自動検出を試みる）
+    # latest はすでに正規化済みのため latest_hsv を直接渡して変換をスキップ
     if round_number == 1:
-        detected_round = detect_round_number(latest)
+        p1_wins = _round_wins(latest, *_HUD["p1_round"], frame_hsv=latest_hsv)
+        p2_wins = _round_wins(latest, *_HUD["p2_round"], frame_hsv=latest_hsv)
+        detected_round = min(3, p1_wins + p2_wins + 1)
         if detected_round > 1:
             round_number = detected_round
 
@@ -869,11 +901,12 @@ def is_match_scene(frame: np.ndarray) -> bool:
     if (w, h) != (1920, 1080):
         frame = cv2.resize(frame, (1920, 1080))
 
-    # タイマー領域を一度だけ HSV 変換
-    tx1, ty1, tx2, ty2 = _TIMER_ROI
-    timer_hsv = cv2.cvtColor(frame[ty1:ty2, tx1:tx2], cv2.COLOR_BGR2HSV)
+    # フレーム全体を1回だけ HSV 変換（以降の全 ROI チェックで共有）
+    frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # 1. オレンジ背景チェック（ロビー誤検知防止）
+    tx1, ty1, tx2, ty2 = _TIMER_ROI
+    timer_hsv = frame_hsv[ty1:ty2, tx1:tx2]
     orange_mask = (
         (timer_hsv[:, :, 0] >= 15) & (timer_hsv[:, :, 0] <= 55)
         & (timer_hsv[:, :, 1] > 80) & (timer_hsv[:, :, 2] > 80)
@@ -886,14 +919,18 @@ def is_match_scene(frame: np.ndarray) -> bool:
     # NOTE: SF6はキャラ固有色のHPバー（JP=青, Juri=ピンク等）があるため
     #       hue_range=None で高彩度・高輝度の任意色を検出する
     # P1: 左詰め（fill_from_right=False）、P2: 右詰め（fill_from_right=True）
-    p1_hp = _bar_ratio(frame, *_HUD["p1_hp"], fill_from_right=False, hue_range=_HUD_HUE["p1_hp"])
-    p2_hp = _bar_ratio(frame, *_HUD["p2_hp"], fill_from_right=True, hue_range=_HUD_HUE["p2_hp"])
+    p1_hp = _bar_ratio(frame, *_HUD["p1_hp"], fill_from_right=False,
+                       hue_range=_HUD_HUE["p1_hp"], frame_hsv=frame_hsv)
+    p2_hp = _bar_ratio(frame, *_HUD["p2_hp"], fill_from_right=True,
+                       hue_range=_HUD_HUE["p2_hp"], frame_hsv=frame_hsv)
     if p1_hp < _HUD_HP_MIN or p2_hp < _HUD_HP_MIN:
         return False
 
     # 4. Drive ゲージチェック
-    p1_drive = _bar_ratio(frame, *_HUD["p1_drive"], hue_range=_HUD_HUE["p1_drive"])
-    p2_drive = _bar_ratio(frame, *_HUD["p2_drive"], fill_from_right=True, hue_range=_HUD_HUE["p2_drive"])
+    p1_drive = _bar_ratio(frame, *_HUD["p1_drive"],
+                          hue_range=_HUD_HUE["p1_drive"], frame_hsv=frame_hsv)
+    p2_drive = _bar_ratio(frame, *_HUD["p2_drive"], fill_from_right=True,
+                          hue_range=_HUD_HUE["p2_drive"], frame_hsv=frame_hsv)
     if p1_drive < _HUD_DRIVE_MIN and p2_drive < _HUD_DRIVE_MIN:
         return False
 
