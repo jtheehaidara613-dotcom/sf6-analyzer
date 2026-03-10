@@ -18,7 +18,7 @@ import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from enum import Enum
 
-from schemas import CharacterName, CharacterState, FrameState, GameState, Position
+from schemas import CharacterName, CharacterState, FrameState, GameState, Position, ROUND_RESET_RATIO
 
 logger = logging.getLogger(__name__)
 
@@ -273,8 +273,12 @@ def extract_game_state(
         )
         return game_state
 
+    except ImportError as e:
+        logger.warning("CV依存ライブラリが未インストール（モックにフォールバック）: %s", e)
+    except OSError as e:
+        logger.warning("動画アクセス失敗（URL無効 or ネットワークエラー）: %s", e)
     except Exception as e:
-        logger.warning("CV抽出に失敗しました（モックにフォールバック）: %s", e)
+        logger.warning("CV抽出に失敗しました（モックにフォールバック）: %s", e, exc_info=True)
 
     # --- モックフォールバック ---
     scenario = _select_scenario_from_url(video_url)
@@ -320,12 +324,12 @@ def _smooth_hp_ewma(
         p2_raw = float(gs.player2.hp)
 
         # ラウンドリセット検出: HP が 15% 以上増加 → スムーズ値をリセット
-        if p1_raw > p1_smooth * 1.15:
+        if p1_raw > p1_smooth * ROUND_RESET_RATIO:
             p1_smooth = p1_raw
         else:
             p1_smooth = alpha * p1_raw + (1.0 - alpha) * p1_smooth
 
-        if p2_raw > p2_smooth * 1.15:
+        if p2_raw > p2_smooth * ROUND_RESET_RATIO:
             p2_smooth = p2_raw
         else:
             p2_smooth = alpha * p2_raw + (1.0 - alpha) * p2_smooth

@@ -19,7 +19,7 @@ jobs:
         run: pip install yt-dlp opencv-python-headless numpy scipy
       - name: プロベンチマーク更新
         run: python batch_collect.py --max-sec 300
-        timeout-minutes: 60
+        timeout-minutes: 300
       - name: コミット＆プッシュ
         run: |
           git config user.name "github-actions[bot]"

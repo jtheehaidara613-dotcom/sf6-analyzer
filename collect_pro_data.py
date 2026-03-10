@@ -25,15 +25,19 @@ import logging
 import sys
 from dataclasses import dataclass
 
-from schemas import char_to_enum, CharacterName, FrameState, GameState
+from schemas import (
+    BURNOUT_DRIVE_THRESH, char_to_enum, CharacterName, FrameState, GameState,
+    LETHAL_HP_RATIO, MAX_DRIVE, ROUND_RESET_RATIO,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-_MAX_DRIVE = 10000
-_BURNOUT_THRESH = 300       # ドライブ ≤ この値 → バーンアウト圏
-_LETHAL_HP_RATIO = 0.20     # HP比率がこれ未満 → リーサル圏
-_ROUND_RESET_RATIO = 1.15   # 前スナップ比でこれ以上HP増加 → ラウンドリセット
+# 後方互換エイリアス
+_MAX_DRIVE        = MAX_DRIVE
+_BURNOUT_THRESH   = BURNOUT_DRIVE_THRESH
+_LETHAL_HP_RATIO  = LETHAL_HP_RATIO
+_ROUND_RESET_RATIO = ROUND_RESET_RATIO
 
 
 @dataclass
