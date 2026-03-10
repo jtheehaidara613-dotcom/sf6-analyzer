@@ -100,7 +100,8 @@ def main() -> None:
                         help="プロがどちら側か（大会VODはp2が多い、デフォルト: p2）")
     args = parser.parse_args()
 
-    from collect_pro_data import _save_to_json, analyze, search_youtube_vod
+    from collect_pro_data import _save_to_json, analyze
+    from youtube_search import search_youtube_vod
     from schemas import char_to_enum
 
     top_players  = _load_top_players()
