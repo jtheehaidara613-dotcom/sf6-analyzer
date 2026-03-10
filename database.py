@@ -53,6 +53,17 @@ def init_db() -> None:
         conn.execute("""
             CREATE INDEX IF NOT EXISTS idx_created_at  ON analysis_results (created_at)
         """)
+        # character フィルタ + created_at ソートを INDEX のみで処理するための複合インデックス
+        # fetch_results(character=...) の WHERE (character_p1=? OR character_p2=?) ORDER BY created_at DESC
+        # に対して SQLite が 2 つのインデックスを OR-merge できる
+        conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_char_p1_date
+            ON analysis_results (character_p1, created_at DESC)
+        """)
+        conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_char_p2_date
+            ON analysis_results (character_p2, created_at DESC)
+        """)
     logger.info("DB初期化完了: %s", _DB_PATH)
 
 
@@ -60,6 +71,8 @@ def init_db() -> None:
 def _connect() -> Generator[sqlite3.Connection, None, None]:
     conn = sqlite3.connect(_DB_PATH)
     conn.row_factory = sqlite3.Row
+    # WAL モード: 読み取りと書き込みを同時実行可能にする（ライブ監視の競合防止）
+    conn.execute("PRAGMA journal_mode=WAL")
     try:
         yield conn
         conn.commit()
